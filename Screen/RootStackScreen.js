@@ -13,7 +13,7 @@ return(
        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
        <Stack.Screen name="UmpireLogin" component={UmpireLogin}  options={{headerShown: true,title:'Umpire Login'}}/>
 
-       <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: false}}/>
+       <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: true}}/>
 
 
     </Stack.Navigator>
