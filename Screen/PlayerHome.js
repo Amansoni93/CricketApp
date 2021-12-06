@@ -17,95 +17,40 @@ const PlayerHome =({ navigation }) => {
           <Image source={require('./images/main_logo.png')} resizeMode="contain" style={styles.centerimage} />
           
           <View  style={{flex:1,flexDirection:'row'}}>
-           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:50,
-      alignSelf:'flex-start',
-      height:80,}} />
-      <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:20,
-      top:36,
-      alignSelf:'flex-start',
-      height:80}} />
-      <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:100,
-      alignSelf:'flex-start',
-      height:80,}} />
-       <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:20,
-      top:36,
-      alignSelf:'flex-start',
-      height:80}} />
-      <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:100,
-      alignSelf:'flex-start',
-      height:80,}} />
-      <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:20,
-      top:36,
-      alignSelf:'flex-start',
-      height:80}} />
-        <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      width:40,
-      alignSelf:'flex-start',
-      height:80,}} />
-        </View>
+           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start', justifyContent: 'flex-start',width:50,alignSelf:'flex-start',height:80,}} />
+           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:20,top:36,alignSelf:'flex-start',height:80}} />
+           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
+           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:20,top:36,alignSelf:'flex-start',height:80}} />
+           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
+           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:20,top:36, alignSelf:'flex-start', height:80}} />
+           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:40,alignSelf:'flex-start',height:80,}} />
+         </View>
         <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20}}>
-        <ImageBackground
-        style={styles.coverImage}
-        source={require('./images/plank.png')}>
-        <View style={styles.textView}>
-        <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
-        </View>
+            <ImageBackground style={styles.coverImage} source={require('./images/plank.png')}>
+              <View style={styles.textView}>
+               <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
+              </View>
         
-      </ImageBackground>
-      <ImageBackground
-        style={styles.coverImage}
-        source={require('./images/plank.png')}>
-        <View style={styles.textView}>
-        <Text style={{color:'#ffffff',fontSize:16}}>Vs</Text>
-        </View>
-        
-      </ImageBackground>
-      <ImageBackground
-        style={styles.coverImage}
-        source={require('./images/plank.png')}>
-        <View style={styles.textView}>
-        <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
-        </View>
-        
-      </ImageBackground>
+            </ImageBackground>
+            <ImageBackground style={styles.coverImage}source={require('./images/plank.png')}>
+              <View style={styles.textView}>
+              <Text style={{color:'#ffffff',fontSize:16}}>Vs</Text>
+              </View>
+           </ImageBackground>
+           <ImageBackground style={styles.coverImage} source={require('./images/plank.png')}>
+            <View style={styles.textView}>
+            <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
+            </View>
+          </ImageBackground>
         </View>
         <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20,}}>
-          <View style={{alignSelf:'flex-start',flex:1}}>
-          <Text
-        style={{  width: 100,
-          height: 80,color:Colors.white}}
-        > प्रायोजक </Text>
-        <View style={{  position: 'absolute',
-      justifyContent: 'center',
-      alignItems: 'center',
-
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,}}>
-        <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
-        </View>
-        
-      
-            </View>
+           <View style={{flex:1,flexDirection:'row'}}>
+          <Text style={{color:Colors.white,flex:1}} > प्रायोजक :- </Text>
+          <Text style={{color:'#ffffff',fontSize:16,flex:1 }}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
+         </View>
         
       <View style={{alignSelf:'flex-end',flex:1}}>
-        <ImageBackground
-        style={styles.coverImage}
-        source={require('./images/landmark_board.png')}>
+        <ImageBackground style={styles.coverImage} source={require('./images/landmark_board.png')}>
         <View style={styles.textView}>
         <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.Venue}</Text>
         </View>
@@ -115,9 +60,8 @@ const PlayerHome =({ navigation }) => {
           </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between',margin:10 }}>
                         <View style={styles.btnSecondary}>
-                            <TouchableOpacity onPress={() => OtpHandle(data.matchid,data.umpireid,data.otp)}>
-                              
-                             <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' ,}} >
+                            <TouchableOpacity onPress={() => { navigation.navigate('PlayerList'); }} >
+                               <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' ,}} >
                                 आगे बढ़ने के लिए यहाँ दबाइए</Text>
                             
                             </TouchableOpacity>
