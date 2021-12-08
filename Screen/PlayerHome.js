@@ -45,9 +45,9 @@ const PlayerHome =({ navigation }) => {
         </View>
         <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20,}}>
            <View style={{flex:1,flexDirection:'row'}}>
-          <Text style={{color:Colors.white,flex:1}} > प्रायोजक :- </Text>
-          <Text style={{color:'#ffffff',fontSize:16,flex:1 }}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
-         </View>
+            <Text style={{color:Colors.white,flex:1}} > प्रायोजक :- </Text>
+            <Text style={{color:'#ffffff',fontSize:16,flex:1 }}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
+           </View>
         
       <View style={{alignSelf:'flex-end',flex:1}}>
         <ImageBackground style={styles.coverImage} source={require('./images/landmark_board.png')}>
