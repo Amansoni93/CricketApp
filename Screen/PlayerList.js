@@ -4,11 +4,72 @@ import GLOBALS from './helper/global';
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
 import { Picker } from '@react-native-picker/picker';
+import GifImage from '@lowkey/react-native-gif';
 const  PlayerList = ({ navigation }) =>  {
+  const [data, setData] = useState({
+    uri: '',
+    umpireid:'',
+    otp: '',
+    users: [],
+    check_textInputChange: false,
+    secureTextEntry: true,
+    isValidUser: true,
+    isValidOTP: true,
+});
   const [selectedTeamA, setSelectedTossTeamAValue] = useState();
   const [selectedTeamB, setSelectedTossTeamBValue] = useState();
+  var choice = 0;
+  var tossCalledBy =0;
+  var tossWinner =0;
+  var ctr = 0;
+  const getRandomNumberBetween =(min,max) => {
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
   const setSelectedTossTeamA  = (tossvalue) => {
+    ctr += 1;
+    if(ctr==1){
+            setTimeout(() => {
+              console.log("2 sec.")
+          }, 0);
+          var randomSelected = 0;
+          var randomVal = getRandomNumberBetween(100, 300);
+          console.log(randomVal);
+          if (randomVal < 200)
+                    randomSelected = 0;
+                else randomSelected = 1;
 
+                if (choice == randomSelected)
+                {
+                    if (tossCalledBy == 0)
+                        tossWinner = 1;
+                    else
+                        tossWinner = 2;
+                }
+                else
+                {
+                    if (tossCalledBy == 0)
+                        tossWinner = 2;
+                    else tossWinner = 1;
+                }
+                var isHead = (randomSelected == 0);
+                if (isHead)
+                {
+                    
+                    // setData({
+                    //   uri: require('./images/coin_head.png')
+                    // });
+                }
+                else
+                {
+                    // setData({
+                    //   uri: require('./images/coin_tail.png')
+                    // });
+                }
+
+                //timerCoin.Stop();
+
+                //panelResult.Visible = true;
+    }
     console.log("Team A"+tossvalue);
     setSelectedTossTeamAValue(tossvalue);
 
@@ -27,7 +88,14 @@ const  PlayerList = ({ navigation }) =>  {
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
       <View style={{alignItems:'center'}}>
-      <Image source={require('./images/coin_head.gif')} style={{width: 100, height: 100 }} />
+      <Image
+  source={require('./images/coin_flip.gif')}
+  style={{
+    width: 100,
+    height: 100,
+  }}
+  resizeMode={'cover'}
+/>
         </View>
       <View style={{flexDirection:'row'}}>
         <Text style={{color:Colors.blackcolor,alignItems:'center'}}>Select Captain from  Both Team and then click 'Call Toss'</Text>
@@ -39,30 +107,27 @@ const  PlayerList = ({ navigation }) =>  {
         <Text style={{color:Colors.white,alignItems:'center',alignContent:'center'}}>यदि आप बाये और दाये साइडबार में खिलाड़ियों की सूची देखने में असमर्थ है , तो इस विंडो के शीर्ष पर REFRESH बटन पर क्लिक करे </Text>
         </View>
     <View style={{flexDirection:'row',flex:3,margin:5}}>
-        <View style={{flex:1,flexDirection:'row',margin:2}}>
+        <View style={{flex:1,flexDirection:'row',margin:2,padding:2,shadowColor:'#000',shadowOffset:{width:0,height:10}}}>
         <SafeAreaView style={{flex:1}}>
-        <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}
+        <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
           renderItem={({item,index}) =>(
           <View >
-                  <Card onPress={{}} style={{backgroundColor:'#a68460'}} >
-                  
-                    <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,}}  />
-                    <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
-                      <Image  source={{ uri: 'http://10.132.36.133/Service/'+item.Photo,
-}}   style={styles.coverImage} resizeMode="contain"/>
-                      <View style={{flex:1}}>
-                        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center'}}>{item.Name}</Text>
-                        <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
-                      </View>
-                    </View>
+              <Card onPress={{}} style={{backgroundColor:'#a68460', borderRadius: 8 }} >
+                  <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
+                      <Image  source={{ uri: 'http://10.132.36.133/Service/'+item.Photo,}}   style={styles.coverImage} />
+                  <View >
+                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',justifyContent:'center'}}>{item.Name}</Text>
+                     <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
+                   </View>
+                 </View>
                 
-                  </Card>
+              </Card>
           </View>
      )}>
  
     </FlatList>
        <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
-           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor}}>Select Captain from  Team A</Text>
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain from  Team A</Text>
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
         <Picker selectedValue={selectedTeamA} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
@@ -73,20 +138,19 @@ const  PlayerList = ({ navigation }) =>  {
         </View>
         </SafeAreaView>
     </View>
-    <View style={{flex:1,flexDirection:'row',margin:2}}>
+    <View style={{flex:1,flexDirection:'row',margin:2,padding:2,shadowColor:'#000',shadowOffset:{width:0,height:10}}}>
       <SafeAreaView style={{flex:1}}>
     <FlatList data={GLOBALS.matchDetails.Match.TeamB.Players}
        renderItem={({item,index}) =>(
       <View >
-        <Card onPress={{}} style={{backgroundColor:'#687082'}} >
+        <Card onPress={{}} style={{backgroundColor:'#687082', borderRadius: 8 }} >
         
-        <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,    }}  />
         <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
         <Image  source={{
           uri: 'http://10.132.36.133/Service/'+item.Photo,
         }}   style={styles.coverImage}/>
         <View style={{flex:1}}>
-        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000'}}>{item.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',justifyContent:'center',flex:1}}>{item.Name}</Text>
            <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
            </View>
         </View>
@@ -98,7 +162,7 @@ const  PlayerList = ({ navigation }) =>  {
 
     </FlatList>
     <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
-           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor}}>Select Captain From Team B </Text>
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain From Team B </Text>
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}} >
         <Picker selectedValue={selectedTeamB} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamB(itemValue)} >
@@ -124,6 +188,8 @@ const styles = StyleSheet.create({
       width: 60,
       height: 60,
       margin:2,
+      borderRadius:60,
+      marginRight:10,
     },
     editImage: {
       width: 30,
