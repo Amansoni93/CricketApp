@@ -88,14 +88,7 @@ const  PlayerList = ({ navigation }) =>  {
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
       <View style={{alignItems:'center'}}>
-      <Image
-  source={require('./images/coin_flip.gif')}
-  style={{
-    width: 100,
-    height: 100,
-  }}
-  resizeMode={'cover'}
-/>
+      <Image source={{uri : 'https://media.idownloadblog.com/wp-content/uploads/2016/02/Twitter-GIF.gif'}} style = {{width: 200, height: 200}} />
         </View>
       <View style={{flexDirection:'row'}}>
         <Text style={{color:Colors.blackcolor,alignItems:'center'}}>Select Captain from  Both Team and then click 'Call Toss'</Text>
