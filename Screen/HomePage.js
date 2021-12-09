@@ -38,7 +38,7 @@ const  HomePage = ({ navigation }) =>  {
                     <TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
                       <Image source={require('./images/hat.png')}
          style = {{width: 60, height: 60, resizeMode: 'contain', position: 'absolute'}}   ></Image>
-                      <Text style={{ color: '#0030a1', fontWeight: "bold", fontSize: 16, marginTop:15,paddingLeft: 15,textAlign:'center' }}  >ampire</Text>
+                      <Text style={{ color: '#0030a1', fontWeight: "bold", fontSize: 16, marginTop:15,paddingLeft: 15,textAlign:'center' }}  >Umpire</Text>
                     </TouchableOpacity>
                 
           </Card>

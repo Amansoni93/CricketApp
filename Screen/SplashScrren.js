@@ -76,7 +76,7 @@ const styles =  StyleSheet.create({
         marginTop:50
     },
     signin:{
-        width:'100%',
+        width:220,
         height:50,
         justifyContent:'center',
         alignItems:'center',

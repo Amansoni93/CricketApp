@@ -4,7 +4,11 @@ import GLOBALS from './helper/global';
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
 import { Picker } from '@react-native-picker/picker';
-import GifImage from '@lowkey/react-native-gif';
+import { render } from 'react-native/Libraries/Renderer/implementations/ReactNativeRenderer-prod';
+
+
+
+var winmsg="";
 const  PlayerList = ({ navigation }) =>  {
   const [data, setData] = useState({
     uri: '',
@@ -18,14 +22,21 @@ const  PlayerList = ({ navigation }) =>  {
 });
   const [selectedTeamA, setSelectedTossTeamAValue] = useState();
   const [selectedTeamB, setSelectedTossTeamBValue] = useState();
-  var choice = 0;
-  var tossCalledBy =0;
-  var tossWinner =0;
-  var ctr = 0;
+ 
   const getRandomNumberBetween =(min,max) => {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
+var choice = 0;
+var tossCalledBy =0;
+var tossWinner =0;
+var ctr = 0;
+var ID=0;
+var icon=require("./images/coin_flip.gif");
   const setSelectedTossTeamA  = (tossvalue) => {
+    
+    if(tossvalue ==1 || tossvalue ==2)
+    {
+    //icon=require("./images/coin_flip.gif");
     ctr += 1;
     if(ctr==1){
             setTimeout(() => {
@@ -52,23 +63,32 @@ const  PlayerList = ({ navigation }) =>  {
                     else tossWinner = 1;
                 }
                 var isHead = (randomSelected == 0);
-                if (isHead)
+                
+                if (isHead==1)
                 {
-                    
-                    // setData({
-                    //   uri: require('./images/coin_head.png')
-                    // });
+                   icon=require("./images/coin_head.gif");
+                  
+                   console.log("ishead"+randomSelected);
                 }
                 else
                 {
-                    // setData({
-                    //   uri: require('./images/coin_tail.png')
-                    // });
+                   icon=require("./images/coin_tail.gif");
+                  
+                   console.log("ishead"+randomSelected);
                 }
 
-                //timerCoin.Stop();
-
-                //panelResult.Visible = true;
+                if (tossWinner == 1)
+                {
+                    ID = GLOBALS.matchDetails.Match.TeamA.ID;
+                    winmsg = GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.";
+                    console.log(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.") ;
+                } else {
+                    ID = GLOBALS.matchDetails.Match.TeamB.ID;
+                    winmsg = GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.";
+                      console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
+                   
+                }
+        }
     }
     console.log("Team A"+tossvalue);
     setSelectedTossTeamAValue(tossvalue);
@@ -79,7 +99,9 @@ const  PlayerList = ({ navigation }) =>  {
     console.log("Team B"+TeamBTossValue);
     setSelectedTossTeamBValue(TeamBTossValue);
   }
+   
 
+    
  return (
     <View style={styles.container}>
     <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
@@ -87,11 +109,12 @@ const  PlayerList = ({ navigation }) =>  {
         <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
-      <View style={{alignItems:'center'}}>
-      <Image source={{uri : 'https://media.idownloadblog.com/wp-content/uploads/2016/02/Twitter-GIF.gif'}} style = {{width: 200, height: 200}} />
-        </View>
+      <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
+                     
+          <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+      </View>
       <View style={{flexDirection:'row'}}>
-        <Text style={{color:Colors.blackcolor,alignItems:'center'}}>Select Captain from  Both Team and then click 'Call Toss'</Text>
+        <Text style={{color:Colors.blackcolor,alignItems:'center'}}> {winmsg}Select Captain from  Both Team and then click 'Call Toss'</Text>
         </View>
         <View style={{alignItems:'center'}}>
         <Text style={{color:'#e1e655',alignItems:'center',alignContent:'center'}}>Match ID :{GLOBALS.matchDetails.Match.ID}</Text>
@@ -107,7 +130,7 @@ const  PlayerList = ({ navigation }) =>  {
           <View >
               <Card onPress={{}} style={{backgroundColor:'#a68460', borderRadius: 8 }} >
                   <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
-                      <Image  source={{ uri: 'http://10.132.36.133/Service/'+item.Photo,}}   style={styles.coverImage} />
+                      <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
                   <View >
                      <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',justifyContent:'center'}}>{item.Name}</Text>
                      <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
@@ -124,9 +147,9 @@ const  PlayerList = ({ navigation }) =>  {
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
         <Picker selectedValue={selectedTeamA} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
-              <Picker.Item label="Call Toss" value="Call Toss" />
-              <Picker.Item label="HEAD" value="HEAD" />
-              <Picker.Item label="TAIL" value="TAIL" />
+              <Picker.Item label="Call Toss" value="0" />
+              <Picker.Item label="HEAD" value="1" />
+              <Picker.Item label="TAIL" value="2" />
             </Picker>
         </View>
         </SafeAreaView>
@@ -140,7 +163,7 @@ const  PlayerList = ({ navigation }) =>  {
         
         <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
         <Image  source={{
-          uri: 'http://10.132.36.133/Service/'+item.Photo,
+          uri: item.Photo,
         }}   style={styles.coverImage}/>
         <View style={{flex:1}}>
         <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',justifyContent:'center',flex:1}}>{item.Name}</Text>
@@ -159,9 +182,9 @@ const  PlayerList = ({ navigation }) =>  {
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}} >
         <Picker selectedValue={selectedTeamB} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamB(itemValue)} >
-        <Picker.Item label="Call Toss" value="Call Toss" />
-              <Picker.Item label="HEAD" value="HEAD" />
-              <Picker.Item label="TAIL" value="TAIL" />
+        <Picker.Item label="Call Toss" value="0" />
+              <Picker.Item label="HEAD" value="1" />
+              <Picker.Item label="TAIL" value="2" />
             </Picker>
         </View>
         </SafeAreaView>
@@ -169,9 +192,9 @@ const  PlayerList = ({ navigation }) =>  {
     </View>
     </ImageBackground>
 </View>
-
- );
-
+    
+ )
+      
 }
 const styles = StyleSheet.create({
     container: {

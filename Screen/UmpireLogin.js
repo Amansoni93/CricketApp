@@ -63,14 +63,147 @@ const UmpireLogin =({ navigation })=> {
             });
         }
     }
+    const validateMatch = () => {
+        const {matchid} = data;
+        if (matchid =="") {
+            alert("Enter Match ID");
+            return false;
+            
+        }
+        return true;
+    }
+    const validateUmpireID = () => {
+        const {umpireid} = data;
+        if (umpireid =="") {
+            alert("Enter Umpire ID");
+            return false;
+            
+        }
+        return true;
+    }
+    const validateOTP = () => {
+        const {otp} = data;
+        if (otp =="") {
+            alert("Enter OTP");
+            return false;
+            
+        }
+        return true;
+    }
     const OtpHandle = (match_id, umpire_id,otp) =>
     {
-        axios.get(GLOBALS.BASE_URL +'GetMatchByID'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+match_id)
+       if(validateMatch() || validateUmpireID() || validateOTP() )
+       {
+
+       const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":match_id,"Title":null,"Description":null,"MatchDate":null,"Venue":null,
+        "Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,
+        "TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":{"ID":umpire_id,"Name":null,"Father":null,"Photo":null,
+        "Mobile":null,"DOB":null,"Gender":0,"StudyingClass":null,"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,
+        "Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,
+        "IsMappedWithMatch":false,"UnEncryptedPassword":null},"UmpireUniqueCode":otp,"CreatedOn":null,"LastUpdated":null,
+        "IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,
+        "TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,
+        "SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":0,
+        "CurrentSession":0,"Score":null,"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+        
+        axios.post(GLOBALS.BASE_URL +'JoinAsUmpire', params,{
+           "headers": {
+            "content-type": "application/json",},
+            })
           .then(function (response) {
+
+            console.log(response.data);
+
                     if(response.data.ResponseCode =='0'){
 
-                        GLOBALS.matchDetails = response.data;
-                        navigation.navigate('PlayerHome');
+                        OtpHandle1(match_id,umpire_id,otp);
+                        
+                    } else if(response.data.ResponseCode =='1')
+                    {
+                        
+                        
+                    }else if(response.data.ResponseCode =='2')
+                    {
+                       
+                    }
+                    else if(response.data.ResponseCode =='3'){
+                        Alert.alert(
+                            response.data.ResponseMessageEnglish,
+                            response.data.ResponseMessageHindi,
+                            [
+                              {
+                                text: "Restart",
+                                onPress: () => {RejoinHandle(match_id,umpire_id,otp)}
+                              },
+                              {
+                                text: "Resume",
+                                onPress: () => console.log("Resume")
+                                
+                              },
+                              { text: "Cancel", onPress: () => console.log("cancel") ,style: "cancel"}
+                            ]
+                          );
+                       
+                    }
+                    
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+    }
+    const RejoinHandle = (match_id,ampire_id,otpid) =>
+    {
+        const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":match_id,"Title":null,"Description":null,"MatchDate":null,"Venue":null,
+        "Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,
+        "TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":{"ID":ampire_id,"Name":null,"Father":null,"Photo":null,
+        "Mobile":null,"DOB":null,"Gender":0,"StudyingClass":null,"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,
+        "Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,
+        "IsMappedWithMatch":false,"UnEncryptedPassword":null},"UmpireUniqueCode":otpid,"CreatedOn":null,"LastUpdated":null,
+        "IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,
+        "TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,
+        "SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":0,
+        "CurrentSession":0,"Score":null,"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+        
+        axios.post(GLOBALS.BASE_URL +'ReJoinGameAsUmpire', params,{
+            "headers": {
+            "content-type": "application/json",
+            },
+            })
+          .then(function (response) {
+
+            console.log(response.data);
+
+                    if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
+                       
+                        OtpHandle1(match_id,ampire_id,otpid);
+                        
+                    } else {
+                        Alert.alert(
+                            "Internal Server Error",
+                            [
+                              { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                          );    
+                    }
+                    
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+    }
+    const OtpHandle1 = (match_id, umpire_id,otp) =>
+    {
+       
+        axios.get(GLOBALS.BASE_URL +'GetMatchByID'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+match_id)
+          .then(function (response) {
+           // console.log("Check"+response.data.ResponseCode);
+                    if(response.data.ResponseCode =='0'){
+
+                         GLOBALS.matchDetails = response.data;
+                         navigation.navigate('PlayerHome');
                         
                     } else if(response.data.ResponseCode =='1'){
                         Alert.alert(
@@ -138,7 +271,7 @@ const UmpireLogin =({ navigation })=> {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={styles.btnSecondary}>
                             <TouchableOpacity onPress={() => OtpHandle(data.matchid,data.umpireid,data.otp)}>
-                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch' }} >
+                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' }} >
                                     Login</Text>
                             </TouchableOpacity>
                         </View>
@@ -184,7 +317,7 @@ const styles = StyleSheet.create({
     btnPrimary: {
         backgroundColor: Colors.primary,
         height: 50,
-        marginTop: 50,
+        marginTop: 200,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5
@@ -193,6 +326,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderWidth: 1,
         borderColor: Colors.light,
+        backgroundColor:Colors.maincolor,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
