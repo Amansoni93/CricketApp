@@ -16,7 +16,8 @@ const PlayerHome =({ navigation }) => {
           <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
           <Image source={require('./images/main_logo.png')} resizeMode="contain" style={styles.centerimage} />
           
-          <View  style={{flex:1,flexDirection:'row'}}>
+          <View  style={{flex:1,}}>
+          <View style={{flex:1,flexDirection:'row',marginLeft:20}}>
            <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start', justifyContent: 'flex-start',width:50,alignSelf:'flex-start',height:80,}} />
            <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:20,top:36,alignSelf:'flex-start',height:80}} />
            <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
@@ -24,15 +25,15 @@ const PlayerHome =({ navigation }) => {
            <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
            <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:20,top:36, alignSelf:'flex-start', height:80}} />
            <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:40,alignSelf:'flex-start',height:80,}} />
-         </View>
-        <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20}}>
+           </View>
+           <View style={{flex:1,flexDirection:'row',marginLeft:20,Top:0}}>
             <ImageBackground style={styles.coverImage} source={require('./images/plank.png')}>
               <View style={styles.textView}>
                <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
               </View>
         
             </ImageBackground>
-            <ImageBackground style={styles.coverImage}source={require('./images/plank.png')}>
+            <ImageBackground style={styles.vsImage}source={require('./images/plank.png')}>
               <View style={styles.textView}>
               <Text style={{color:'#ffffff',fontSize:16}}>Vs</Text>
               </View>
@@ -43,6 +44,8 @@ const PlayerHome =({ navigation }) => {
             </View>
           </ImageBackground>
         </View>
+         </View>
+       
         <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20,}}>
            <View style={{flex:1,flexDirection:'row'}}>
             <Text style={{color:Colors.white,flex:1}} > प्रायोजक :- </Text>
@@ -80,6 +83,11 @@ const styles = StyleSheet.create({
     coverImage: {
       width: 100,
       height: 80,
+      margin:10,
+    },
+    vsImage: {
+      width: 50,
+      height: 50,
       margin:10,
     },
     textView: {

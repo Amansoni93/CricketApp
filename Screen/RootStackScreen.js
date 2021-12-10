@@ -9,11 +9,8 @@ const Stack = createNativeStackNavigator();
 const RootStackScreen =({ navigation })=> {
 return(
     <Stack.Navigator headerMode='none'>
-       <Stack.Screen name="splashscrren" component={splashscrren} options={{headerShown: false}}/>
-       
-       <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
+      <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
        <Stack.Screen name="UmpireLogin" component={UmpireLogin}  options={{headerShown: true,title:'Umpire Login'}}/>
-
        <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: true}}/>
        <Stack.Screen name="PlayerList" component={PlayerList} options={{headerShown: true}}/>
 

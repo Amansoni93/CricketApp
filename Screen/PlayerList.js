@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { render } from 'react-native/Libraries/Renderer/implementations/ReactNativeRenderer-prod';
 
 
-
+var icon;
 var winmsg="";
 const  PlayerList = ({ navigation }) =>  {
   const [data, setData] = useState({
@@ -22,6 +22,7 @@ const  PlayerList = ({ navigation }) =>  {
 });
   const [selectedTeamA, setSelectedTossTeamAValue] = useState();
   const [selectedTeamB, setSelectedTossTeamBValue] = useState();
+  const [selectedTossvalue, settosssetValue] = useState(0);
  
   const getRandomNumberBetween =(min,max) => {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -31,7 +32,7 @@ var tossCalledBy =0;
 var tossWinner =0;
 var ctr = 0;
 var ID=0;
-var icon=require("./images/coin_flip.gif");
+
   const setSelectedTossTeamA  = (tossvalue) => {
     
     if(tossvalue ==1 || tossvalue ==2)
@@ -41,7 +42,7 @@ var icon=require("./images/coin_flip.gif");
     if(ctr==1){
             setTimeout(() => {
               console.log("2 sec.")
-          }, 0);
+          }, 20000);
           var randomSelected = 0;
           var randomVal = getRandomNumberBetween(100, 300);
           console.log(randomVal);
@@ -67,13 +68,13 @@ var icon=require("./images/coin_flip.gif");
                 if (isHead==1)
                 {
                    icon=require("./images/coin_head.gif");
-                  
+                   settosssetValue(1);
                    console.log("ishead"+randomSelected);
                 }
                 else
                 {
                    icon=require("./images/coin_tail.gif");
-                  
+                   settosssetValue(1);
                    console.log("ishead"+randomSelected);
                 }
 
@@ -109,10 +110,20 @@ var icon=require("./images/coin_flip.gif");
         <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
-      <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
-                     
+      <Text>{selectedTossvalue}</Text>
+      {(selectedTossvalue) == 1 ? (
+          <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
+                  <Text>{icon}</Text>    
           <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
-      </View>
+          </View>
+      ): (
+          <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
+                     
+                     <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+                 </View>
+      )}
+      
+    
       <View style={{flexDirection:'row'}}>
         <Text style={{color:Colors.blackcolor,alignItems:'center'}}> {winmsg}Select Captain from  Both Team and then click 'Call Toss'</Text>
         </View>
