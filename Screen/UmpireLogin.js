@@ -256,7 +256,7 @@ const UmpireLogin =({ navigation })=> {
                     </View>
                     <View style={styles.inputContainer}>
                         <Icon name="send-to-mobile" size={20} color={Colors.light} style={styles.inputiCon}></Icon>
-                        <TextInput placeholder="OTP" keyboardType = 'numeric' maxLength={10} style={styles.input} onChangeText={(value) => textOtpChange(value)} ></TextInput>
+                        <TextInput placeholder="OTP" keyboardType = 'numeric'  secureTextEntry={true} maxLength={10} style={styles.input} onChangeText={(value) => textOtpChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
                             : null

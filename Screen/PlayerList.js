@@ -200,20 +200,24 @@ var ID=0;
         <Text style={{color:Colors.white,alignItems:'center',alignContent:'center'}}>यदि आप बाये और दाये साइडबार में खिलाड़ियों की सूची देखने में असमर्थ है , तो इस विंडो के शीर्ष पर REFRESH बटन पर क्लिक करे </Text>
         </View>
     <View style={{flexDirection:'row',flex:3,margin:5}}>
-        <View style={{flex:1,flexDirection:'row',margin:2,padding:2,shadowColor:'#000',shadowOffset:{width:0,height:10}}}>
+        <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
         <SafeAreaView style={{flex:1}}>
         <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
           renderItem={({item,index}) =>(
           <View >
-              <Card onPress={{}} style={{backgroundColor:'#a68460', borderRadius: 8 }} >
-                  <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
+              <Card onPress={{}} style={{backgroundColor:'#a68460', borderRadius: 8 ,borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 8,}} >
+       <Card.Content>
+                  <View style={{flex:1,flexDirection:'row',}}>
                       <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
                   <View >
-                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',justifyContent:'center'}}>{item.Name}</Text>
+                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',justifyContent:'center',flexWrap:'wrap',flexDirection:'column',justifyContent:'center'}}>{item.Name}</Text>
                      <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
                    </View>
                  </View>
-                
+                </Card.Content>
               </Card>
           </View>
      )}>
@@ -231,23 +235,26 @@ var ID=0;
         </View>
         </SafeAreaView>
     </View>
-    <View style={{flex:1,flexDirection:'row',margin:2,padding:2,shadowColor:'#000',shadowOffset:{width:0,height:10}}}>
+    <View style={{flex:1,flexDirection:'row',padding:2,}}>
       <SafeAreaView style={{flex:1}}>
     <FlatList data={GLOBALS.matchDetails.Match.TeamB.Players}
        renderItem={({item,index}) =>(
       <View >
-        <Card onPress={{}} style={{backgroundColor:'#687082', borderRadius: 8 }} >
-        
-        <View style={{flex:1,flexDirection:'row',padding:5,marginLeft:5}}>
+        <Card onPress={{}} style={{backgroundColor:'#687082', borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 8,}} >
+         <Card.Content>
+        <View style={{flex:1,flexDirection:'row',}}>
         <Image  source={{
           uri: item.Photo,
         }}   style={styles.coverImage}/>
         <View style={{flex:1}}>
-        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',justifyContent:'center',flex:1}}>{item.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',justifyContent:'center',flex:1,}}>{item.Name}</Text>
            <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
            </View>
         </View>
-        
+        </Card.Content>
      </Card>
       </View>
      
@@ -278,11 +285,10 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     coverImage: {
-      width: 60,
-      height: 60,
-      margin:2,
-      borderRadius:60,
-      marginRight:10,
+      width: 50,
+      height: 50,
+      borderRadius:50,
+    
     },
     editImage: {
       width: 30,
