@@ -184,7 +184,7 @@ var ID=0;
              <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
              </View>
              <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-             <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{winmsg}</Text>
+             <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossmsg}</Text>
              </View>
         </View>
       ):(
