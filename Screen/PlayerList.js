@@ -37,58 +37,59 @@ var ID=0;
     
     if(tossvalue ==1 || tossvalue ==2)
     {
+      settosssetValue(0);
     //icon=require("./images/coin_flip.gif");
     ctr += 1;
     if(ctr==1){
             setTimeout(() => {
-              console.log("2 sec.")
-          }, 20000);
-          var randomSelected = 0;
-          var randomVal = getRandomNumberBetween(100, 300);
-          console.log(randomVal);
-          if (randomVal < 200)
-                    randomSelected = 0;
-                else randomSelected = 1;
-
-                if (choice == randomSelected)
-                {
-                    if (tossCalledBy == 0)
-                        tossWinner = 1;
+              var randomSelected = 0;
+              var randomVal = getRandomNumberBetween(100, 300);
+              console.log(randomVal);
+              if (randomVal < 200)
+                        randomSelected = 0;
+                    else randomSelected = 1;
+    
+                    if (choice == randomSelected)
+                    {
+                        if (tossCalledBy == 0)
+                            tossWinner = 1;
+                        else
+                            tossWinner = 2;
+                    }
                     else
-                        tossWinner = 2;
-                }
-                else
-                {
-                    if (tossCalledBy == 0)
-                        tossWinner = 2;
-                    else tossWinner = 1;
-                }
-                var isHead = (randomSelected == 0);
-                
-                if (isHead==1)
-                {
-                   icon=require("./images/coin_head.gif");
-                   settosssetValue(1);
-                   console.log("ishead"+randomSelected);
-                }
-                else
-                {
-                   icon=require("./images/coin_tail.gif");
-                   settosssetValue(1);
-                   console.log("ishead"+randomSelected);
-                }
-
-                if (tossWinner == 1)
-                {
-                    ID = GLOBALS.matchDetails.Match.TeamA.ID;
-                    winmsg = GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.";
-                    console.log(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.") ;
-                } else {
-                    ID = GLOBALS.matchDetails.Match.TeamB.ID;
-                    winmsg = GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.";
-                      console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
-                   
-                }
+                    {
+                        if (tossCalledBy == 0)
+                            tossWinner = 2;
+                        else tossWinner = 1;
+                    }
+                    var isHead = (randomSelected == 0);
+                    
+                    if (isHead==1)
+                    {
+                       icon=require("./images/coin_head.gif");
+                       settosssetValue(1);
+                       console.log("ishead"+randomSelected);
+                    }
+                    else
+                    {
+                       icon=require("./images/coin_tail.gif");
+                       settosssetValue(1);
+                       console.log("ishead"+randomSelected);
+                    }
+    
+                    if (tossWinner == 1)
+                    {
+                        ID = GLOBALS.matchDetails.Match.TeamA.ID;
+                        winmsg = GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.";
+                        console.log(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.") ;
+                    } else {
+                        ID = GLOBALS.matchDetails.Match.TeamB.ID;
+                        winmsg = GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.";
+                          console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
+                       
+                    }
+          }, 20000);
+         
         }
     }
     console.log("Team A"+tossvalue);
@@ -110,20 +111,16 @@ var ID=0;
         <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
-      <Text>{selectedTossvalue}</Text>
       {(selectedTossvalue) == 1 ? (
           <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
-                  <Text>{icon}</Text>    
-          <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+             <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
           </View>
       ): (
-          <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
+         <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
                      
-                     <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
-                 </View>
+             <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+        </View>
       )}
-      
-    
       <View style={{flexDirection:'row'}}>
         <Text style={{color:Colors.blackcolor,alignItems:'center'}}> {winmsg}Select Captain from  Both Team and then click 'Call Toss'</Text>
         </View>
