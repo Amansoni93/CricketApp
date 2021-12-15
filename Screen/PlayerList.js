@@ -88,7 +88,7 @@ var ID=0;
                           console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
                        
                     }
-          }, 10000);
+          }, 1000);
          
         }
     }
@@ -152,7 +152,7 @@ var ID=0;
                           console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
                        
                     }
-          }, 10000);
+          }, 1000);
          
         }
     }
@@ -170,7 +170,7 @@ var ID=0;
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
       {(selectedTossvalue) == 1 ? (
-          <View  style={{flex:1,alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
+          <View  style={{flex:1,alignContent:'center',flexDirection:'row',justifyContent:'center',flex:1}}>
              <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                  <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
              </View>
@@ -179,8 +179,8 @@ var ID=0;
              </View>
           </View>
       ): (selectedTossvalue) ==0?(
-         <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center'}}>
-            <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>      
+         <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center',flex:1}}>
+            <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center',alignContent:'center'}}>      
              <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
              </View>
              <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
