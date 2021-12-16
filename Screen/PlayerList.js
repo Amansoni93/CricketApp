@@ -170,20 +170,27 @@ var ID=0;
         <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
       </View>
       {(selectedTossvalue) == 1 ? (
-          <View  style={{flex:1,alignContent:'center',flexDirection:'row',justifyContent:'center',flex:1}}>
-             <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+          <View  style={{flex:1,alignContent:'center',justifyContent:'center'}}>
+             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                  <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
              </View>
-             <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+             <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between',margin:10}}>
+               <Image  source={require("./images/batting_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
+               <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
              <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossmsg}</Text>
              </View>
+               <Image  source={require("./images/bowling_icon.png")}    style={{width:50,height:80,justifyContent:'flex-end',alignContent:'flex-end',margin:10,padding:10}} />
+             </View>
+             
           </View>
       ): (selectedTossvalue) ==0?(
-         <View  style={{alignContent:'center',flexDirection:'row',justifyContent:'center',flex:1}}>
-            <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center',alignContent:'center'}}>      
+         <View  style={{flexDirection:'row',alignContent:'center',justifyContent:'center'}}>
+            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',alignContent:'center'}}>      
              <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+
              </View>
-             <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+             
+             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
              <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossmsg}</Text>
              </View>
         </View>
@@ -212,9 +219,9 @@ var ID=0;
        <Card.Content>
                   <View style={{flex:1,flexDirection:'row',}}>
                       <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
-                  <View >
-                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',justifyContent:'center',flexWrap:'wrap',flexDirection:'column',justifyContent:'center'}}>{item.Name}</Text>
-                     <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
+                  <View  style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}> 
+                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',flexDirection: 'column',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
+                     {/* <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/> */}
                    </View>
                  </View>
                 </Card.Content>
@@ -227,7 +234,7 @@ var ID=0;
            <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain from  Team A</Text>
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
-        <Picker selectedValue={selectedTeamA} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
+        <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
               <Picker.Item label="Call Toss" value="0" />
               <Picker.Item label="HEAD" value="1" />
               <Picker.Item label="TAIL" value="2" />
@@ -249,9 +256,9 @@ var ID=0;
         <Image  source={{
           uri: item.Photo,
         }}   style={styles.coverImage}/>
-        <View style={{flex:1}}>
-        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',justifyContent:'center',flex:1,}}>{item.Name}</Text>
-           <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/>
+        <View style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}>
+        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',flexDirection: 'column',color:'#000000',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
+           {/* <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/> */}
            </View>
         </View>
         </Card.Content>
@@ -265,7 +272,7 @@ var ID=0;
            <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain From Team B </Text>
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}} >
-        <Picker selectedValue={selectedTeamB} style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamB(itemValue)} >
+        <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamB(itemValue)} >
         <Picker.Item label="Call Toss" value="0" />
               <Picker.Item label="HEAD" value="1" />
               <Picker.Item label="TAIL" value="2" />
@@ -293,10 +300,10 @@ const styles = StyleSheet.create({
     editImage: {
       width: 30,
       height: 30,
-      margin:2,
-      alignItems: 'flex-end',
-      justifyContent:'flex-end',
-      position:'relative'
+      position: 'absolute',
+      margin: 10,
+      right: 0,
+      bottom: -20,
     },
     textView: {
       position: 'absolute',
