@@ -5,6 +5,7 @@ import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
 import { Picker } from '@react-native-picker/picker';
 import { render } from 'react-native/Libraries/Renderer/implementations/ReactNativeRenderer-prod';
+import axios from 'axios';
 
 
 var icon;
@@ -23,6 +24,7 @@ const  PlayerList = ({ navigation }) =>  {
   const [selectedTeamB, setSelectedTossTeamBValue] = useState();
   const [selectedTossvalue, settosssetValue] = useState();
   const [selectedTossmsg, settosssetmsg] = useState('');
+  const [selectedId, setSelectedId] = useState(null);
   const getRandomNumberBetween =(min,max) => {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
@@ -160,8 +162,70 @@ var ID=0;
     setSelectedTossTeamBValue(TeamBTossValue);
   }
    
+  const getPlayerdetails =(Playerid) =>
+  {
+    console.log(Playerid);
+    axios.get(GLOBALS.BASE_URL +'GetPlayerByID'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+Playerid)
+    .then(function (response) {
+     
+      
+      if(response.data.ResponseCode =='0'){
+        console.log("Check"+response.data);
+        
+        setSelectedId(response.data);
+       
+   } else if(response.data.ResponseCode =='1'){
+       Alert.alert(
+           response.data.ResponseMessageEnglish,
+           response.data.ResponseMessageHindi,
+           [
+             {
+               text: "Cancel",
+               onPress: () => console.log("Cancel Pressed"),
+               style: "cancel"
+             },
+             { text: "OK", onPress: () => console.log("OK Pressed") }
+           ]
+       );
+   }
+              
+             
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  }
 
-    
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
+
+    return (
+      <Item
+        item={item}
+        backgroundColor={{ backgroundColor }}
+      />
+    );
+  };
+  const Item = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={()=> getPlayerdetails(item.ID)} style={[styles.item]}>
+    <Card    style={{backgroundColor:'#a68460', borderRadius: 8 ,borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
+  shadowOpacity: 1,
+  shadowRadius: 8,
+  elevation: 8,}} >
+  
+  <Card.Content >
+        <View style={{flex:1,flexDirection:'row',}}>
+            <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
+        <View  style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}> 
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',flexDirection: 'column',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
+          
+         </View>
+       </View>
+      </Card.Content>
+    </Card>
+  </TouchableOpacity>
+  );
+  
  return (
     <View style={styles.container}>
     <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
@@ -196,7 +260,7 @@ var ID=0;
         </View>
       ):(
         <View style={{flexDirection:'row'}}>
-        <Text style={{color:Colors.blackcolor,alignItems:'center'}}> Select Captain from  Both Team and then click 'Call Toss'</Text>
+        <Text style={{color:Colors.blackcolor,alignItems:'center'}}>   Select Captain from  Both Team and then click 'Call Toss'</Text>
         </View>
       )}
       
@@ -210,28 +274,13 @@ var ID=0;
         <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
         <SafeAreaView style={{flex:1}}>
         <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
-          renderItem={({item,index}) =>(
-          <View >
-              <Card onPress={{}} style={{backgroundColor:'#a68460', borderRadius: 8 ,borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 8,}} >
-       <Card.Content>
-                  <View style={{flex:1,flexDirection:'row',}}>
-                      <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
-                  <View  style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}> 
-                     <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',flexDirection: 'column',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
-                     {/* <Image  source={require('./images/Edit_Icon.png')} resizeMode="contain"   style={styles.editImage}/> */}
-                   </View>
-                 </View>
-                </Card.Content>
-              </Card>
-          </View>
-     )}>
- 
-    </FlatList>
+         renderItem={renderItem}
+         keyExtractor={(item, index) => item.ID}
+         extraData={selectedId}/>
+        
+    
        <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
-           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain from  Team A</Text>
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>  Select Captain from  Team A</Text>
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
         <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >

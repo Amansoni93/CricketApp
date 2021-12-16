@@ -5,6 +5,7 @@ export default  {
     API_USERID:"NIC",
     API_KEY:"123456",
     matchDetails:'',
+    TeamADetails:'',
     COLOR: {
       ORANGE: '#C50',
       DARKBLUE: '#0F3274',
