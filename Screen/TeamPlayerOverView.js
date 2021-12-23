@@ -3,7 +3,7 @@ import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,S
 import GLOBALS from './helper/global'; 
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
-import {FlatListSlider} from 'react-native-flatlist-slider';
+
 const  TeamPlayerOverView = ({ route,navigation }) =>  {
     const { TeamBitemId } = route.params;
     const  {TeamAitemId}  = route.params;

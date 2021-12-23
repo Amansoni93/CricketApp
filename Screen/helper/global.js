@@ -7,6 +7,8 @@ export default  {
     matchDetails:'',
     TeamADetails:'',
     TeamBDetails:'',
+    TeamA1Details:'',
+    TeamB1Details:'',
     COLOR: {
       ORANGE: '#C50',
       DARKBLUE: '#0F3274',
