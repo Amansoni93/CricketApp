@@ -1,5 +1,5 @@
 import React, { useEffect,useRef,useState } from 'react';
-import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,ScrollView,ImageBackground,SafeAreaView} from 'react-native';
+import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,ScrollView,ImageBackground,SafeAreaView,Alert } from 'react-native';
 import GLOBALS from './helper/global'; 
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
@@ -23,8 +23,18 @@ const  PlayerList = ({ navigation }) =>  {
   const [selectedTeamA, setSelectedTossTeamAValue] = useState();
   const [selectedTeamB, setSelectedTossTeamBValue] = useState();
   const [selectedTossvalue, settosssetValue] = useState();
-  const [selectedTossmsg, settosssetmsg] = useState('');
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedTossWonByID, setTossWonByID] = useState('');
+  const [selectedTossWonByName, setTossWonByName] = useState('');
+  const [selectedTossCalledID, setTossCalledByID] = useState();
+  const [selectedTossCalledName, setTossCalledByName] = useState();
+  const [TeamAStatus, TeamAPlayerStatus] = useState(0);
+  const [TeamBStatus, TeamBPlayerStatus] = useState(0);
+  const [selectedIdPlayerTeamA, setSelectedPlayerTeamAId] = useState();
+  const [selectedIdPlayerTeamB, setSelectedPlayerTeamBId] = useState();
+  const [selectedIdPlayerTeamAImage, setSelectedPlayerTeamAPhoto] = useState();
+  const [selectedIdPlayerTeamBImage, setSelectedPlayerTeamBPhoto] = useState();
+  const [selectTeamAPlayerID,setTeamAID] =useState();
+  const [selectTeamBPlayerID,setTeamBID]= useState();
   const getRandomNumberBetween =(min,max) => {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
@@ -34,65 +44,81 @@ var tossWinner =0;
 var ctr = 0;
 var ID=0;
 
-  const setSelectedTossTeamA  = (tossvalue) => {
-    
-    if(tossvalue ==1 || tossvalue ==2)
-    {
-      settosssetValue(0);
-    //icon=require("./images/coin_flip.gif");
-    ctr += 1;
-    if(ctr==1){
-            setTimeout(() => {
-              var randomSelected = 0;
-              var randomVal = getRandomNumberBetween(100, 300);
-              console.log(randomVal);
-              if (randomVal < 200)
-                        randomSelected = 0;
-                    else randomSelected = 1;
-    
-                    if (choice == randomSelected)
-                    {
-                        if (tossCalledBy == 0)
-                            tossWinner = 1;
-                        else
-                            tossWinner = 2;
-                    }
-                    else
-                    {
-                        if (tossCalledBy == 0)
-                            tossWinner = 2;
-                        else tossWinner = 1;
-                    }
-                    var isHead = (randomSelected == 0);
-                    
-                    if (isHead==1)
-                    {
-                       icon=require("./images/coin_head.gif");
-                       settosssetValue(1);
-                       console.log("ishead"+randomSelected);
-                    }
-                    else
-                    {
-                       icon=require("./images/coin_tail.gif");
-                       settosssetValue(1);
-                       console.log("ishead"+randomSelected);
-                    }
-    
-                    if (tossWinner == 1)
-                    {
-                        ID = GLOBALS.matchDetails.Match.TeamA.ID;
-                        settosssetmsg(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.");
-                       
-                        console.log(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.") ;
-                    } else {
-                        ID = GLOBALS.matchDetails.Match.TeamB.ID;
-                        settosssetmsg(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.");
-                          console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
-                       
-                    }
-          }, 1000);
-         
-        }
+const setSelectedTossTeamA  = (tossvalue) => {
+    if (TeamAStatus==1 && TeamBStatus ==1) {
+      if(tossvalue ==1 || tossvalue ==2)
+      {
+        settosssetValue(0);
+        
+      //icon=require("./images/coin_flip.gif");
+      ctr += 1;
+      if(ctr==1){
+              setTimeout(() => {
+                var randomSelected = 0;
+                var randomVal = getRandomNumberBetween(100, 300);
+                console.log(randomVal);
+                if (randomVal < 200)
+                          randomSelected = 0;
+                      else randomSelected = 1;
+      
+                      if (choice == randomSelected)
+                      {
+                          if (tossCalledBy == 0)
+                              tossWinner = 1;
+                          else
+                              tossWinner = 2;
+                      }
+                      else
+                      {
+                          if (tossCalledBy == 0)
+                              tossWinner = 2;
+                          else tossWinner = 1;
+                      }
+                      var isHead = (randomSelected == 0);
+                      
+                      if (isHead==1)
+                      {
+                         icon=require("./images/coin_head.gif");
+                         settosssetValue(1);
+                         console.log("ishead"+randomSelected);
+                      }
+                      else
+                      {
+                         icon=require("./images/coin_tail.gif");
+                         settosssetValue(1);
+                         console.log("ishead"+randomSelected);
+                      }
+      
+                      if (tossWinner == 1)
+                      {
+                          ID = GLOBALS.matchDetails.Match.TeamA.ID;
+                          setTossWonByName(GLOBALS.matchDetails.Match.TeamA.Name);
+                          setTossWonByID(GLOBALS.matchDetails.Match.TeamA.ID);
+                          console.log(GLOBALS.matchDetails.Match.TeamA.Name) ;
+                      } else {
+                          ID = GLOBALS.matchDetails.Match.TeamB.ID;
+                          setTossWonByID(GLOBALS.matchDetails.Match.TeamB.ID);
+                          setTossWonByName(GLOBALS.matchDetails.Match.TeamB.Name);
+                            console.log(GLOBALS.matchDetails.Match.TeamB.Name) ;
+                         
+                      }
+            }, 1000);
+           
+          }
+      }
+    }else {
+      Alert.alert(
+        "Sorry",
+        "Please select Captions from Both Team.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
     }
     console.log("Team A"+tossvalue);
     setSelectedTossTeamAValue(tossvalue);
@@ -100,6 +126,7 @@ var ID=0;
   }
   const setSelectedTossTeamB =(TeamBTossValue) =>
   {
+    if (TeamAStatus==1 && TeamBStatus ==1) {
     if(TeamBTossValue ==1 || TeamBTossValue ==2)
     {
       settosssetValue(0);
@@ -145,34 +172,92 @@ var ID=0;
                     if (tossWinner == 1)
                     {
                         ID = GLOBALS.matchDetails.Match.TeamA.ID;
-                        settosssetmsg(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.");
-                    
-                        console.log(GLOBALS.matchDetails.Match.TeamA.Name + " has won the toss.") ;
+                        setTossWonByName(GLOBALS.matchDetails.Match.TeamA.Name);
+                        setTossWonByID(GLOBALS.matchDetails.Match.TeamA.ID);
+                        console.log(GLOBALS.matchDetails.Match.TeamA.Name) ;
                     } else {
                         ID = GLOBALS.matchDetails.Match.TeamB.ID;
-                        settosssetmsg(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.");
-                          console.log(GLOBALS.matchDetails.Match.TeamB.Name + " has won the toss.") ;
+                        setTossWonByName(GLOBALS.matchDetails.Match.TeamB.Name);
+                        setTossWonByID(GLOBALS.matchDetails.Match.TeamB.ID);
+                          console.log(GLOBALS.matchDetails.Match.TeamB.Name) ;
                        
                     }
           }, 1000);
          
         }
     }
+  }else {
+    Alert.alert(
+      "Sorry",
+      "Please select Captions from Both Team.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+  }
     console.log("Team B"+TeamBTossValue);
     setSelectedTossTeamBValue(TeamBTossValue);
   }
    
-  const getPlayerdetails =(Playerid) =>
+  const getPlayerdetailsTeamA =(Playerid,PlayerName) =>
   {
-    console.log(Playerid);
+    //console.log(Playerid);
+    setTossCalledByID(Playerid);
+    setTossCalledByName(PlayerName);
+    axios.get(GLOBALS.BASE_URL +'GetPlayerByID'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+Playerid)
+    .then(function (response) {
+     
+    //  console.log(response.data.ResponseMessageEnglish);
+      if(response.data.ResponseCode =='0'){
+        console.log("Check"+response.data.Player);
+        GLOBALS.TeamADetails = response.data;
+        TeamAPlayerStatus(1);
+        setSelectedPlayerTeamAId(response.data.Player.Name); 
+        setSelectedPlayerTeamAPhoto(response.data.Player.Photo);
+        setTeamAID(response.data.Player.ID);
+       
+   } else if(response.data.ResponseCode =='1'){
+       Alert.alert(
+           response.data.ResponseMessageEnglish,
+           response.data.ResponseMessageHindi,
+           [
+             {
+               text: "Cancel",
+               onPress: () => console.log("Cancel Pressed"),
+               style: "cancel"
+             },
+             { text: "OK", onPress: () => console.log("OK Pressed") }
+           ]
+       );
+   }
+              
+             
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  }
+  const getPlayerdetailsTeamB =(Playerid,playerName) =>
+  {
+    setTossCalledByID(Playerid);
+    setTossCalledByName(playerName);
+
     axios.get(GLOBALS.BASE_URL +'GetPlayerByID'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+Playerid)
     .then(function (response) {
      
       
       if(response.data.ResponseCode =='0'){
-        console.log("Check"+response.data);
-        
-        setSelectedId(response.data);
+       // console.log("Check"+response.data);
+        GLOBALS.TeamBDetails = response.data.Player.Name;
+        TeamBPlayerStatus(1);
+        setSelectedPlayerTeamBId(response.data.Player.Name);
+        setSelectedPlayerTeamBPhoto(response.data.Player.Photo);
+        setTeamBID(response.data.Player.ID);
        
    } else if(response.data.ResponseCode =='1'){
        Alert.alert(
@@ -197,17 +282,25 @@ var ID=0;
   }
 
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
+    //const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
 
     return (
       <Item
         item={item}
-        backgroundColor={{ backgroundColor }}
+      />
+    );
+  };
+  const renderItem1 = ({ item }) => {
+    //const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
+
+    return (
+      <Item1
+        item={item}
       />
     );
   };
   const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity onPress={()=> getPlayerdetails(item.ID)} style={[styles.item]}>
+    <TouchableOpacity onPress={()=> getPlayerdetailsTeamA(item.ID,item.Name)} style={[styles.item]}>
     <Card    style={{backgroundColor:'#a68460', borderRadius: 8 ,borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
   shadowOpacity: 1,
   shadowRadius: 8,
@@ -225,78 +318,9 @@ var ID=0;
     </Card>
   </TouchableOpacity>
   );
-  
- return (
-    <View style={styles.container}>
-    <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
-      <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
-        <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
-        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
-      </View>
-      {(selectedTossvalue) == 1 ? (
-          <View  style={{flex:1,alignContent:'center',justifyContent:'center'}}>
-             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                 <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
-             </View>
-             <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between',margin:10}}>
-               <Image  source={require("./images/batting_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
-               <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-             <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossmsg}</Text>
-             </View>
-               <Image  source={require("./images/bowling_icon.png")}    style={{width:50,height:80,justifyContent:'flex-end',alignContent:'flex-end',margin:10,padding:10}} />
-             </View>
-             
-          </View>
-      ): (selectedTossvalue) ==0?(
-         <View  style={{flexDirection:'row',alignContent:'center',justifyContent:'center'}}>
-            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',alignContent:'center'}}>      
-             <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
-
-             </View>
-             
-             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-             <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossmsg}</Text>
-             </View>
-        </View>
-      ):(
-        <View style={{flexDirection:'row'}}>
-        <Text style={{color:Colors.blackcolor,alignItems:'center'}}>   Select Captain from  Both Team and then click 'Call Toss'</Text>
-        </View>
-      )}
-      
-        <View style={{alignItems:'center'}}>
-        <Text style={{color:'#e1e655',alignItems:'center',alignContent:'center'}}>Match ID :{GLOBALS.matchDetails.Match.ID}</Text>
-        </View>
-        <View style={{alignItems:'center'}}>
-        <Text style={{color:Colors.white,alignItems:'center',alignContent:'center'}}>यदि आप बाये और दाये साइडबार में खिलाड़ियों की सूची देखने में असमर्थ है , तो इस विंडो के शीर्ष पर REFRESH बटन पर क्लिक करे </Text>
-        </View>
-    <View style={{flexDirection:'row',flex:3,margin:5}}>
-        <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
-        <SafeAreaView style={{flex:1}}>
-        <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
-         renderItem={renderItem}
-         keyExtractor={(item, index) => item.ID}
-         extraData={selectedId}/>
-        
-    
-       <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
-           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>  Select Captain from  Team A</Text>
-        </View>
-        <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
-        <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
-              <Picker.Item label="Call Toss" value="0" />
-              <Picker.Item label="HEAD" value="1" />
-              <Picker.Item label="TAIL" value="2" />
-            </Picker>
-        </View>
-        </SafeAreaView>
-    </View>
-    <View style={{flex:1,flexDirection:'row',padding:2,}}>
-      <SafeAreaView style={{flex:1}}>
-    <FlatList data={GLOBALS.matchDetails.Match.TeamB.Players}
-       renderItem={({item,index}) =>(
-      <View >
-        <Card onPress={{}} style={{backgroundColor:'#687082', borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
+  const Item1 = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={()=> getPlayerdetailsTeamB(item.ID,item.Name)} style={[styles.item]}>
+     <Card  style={{backgroundColor:'#687082', borderRadius: 15,elevation:8 , shadowOffset: {width: 0, height: 0},
     shadowOpacity: 1,
     shadowRadius: 8,
     elevation: 8,}} >
@@ -312,13 +336,180 @@ var ID=0;
         </View>
         </Card.Content>
      </Card>
-      </View>
-     
-    )}>
+  </TouchableOpacity>
+  );
+  const getCurrentDate=()=>{
 
-    </FlatList>
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+    var hours = new Date().getHours(); //Current Hours
+    var min = new Date().getMinutes(); //Current Minutes
+    var sec = new Date().getSeconds(); //Current Seconds
+  
+    //  date + '-' + month + '-' + year + ' ' + hours + ':' + min + ':' + sec;//format: dd-mm-yyyy;
+    let date = new Date(Date.UTC(year, month - 1, date, hours, min, sec));
+    return timeStamp =  date.getTime() / 1000;
+}
+  const SaveTossdetailsTeam  = (CaptionAID,CaptionBID,Message) =>
+  {
+    console.log(GLOBALS.matchDetails.Match.TeamA);
+    console.log(GLOBALS.matchDetails.Match.TeamB);
+    console.log(getCurrentDate());
+
+    const params = JSON.stringify({"TossResults":null,"TossResult":{"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
+    "TeamA":{"ID":GLOBALS.matchDetails.Match.TeamA.ID,"Name":GLOBALS.matchDetails.Match.TeamA.Name,"NickName":GLOBALS.matchDetails.Match.TeamA.NickName,"Coach":GLOBALS.matchDetails.Match.TeamA.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamA.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamA.Logo,"Class":GLOBALS.matchDetails.Match.TeamA.Class,"Topic":GLOBALS.matchDetails.Match.TeamA.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamA.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamA.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamA.PreferredLanguage,
+    "Players":GLOBALS.matchDetails.Match.TeamA.Players,
+    "IsBatting":true,"CreatedBy":null},
+    "TeamACreationType":0,
+    "TeamB":{"ID":GLOBALS.matchDetails.Match.TeamB.ID,"Name":GLOBALS.matchDetails.Match.TeamB.Name,"NickName":GLOBALS.matchDetails.Match.TeamB.NickName,"Coach":GLOBALS.matchDetails.Match.TeamB.Coach,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,
+    "Players":GLOBALS.matchDetails.Match.TeamB.Players,
+    "IsBatting":false,"CreatedBy":null},
+    "TeamBCreationType":0,
+    "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
+    "Umpire":GLOBALS.matchDetails.Match.Umpire,
+    "UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,
+    "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
+    "TossCalledBy":{"ID":selectedTossCalledID,"Name":selectedTossCalledName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+    "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+    "TossDate":"\/Date(23456789000)\/","Decision":1,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+
+    // const params = JSON.stringify({"TossResults":null,"TossResult":{"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
+    // "TeamA": GLOBALS.matchDetails.Match.TeamA,"TeamACreationType":GLOBALS.matchDetails.Match.TeamACreationType,"TeamB":GLOBALS.matchDetails.Match.TeamB,"TeamBCreationType":GLOBALS.matchDetails.Match.TeamBCreationType,
+    // "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
+    // "Umpire":GLOBALS.matchDetails.Match.Umpire,
+    // "UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,"CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
+    // "TossCalledBy":{"ID":selectedTossCalledID,"Name":selectedTossCalledName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":true,"CreatedBy":null},
+    // "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+    // "TossDate":"\/Date("+getCurrentDate()+")\/","Decision":1,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+        console.log(params);
+        axios.post(GLOBALS.BASE_URL +'SaveTossResult', params,{
+            "headers": {
+            "content-type": "application/json",
+            },
+            })
+          .then(function (response) {
+
+            console.log(response.data);
+
+                    if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
+                       
+                       
+                        
+                    } else {
+                        Alert.alert(
+                            "Internal Server Error",
+                            [
+                              { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                          );    
+                    }
+                    
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+  }
+  
+ return (
+    <View style={styles.container}>
+    <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
+      <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
+        <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,textAlign:'right',alignItems:'flex-end',flex:1,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
+      </View>
+      {(selectedTossvalue) == 1 ? (
+          <View  style={{flex:1,alignContent:'center',justifyContent:'center'}}>
+             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+             
+                 <Image  source={icon}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+               
+             </View>
+             <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between',margin:10}}>
+               <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName) }>
+                   <Image  source={require("./images/batting_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
+               </TouchableOpacity>
+               
+               <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+             <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossWonByName} has won the toss.</Text>
+             </View>
+             <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName) }>
+                   <Image  source={require("./images/bowling_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
+               </TouchableOpacity>
+             {/* <TouchableOpacity onPress={() => {
+            navigation.navigate('TeamPlayerOverView', {
+              TeamAitemId: selectTeamAPlayerID,
+              TeamBitemId:selectTeamBPlayerID,
+              BattingStatus:selectedTossWonByName +" is going to Boll",
+          });  }}>
+               <Image  source={require("./images/bowling_icon.png")}    style={{width:50,height:80,justifyContent:'flex-end',alignContent:'flex-end',margin:10,padding:10}} />
+               </TouchableOpacity> */}
+             </View>
+             
+          </View>
+      ): (selectedTossvalue) ==0?(
+         <View  style={{flexDirection:'row',alignContent:'center',justifyContent:'center'}}>
+            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',alignContent:'center'}}>      
+             <Image  source={require("./images/coin_flip.gif")}    style={{width:80,height:80,justifyContent:'center',alignContent:'center'}}/>
+
+             </View>
+        </View>
+      ):(
+        <View style={{flexDirection:'row'}}>
+        <Text style={{color:Colors.blackcolor,alignItems:'center'}}>   Select Captain from  Both Team and then click 'Call Toss'</Text>
+        </View>
+      )}
+      
+        <View style={{alignItems:'center'}}>
+        <Text style={{color:'#e1e655',alignItems:'center',alignContent:'center'}}>Match ID :{GLOBALS.matchDetails.Match.ID}</Text>
+        </View>
+       
+    <View style={{flexDirection:'row',flex:3,margin:5}}>
+        <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
+        <SafeAreaView style={{flex:1}}>
+        <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
+         renderItem={renderItem}
+         keyExtractor={(item, index) => item.ID}
+        />
+        
+    
+       <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
+       {(TeamAStatus) == 1 ? ( 
+         <View style={{flexDirection:'row'}}>
+           <Image  source={{ uri: selectedIdPlayerTeamAImage,}}   style={styles.coverImage} />
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}> {selectedIdPlayerTeamA} (Caption) </Text>
+           </View>
+       ):(
+        <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>  Select Captain from  Team A</Text>
+       )}
+        </View>
+        <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}}>
+        <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamA(itemValue)} >
+              <Picker.Item label="Call Toss" value="0" />
+              <Picker.Item label="HEAD" value="1" />
+              <Picker.Item label="TAIL" value="2" />
+            </Picker>
+        </View>
+        </SafeAreaView>
+    </View>
+    <View style={{flex:1,flexDirection:'row',padding:2,}}>
+      <SafeAreaView style={{flex:1}}>
+    <FlatList data={GLOBALS.matchDetails.Match.TeamB.Players}
+        renderItem={renderItem1}
+        keyExtractor={(item, index) => item.ID}
+         />
+     
     <View style={{flexDirection:'row',backgroundColor:Colors.white}}>
-           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>Select Captain From Team B </Text>
+    {(TeamBStatus) == 1 ? ( 
+       <View style={{flexDirection:'row'}}>
+           <Image  source={{ uri: selectedIdPlayerTeamBImage,}}   style={styles.coverImage} />
+           <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>  {selectedIdPlayerTeamB} (Caption)  </Text>
+           </View>
+       ) : (
+      <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:Colors.blackcolor,justifyContent:'center'}}>  Select Captain From Team B </Text>
+    )}
         </View>
         <View style={{flexDirection:'row',backgroundColor:'#34ebd5'}} >
         <Picker  style={styles.input} onValueChange={(itemValue, itemIndex) => setSelectedTossTeamB(itemValue)} >
