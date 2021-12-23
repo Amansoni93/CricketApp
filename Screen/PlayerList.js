@@ -7,9 +7,40 @@ import { Picker } from '@react-native-picker/picker';
 import { render } from 'react-native/Libraries/Renderer/implementations/ReactNativeRenderer-prod';
 import axios from 'axios';
 
-
 var icon;
 const  PlayerList = ({ navigation }) =>  {
+  const [TeamAData, setTeamAData] = useState([]);
+  const [TeamBData, setTeamBData] = useState([]);
+  useEffect(() => {
+    GetTeamAData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamA.ID);
+    GetTeamBData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamB.ID);
+    
+  }, []);  
+  const GetTeamAData =(matchid,teamID) =>
+  {
+    
+    axios.get(GLOBALS.BASE_URL +'GetMappedPlayersByMatchAndTeam'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid+'/'+teamID)
+    .then(function (response) {
+      
+      setTeamAData(response.data.Players);
+      
+      })
+      .catch(function (error) {
+              console.log(error);
+          });
+  }
+  const GetTeamBData =(matchid,teamID) =>
+  {
+     axios.get(GLOBALS.BASE_URL +'GetMappedPlayersByMatchAndTeam'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid+'/'+teamID)
+    .then(function (response) {
+          
+      setTeamBData(response.data.Players);
+      
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  }
   const [data, setData] = useState({
     uri: '',
     umpireid:'',
@@ -282,8 +313,6 @@ const setSelectedTossTeamA  = (tossvalue) => {
   }
 
   const renderItem = ({ item }) => {
-    //const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
-
     return (
       <Item
         item={item}
@@ -291,8 +320,6 @@ const setSelectedTossTeamA  = (tossvalue) => {
     );
   };
   const renderItem1 = ({ item }) => {
-    //const backgroundColor = item.id === selectedId ? "#a68460" : "#f9c2ff";
-
     return (
       <Item1
         item={item}
@@ -308,7 +335,7 @@ const setSelectedTossTeamA  = (tossvalue) => {
   
   <Card.Content >
         <View style={{flex:1,flexDirection:'row',}}>
-            <Image  source={{ uri: item.Photo,}}   style={styles.coverImage} />
+            <Image  source={{ uri: "http://10.132.36.133/Service/"+item.Photo,}}   style={styles.coverImage} />
         <View  style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}> 
            <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',color:'#000000',flexDirection: 'column',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
           
@@ -327,7 +354,7 @@ const setSelectedTossTeamA  = (tossvalue) => {
          <Card.Content>
         <View style={{flex:1,flexDirection:'row',}}>
         <Image  source={{
-          uri: item.Photo,
+          uri: "http://10.132.36.133/Service/"+item.Photo,
         }}   style={styles.coverImage}/>
         <View style={{flex:1,alignContent:'flex-end',justifyContent:'flex-end',position:'relative'}}>
         <Text style={{fontSize:16,fontWeight:'700',textAlign:'center',flexDirection: 'column',color:'#000000',justifyContent:'flex-end',flex:1,alignItems:'flex-end'}}>{item.Name}</Text>
@@ -340,39 +367,55 @@ const setSelectedTossTeamA  = (tossvalue) => {
   );
   const getCurrentDate=()=>{
 
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
-  
-    //  date + '-' + month + '-' + year + ' ' + hours + ':' + min + ':' + sec;//format: dd-mm-yyyy;
-    let date = new Date(Date.UTC(year, month - 1, date, hours, min, sec));
-    return timeStamp =  date.getTime() / 1000;
+   // var currentTimeInSeconds=Math.floor(Date.now()/1000); //unix timestamp in seconds
+     var currentTimeInMilliseconds=Date.now();
+     return currentTimeInMilliseconds;
 }
   const SaveTossdetailsTeam  = (CaptionAID,CaptionBID,Message) =>
   {
     console.log(GLOBALS.matchDetails.Match.TeamA);
     console.log(GLOBALS.matchDetails.Match.TeamB);
     console.log(getCurrentDate());
+    var current_date  =  "\/Date("+getCurrentDate()+")\/";
+    // const params = JSON.stringify({"TossResults":null,"TossResult":{"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
+    // "TeamA":{"ID":GLOBALS.matchDetails.Match.TeamA.ID,"Name":GLOBALS.matchDetails.Match.TeamA.Name,"NickName":GLOBALS.matchDetails.Match.TeamA.NickName,"Coach":GLOBALS.matchDetails.Match.TeamA.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamA.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamA.Logo,"Class":GLOBALS.matchDetails.Match.TeamA.Class,"Topic":GLOBALS.matchDetails.Match.TeamA.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamA.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamA.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamA.PreferredLanguage,
+    // "Players":GLOBALS.matchDetails.Match.TeamA.Players,
+    // "IsBatting":true,"CreatedBy":null},
+    // "TeamACreationType":0,
+    // "TeamB":{"ID":GLOBALS.matchDetails.Match.TeamB.ID,"Name":GLOBALS.matchDetails.Match.TeamB.Name,"NickName":GLOBALS.matchDetails.Match.TeamB.NickName,"Coach":GLOBALS.matchDetails.Match.TeamB.Coach,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,
+    // "Players":GLOBALS.matchDetails.Match.TeamB.Players,
+    // "IsBatting":false,"CreatedBy":null},
+    // "TeamBCreationType":0,
+    // "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
+    // "Umpire":GLOBALS.matchDetails.Match.Umpire,
+    // "UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,
+    // "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
+    // "TossCalledBy":{"ID":selectedTossCalledID,"Name":selectedTossCalledName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+    // "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+    // "TossDate":"\/Date("+getCurrentDate()+")\/","Decision":1,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
 
-    const params = JSON.stringify({"TossResults":null,"TossResult":{"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
-    "TeamA":{"ID":GLOBALS.matchDetails.Match.TeamA.ID,"Name":GLOBALS.matchDetails.Match.TeamA.Name,"NickName":GLOBALS.matchDetails.Match.TeamA.NickName,"Coach":GLOBALS.matchDetails.Match.TeamA.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamA.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamA.Logo,"Class":GLOBALS.matchDetails.Match.TeamA.Class,"Topic":GLOBALS.matchDetails.Match.TeamA.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamA.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamA.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamA.PreferredLanguage,
-    "Players":GLOBALS.matchDetails.Match.TeamA.Players,
-    "IsBatting":true,"CreatedBy":null},
-    "TeamACreationType":0,
-    "TeamB":{"ID":GLOBALS.matchDetails.Match.TeamB.ID,"Name":GLOBALS.matchDetails.Match.TeamB.Name,"NickName":GLOBALS.matchDetails.Match.TeamB.NickName,"Coach":GLOBALS.matchDetails.Match.TeamB.Coach,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,
-    "Players":GLOBALS.matchDetails.Match.TeamB.Players,
-    "IsBatting":false,"CreatedBy":null},
-    "TeamBCreationType":0,
-    "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
-    "Umpire":GLOBALS.matchDetails.Match.Umpire,
-    "UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,
-    "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
-    "TossCalledBy":{"ID":selectedTossCalledID,"Name":selectedTossCalledName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
-    "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
-    "TossDate":"\/Date(23456789000)\/","Decision":1,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+
+    const params = JSON.stringify({"TossResults":null,"TossResult":{
+      "Match":{"ID":139,"Title":"test1","Description":"","MatchDate":"29-11-2021","Venue":"RAIPUR","Sponsor":"sponsor 1","NumberOfOvers":2,"NumberOfPlayers":2,
+      "TeamA":{"ID":30,"Name":"Raipur","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,
+      "Players":[{"ID":74,"Name":"Ankit","Father":"Rajendra","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"12-08-1987","Gender":1,
+      "StudyingClass":{"ID":0,"ClassName":"Class 5","ClassIdentifier":5,"Language":0},"PlayerCategory":2,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},
+      "Team":{"ID":30,"Name":"Raipur","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,
+      "Device":{"ID":0,"UserID":"ankit","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":79,"Name":"Bhanu","Father":"Cl Nayak","Photo":"/Contents/Players/Photos/c2901779-e6d0-4acd-9f70-ef065bb9fa6c.jpg","Mobile":"","DOB":"28-03-2019","Gender":1,
+      "StudyingClass":{"ID":0,"ClassName":"Class 5","ClassIdentifier":5,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},
+      "Team":{"ID":30,"Name":"Raipur","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,
+      "Device":{"ID":0,"UserID":"bhanu","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":78,"Name":"Karna","Father":"Surya","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"01-01-2001","Gender":1,
+      "StudyingClass":{"ID":0,"ClassName":"Class 10","ClassIdentifier":10,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":30,"Name":"Raipur","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,
+      "Device":{"ID":0,"UserID":"123","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null}],"IsBatting":true,"CreatedBy":null},"TeamACreationType":0,"TeamB":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,
+      "Players":[{"ID":70,"Name":"Ashish Kumar","Father":"Ashok Vishwakarma","Photo":"/Contents/Players/Photos/13f6bad5-c6b7-4386-b039-a86a3432669a.jpg","Mobile":"","DOB":"21-08-1988","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 1","ClassIdentifier":1,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":true,"ExperienceAsUmpire":0,"IsVisible":false,"Device":{"ID":0,"UserID":"Ashish6794","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,
+      "UnEncryptedPassword":null},{"ID":71,"Name":"Bhaskar Vaddadi","Father":"Jaiprakash Vadadi","Photo":"/Contents/Players/Photos/d80aacf2-95ed-4bba-a96e-b1e77fb9d493.jpg","Mobile":"","DOB":"12-04-1989","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 1","ClassIdentifier":1,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,
+      "Device":{"ID":0,"UserID":"bhaskar","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":72,"Name":"Shruti Nupur","Father":"Tejendra Singh","Photo":"/Contents/Players/Photos/db951799-d771-4ad5-8695-47f2c3803b68.jpg","Mobile":"","DOB":"30-07-1996","Gender":2,"StudyingClass":{"ID":0,"ClassName":"Class 1","ClassIdentifier":1,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019",
+      "CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":{"ID":0,"UserID":"shruti30","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":73,"Name":"Sneha Shukla","Father":"M K Shukla","Photo":"/Contents/Players/Photos/832972e4-07fb-48dc-9223-c183a8828c6b.jpg","Mobile":"","DOB":"25-08-1993","Gender":2,"StudyingClass":{"ID":0,"ClassName":"Class 1","ClassIdentifier":1,"Language":0},"PlayerCategory":1,"CreatedOn":"28-03-2019","CreatedBy":{"ID":0,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},
+      "Team":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":{"ID":0,"UserID":"ss123","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null}],"IsBatting":false,"CreatedBy":null},"TeamBCreationType":0,"SelectedQuestionSet":{"ID":14,"SetName":"Class 1 Maths","Description":"Class 1 Maths","CreatedOn":"14-08-2019","IsVisible":true,"QuestionSetCategory":2,"Questions":null,"MinLevelGroupID":1,"MaxLevelGroupID":30},"Umpire":{"ID":70,"Name":"Ashish Kumar","Father":null,"Photo":null,"Mobile":null,"DOB":null,"Gender":0,"StudyingClass":null,"PlayerCategory":0,"CreatedOn":"","CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"UmpireUniqueCode":"5094","CreatedOn":"29-11-2021","LastUpdated":"","IsVisible":true,"MatchWonFinalRemark":"",
+      "CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0}},
+      "TossCalledBy":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+      "TossWonBy":{"ID":35,"Name":"Ashish","NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
+      "TossDate":current_date,"Decision":1,"TossRemark":"Ashish has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
 
     // const params = JSON.stringify({"TossResults":null,"TossResult":{"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
     // "TeamA": GLOBALS.matchDetails.Match.TeamA,"TeamACreationType":GLOBALS.matchDetails.Match.TeamACreationType,"TeamB":GLOBALS.matchDetails.Match.TeamB,"TeamBCreationType":GLOBALS.matchDetails.Match.TeamBCreationType,
@@ -469,7 +512,8 @@ const setSelectedTossTeamA  = (tossvalue) => {
     <View style={{flexDirection:'row',flex:3,margin:5}}>
         <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
         <SafeAreaView style={{flex:1}}>
-        <FlatList data={GLOBALS.matchDetails.Match.TeamA.Players}   contentContainerStyle={{padding:2}}
+        
+        <FlatList data={TeamAData}   contentContainerStyle={{padding:2}}
          renderItem={renderItem}
          keyExtractor={(item, index) => item.ID}
         />
@@ -496,7 +540,7 @@ const setSelectedTossTeamA  = (tossvalue) => {
     </View>
     <View style={{flex:1,flexDirection:'row',padding:2,}}>
       <SafeAreaView style={{flex:1}}>
-    <FlatList data={GLOBALS.matchDetails.Match.TeamB.Players}
+    <FlatList data={TeamBData}
         renderItem={renderItem1}
         keyExtractor={(item, index) => item.ID}
          />
