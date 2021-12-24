@@ -21,7 +21,9 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
     axios.get(GLOBALS.BASE_URL +'GetMappedPlayersStatistics'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid)
     .then(function (response) {
       //console.log(response.data.PlayersStatistics);
-      setMappedPlayerStaticsData(response.data);
+      if(response.data.ResponseCode =='0'){
+      setMappedPlayerStaticsData(response.data.PlayersStatistics);
+      }
       
       })
       .catch(function (error) {
@@ -32,17 +34,17 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
         <View style={styles.container}>
         <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
         <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
-               <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',flex:1,color:Colors.blackcolor}} >{BattingStatus}</Text>
+               <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >{BattingStatus}</Text>
         </View>
         <View style={{flex:1}}>
-          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',color:Colors.white}}>
+          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.white}}>
             Sponsored By
           </Text>
-          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
+          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
           
         </View>
         <View style={{flex:1}}>
-        <FlatList data={MappedPlayerStatics.PlayersStatistics}
+        <FlatList data={MappedPlayerStatics}
                 renderItem={({item}) =>(
                 <View>
                   <Card style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10,marginHorizontal:5 }} >
