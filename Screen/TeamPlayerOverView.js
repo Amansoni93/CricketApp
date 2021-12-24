@@ -3,25 +3,65 @@ import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,S
 import GLOBALS from './helper/global'; 
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
+import axios from 'axios';
 
 const  TeamPlayerOverView = ({ route,navigation }) =>  {
+     const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
     const { TeamBitemId } = route.params;
     const  {TeamAitemId}  = route.params;
     const  {BattingStatus} = route.params;
+    useEffect(() => {
+      GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
+      
+    }, []); 
+    const GetMappedPlayerStaticsData =(matchid) =>
+  {
+    
+    axios.get(GLOBALS.BASE_URL +'GetMappedPlayersStatistics'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid)
+    .then(function (response) {
+      //console.log(response.data.PlayersStatistics);
+      setMappedPlayerStaticsData(response.data);
+      
+      })
+      .catch(function (error) {
+              console.log(error);
+          });
+  }
     return (
         <View style={styles.container}>
         <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
         <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
                <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',flex:1,color:Colors.blackcolor}} >{BattingStatus}</Text>
         </View>
-        <View style={{flexDirection:'row',flex:1}}>
+        <View style={{flex:1}}>
           <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',color:Colors.white}}>
             Sponsored By
           </Text>
           <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'center',color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
           
         </View>
+        <View style={{flex:1}}>
+        <FlatList data={MappedPlayerStatics.PlayersStatistics}
+                renderItem={({item}) =>(
+                <View>
+                  <Card style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10,marginHorizontal:5 }} >
+                  
+                    <View style={{flex:1,padding:5,marginLeft:20,flexDirection:'column'}}>
+                          <Image source={{ uri: "http://10.132.36.133/Service/"+item.Player.Photo,}} style = {{width: 40, height: 40, resizeMode: 'contain',textAlign:'left' ,position: 'absolute',alignItems:'flex-start',flex:1,}}  /> 
+                          <Text style={{fontSize:22,fontWeight:'700',textAlign:'center',flex:1,color:Colors.blackcolor}}>Name {item.Name}</Text> 
+                          <Text style={{fontSize:14,fontWeight:'700',textAlign:'center',flex:1,color:Colors.blackcolor}}>Runs {item.TotalScore}</Text>  
+                          <Text style={{fontSize:14,fontWeight:'700',textAlign:'right',flex:1,}}>Match Played{item.MatchPlayed}</Text>
+                          <Text style={{fontSize:14,fontWeight:'700',textAlign:'right',flex:1,}}>Wicket Taken{item.TotalWicketsTaken}</Text>
+                      </View>
+               </Card>
+                </View>
+               
+              )}>
+
+              </FlatList>
+        </View>
+       
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={styles.btnSecondary}>
