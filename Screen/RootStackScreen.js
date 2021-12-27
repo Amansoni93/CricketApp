@@ -6,6 +6,7 @@ import UmpireLogin from './UmpireLogin';
 import PlayerHome from './PlayerHome';
 import PlayerList from './PlayerList';
 import TeamPlayerOverView from './TeamPlayerOverView';
+import PlayerDevice from './PlayerDevice';
 const Stack = createNativeStackNavigator();
 const RootStackScreen =({ navigation })=> {
 return(
@@ -15,6 +16,7 @@ return(
        <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: true}}/>
        <Stack.Screen name="PlayerList" component={PlayerList} options={{headerShown: true}}/>
        <Stack.Screen name="TeamPlayerOverView" component={TeamPlayerOverView} options={{headerShown: true}}/>
+       <Stack.Screen name="PlayerDevice" component={PlayerDevice} options={{headerShown: true}}/>
 
     </Stack.Navigator>
 

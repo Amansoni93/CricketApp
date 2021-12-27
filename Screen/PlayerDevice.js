@@ -7,7 +7,7 @@ import axios from 'axios';
 import Carousel from './component/Carousel';
 import { dummyData } from './data/Data';
 
-const  TeamPlayerOverView = ({ route,navigation }) =>  {
+const  PlayerDevice = ({ route,navigation }) =>  {
      const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
     const { TeamBitemId } = route.params;
     const  {TeamAitemId}  = route.params;
@@ -177,4 +177,4 @@ const styles = StyleSheet.create({
     },
   
   });
-export default TeamPlayerOverView;
+export default PlayerDevice;
