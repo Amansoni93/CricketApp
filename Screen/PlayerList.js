@@ -56,6 +56,8 @@ const  PlayerList = ({ navigation }) =>  {
   const [selectedTossvalue, settosssetValue] = useState();
   const [selectedTossWonByID, setTossWonByID] = useState('');
   const [selectedTossWonByName, setTossWonByName] = useState('');
+  const [selectedTossLossByID, setTossLossByID] = useState('');
+  const [selectedTossLossByName, setTossLossByName] = useState('');
   const [selectedTossCalledID, setTossCalledByID] = useState();
   const [selectedTossCalledName, setTossCalledByName] = useState();
   const [TeamAStatus, TeamAPlayerStatus] = useState(0);
@@ -128,8 +130,8 @@ const setSelectedTossTeamA  = (tossvalue) => {
                           console.log(GLOBALS.matchDetails.Match.TeamA.Name) ;
                       } else {
                           ID = GLOBALS.matchDetails.Match.TeamB.ID;
-                          setTossWonByID(GLOBALS.matchDetails.Match.TeamB.ID);
-                          setTossWonByName(GLOBALS.matchDetails.Match.TeamB.Name);
+                          setTossLossByID(GLOBALS.matchDetails.Match.TeamB.ID);
+                          setTossLossByName(GLOBALS.matchDetails.Match.TeamB.Name);
                             console.log(GLOBALS.matchDetails.Match.TeamB.Name) ;
                          
                       }
@@ -208,8 +210,8 @@ const setSelectedTossTeamA  = (tossvalue) => {
                         console.log(GLOBALS.matchDetails.Match.TeamA.Name) ;
                     } else {
                         ID = GLOBALS.matchDetails.Match.TeamB.ID;
-                        setTossWonByName(GLOBALS.matchDetails.Match.TeamB.Name);
-                        setTossWonByID(GLOBALS.matchDetails.Match.TeamB.ID);
+                        setTossLossByID(GLOBALS.matchDetails.Match.TeamB.ID);
+                          setTossLossByName(GLOBALS.matchDetails.Match.TeamB.Name);
                           console.log(GLOBALS.matchDetails.Match.TeamB.Name) ;
                        
                     }
@@ -410,8 +412,10 @@ const setSelectedTossTeamA  = (tossvalue) => {
                        
                        
                       navigation.navigate('TeamPlayerOverView', {
-                        TeamAitemId: selectedTossWonByID,
-                        TeamBitemId:selectedTossWonByName,
+                        TeamWinitemId: selectedTossWonByID,
+                        TeamWinitemName:selectedTossWonByName,
+                        TeamLossitemID:selectedTossLossByID,
+                        TeamLossitemName:selectedTossLossByName,
                         BattingStatus:selectedTossWonByName +" is going to Boll",
                     });
                     } else {

@@ -9,8 +9,10 @@ import { dummyData } from './data/Data';
 
 const  TeamPlayerOverView = ({ route,navigation }) =>  {
      const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
-    const { TeamBitemId } = route.params;
-    const  {TeamAitemId}  = route.params;
+    const { TeamWinitemId } = route.params;
+    const  {TeamWinitemName}  = route.params;
+    const { TeamLossitemID } = route.params;
+    const  {TeamLossitemName}  = route.params;
     const  {BattingStatus} = route.params;
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
@@ -40,6 +42,22 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
         <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
                <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >{BattingStatus}</Text>
         </View>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={styles.btnSecondary}>
+                            <TouchableOpacity  onPress={() => { navigation.navigate('PlayerDevice',{
+                        WinTeanitemId: TeamWinitemId,
+                        WinTeamitemName:TeamWinitemName,
+                        LossTeamitemID: TeamLossitemID,
+                        LossTeamitemName:TeamLossitemName,
+                        BattingStatus:BattingStatus +" is going to Boll",
+                    }); }} >
+                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' }} >
+                                    Skip Intro</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
         <View style={{flex:1}}>
           <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.white}}>
             Sponsored By
@@ -52,14 +70,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
         
        
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.btnSecondary}>
-                            <TouchableOpacity onPress={() => OtpHandle(data.matchid,data.umpireid,data.otp)}>
-                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' }} >
-                                    Skip Intro</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+        
        </ImageBackground>
        </View>
     )

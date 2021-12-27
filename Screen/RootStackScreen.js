@@ -7,6 +7,8 @@ import PlayerHome from './PlayerHome';
 import PlayerList from './PlayerList';
 import TeamPlayerOverView from './TeamPlayerOverView';
 import PlayerDevice from './PlayerDevice';
+import GameWindow from './GameWindow'
+
 const Stack = createNativeStackNavigator();
 const RootStackScreen =({ navigation })=> {
 return(
@@ -17,7 +19,7 @@ return(
        <Stack.Screen name="PlayerList" component={PlayerList} options={{headerShown: true}}/>
        <Stack.Screen name="TeamPlayerOverView" component={TeamPlayerOverView} options={{headerShown: true}}/>
        <Stack.Screen name="PlayerDevice" component={PlayerDevice} options={{headerShown: true}}/>
-
+       <Stack.Screen name="GameWindow" component={GameWindow} options={{headerShown: true}}/>
     </Stack.Navigator>
 
     )
