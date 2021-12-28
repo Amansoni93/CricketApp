@@ -17,6 +17,7 @@ const  PlayerDevice = ({ route,navigation }) =>  {
     const { LossTeamitemID } = route.params;
     const  {LossTeamitemName}  = route.params;
     const  {TossDesion} = route.params;
+    
     console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName,'playerdevice',TossDesion)
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);

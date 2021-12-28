@@ -15,7 +15,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
     const  {TeamLossitemName}  = route.params;
     const  {BattingStatus} = route.params;
     const  {TossDesion} = route.params;
-    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName,'TeamPlayerOverview',TossDesion)
+    console.log(TeamLossitemID,TeamLossitemName,TeamWinitemId,TeamWinitemName,'TeamPlayerOverview',TossDesion)
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     

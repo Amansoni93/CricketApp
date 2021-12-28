@@ -419,7 +419,7 @@ const setSelectedTossTeamA  = (tossvalue) => {
                       {
                         myinfo = selectedTossWonByName +" is going to Boll";
                       }
-                       
+                      console.log(selectedTossLossByID,selectedTossLossByName,selectedTossWonByID,selectedTossWonByName,'PlyerList');
                       navigation.navigate('TeamPlayerOverView', {
                         TeamWinitemId: selectedTossWonByID,
                         TeamWinitemName:selectedTossWonByName,
