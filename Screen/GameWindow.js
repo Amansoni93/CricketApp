@@ -14,12 +14,24 @@ const  GameWindow = ({ route,navigation }) =>  {
     const  {WinTeamitemName}  = route.params;
     const { LossTeamitemID } = route.params;
     const  {LossTeamitemName}  = route.params;
-  
+    const  {TossDesion} = route.params;
+    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName,'Game',TossDesion)
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
       
     }, []); 
+    var batteamname,bowlteamname;
+    if(TossDesion==1)
+    {
+        batteamname=LossTeamitemName;
+        bowlteamname=WinTeamitemName;
+    }
+    else
+    {
+        batteamname=WinTeamitemName;
+        bowlteamname=LossTeamitemName;
+    }
     const GetMappedPlayerStaticsData =(matchid) =>
   {
     
@@ -45,8 +57,8 @@ const  GameWindow = ({ route,navigation }) =>  {
        
           <View style={{flex:1,flexDirection:'row',}}>
             
-          <Image  source={require("./images/DeviceImage.png")}    style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >{WinTeamitemName}</Text>
+          <Image  source= {{ uri:GLOBALS.matchDetails.Match.TeamA.Logo}}  style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
+          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >{batteamname}</Text>
           <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.Marooncolor,padding:2}} >Batting</Text>
        
         </View>
@@ -99,8 +111,8 @@ const  GameWindow = ({ route,navigation }) =>  {
        
        <View style={{flexDirection:'row'}}>
          
-       <Image  source={require("./images/DeviceImage.png")}    style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-       <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >{LossTeamitemName}</Text>
+       <Image  source={{ uri:GLOBALS.matchDetails.Match.TeamB.Logo}}  style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
+       <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >{bowlteamname}</Text>
        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.Marooncolor,padding:2}} >Bowling</Text>
     
      </View>

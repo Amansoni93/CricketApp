@@ -10,9 +10,14 @@ import { Directions } from 'react-native-gesture-handler';
 
 const  PlayerDevice = ({ route,navigation }) =>  {
      const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
-    const { TeamBitemId } = route.params;
-    const  {TeamAitemId}  = route.params;
-    const  {BattingStatus} = route.params;
+     const  {BattingStatus} = route.params;
+
+    const { WinTeanitemId } = route.params;
+    const  {WinTeamitemName}  = route.params;
+    const { LossTeamitemID } = route.params;
+    const  {LossTeamitemName}  = route.params;
+    const  {TossDesion} = route.params;
+    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName,'playerdevice',TossDesion)
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
@@ -54,8 +59,10 @@ const  PlayerDevice = ({ route,navigation }) =>  {
         <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >1 डिवाइस</Text>
         </View>
         <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
-                        TeamAitemId: TeamAitemId,
-                        TeamBitemId:TeamBitemId
+                        WinTeanitemId: WinTeanitemId,
+                        WinTeamitemName:WinTeamitemName,
+                        LossTeamitemID: LossTeamitemID,
+                        LossTeamitemName:LossTeamitemName
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
@@ -73,8 +80,12 @@ const  PlayerDevice = ({ route,navigation }) =>  {
         <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >2 डिवाइस</Text>
         </View>
         <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
-                        TeamAitemId: TeamAitemId,
-                        TeamBitemId:TeamBitemId
+          WinTeanitemId: WinTeanitemId,
+          WinTeamitemName:WinTeamitemName,
+          LossTeamitemID: LossTeamitemID,
+          LossTeamitemName:LossTeamitemName,
+          TossDesion:TossDesion,
+                        
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
@@ -94,8 +105,10 @@ const  PlayerDevice = ({ route,navigation }) =>  {
         <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >3 डिवाइस</Text>
         </View>
         <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
-                        TeamAitemId: TeamAitemId,
-                        TeamBitemId:TeamBitemId
+                        WinTeanitemId: WinTeanitemId,
+                        WinTeamitemName:WinTeamitemName,
+                        LossTeamitemID: LossTeamitemID,
+                        LossTeamitemName:LossTeamitemName
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
@@ -116,8 +129,10 @@ const  PlayerDevice = ({ route,navigation }) =>  {
         <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >4 डिवाइस</Text>
         </View>
         <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
-                        TeamAitemId: TeamAitemId,
-                        TeamBitemId:TeamBitemId
+                       WinTeanitemId: WinTeanitemId,
+                       WinTeamitemName:WinTeamitemName,
+                       LossTeamitemID: LossTeamitemID,
+                       LossTeamitemName:LossTeamitemName
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>

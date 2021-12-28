@@ -373,10 +373,11 @@ const setSelectedTossTeamA  = (tossvalue) => {
      var currentTimeInMilliseconds=Date.now();
      return currentTimeInMilliseconds;
 }
-  const SaveTossdetailsTeam  = (CaptionAID,CaptionBID,Message) =>
+  const SaveTossdetailsTeam  = (CaptionAID,CaptionBID,Message,TossDesion) =>
   {
     console.log(GLOBALS.matchDetails.Match.TeamA);
     console.log(GLOBALS.matchDetails.Match.TeamB);
+    console.log(TossDesion);
     console.log(getCurrentDate());
     var current_date  =  "\/Date("+getCurrentDate()+")\/";
    
@@ -396,7 +397,7 @@ const setSelectedTossTeamA  = (tossvalue) => {
       "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
       "TossCalledBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
       "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
-      "TossDate":current_date,"Decision":1,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+      "TossDate":current_date,"DECISIONAFTERTOSS":TossDesion,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
 
       console.log(params);
         axios.post(GLOBALS.BASE_URL +'SaveTossResult', params,{
@@ -409,14 +410,24 @@ const setSelectedTossTeamA  = (tossvalue) => {
             console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
-                       
+                      var myinfo;
+                      if(TossDesion == 0)
+                      {
+                        myinfo = selectedTossWonByName +" is going to Bat";
+                      }
+                      else
+                      {
+                        myinfo = selectedTossWonByName +" is going to Boll";
+                      }
                        
                       navigation.navigate('TeamPlayerOverView', {
                         TeamWinitemId: selectedTossWonByID,
                         TeamWinitemName:selectedTossWonByName,
                         TeamLossitemID:selectedTossLossByID,
                         TeamLossitemName:selectedTossLossByName,
-                        BattingStatus:selectedTossWonByName +" is going to Boll",
+                        BattingStatus:myinfo,
+                        TossDesion:TossDesion,
+                        
                     });
                     } else {
                         Alert.alert(
@@ -450,14 +461,14 @@ const setSelectedTossTeamA  = (tossvalue) => {
                
              </View>
              <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between',margin:10}}>
-               <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName) }>
+               <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName,0) }>
                    <Image  source={require("./images/batting_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
                </TouchableOpacity>
                
                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
              <Text style={{color:Colors.blackcolor,alignItems:'center'}}>{selectedTossWonByName} has won the toss.</Text>
              </View>
-             <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName) }>
+             <TouchableOpacity onPress={ ()=> SaveTossdetailsTeam(selectTeamAPlayerID,selectTeamBPlayerID,selectedTossWonByName,1) }>
                    <Image  source={require("./images/bowling_icon.png")}    style={{width:50,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:10}} />
                </TouchableOpacity>
              {/* <TouchableOpacity onPress={() => {
