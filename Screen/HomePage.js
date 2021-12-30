@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 const  HomePage = ({ navigation }) =>  {
     return (
     
@@ -29,8 +30,9 @@ const  HomePage = ({ navigation }) =>  {
       position: 'absolute',
       bottom: 150}} >
           <View style={styles.inputContainer}>
-              < Card style={{ flex: 1, flexDirection: 'row',
-        flexWrap: 'wrap', justifyContent: 'flex-end',height:100,marginHorizontal:10,borderRadius: 5,backgroundColor:'#616161', }} >
+              < Card style={{ flex: 1,  padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc' }} >
                   
                         <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Tally', otherParam: 'anything you want here',  });}}>
                           <Image source={require('./images/Sports.png')}
@@ -40,7 +42,9 @@ const  HomePage = ({ navigation }) =>  {
                         </TouchableOpacity>
                     
               </Card>
-          <Card  style={{ flex: 1,backgroundColor:'#616161', justifyContent: 'center',height:100,marginHorizontal:10 }}>
+          <Card  style={{flex: 1,  padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc' }}>
               
                     <TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
                       <Image source={require('./images/hat.png')}
@@ -51,8 +55,9 @@ const  HomePage = ({ navigation }) =>  {
           </Card>
           </View>
           <View style={styles.inputContainer}>
-          <Card style={{ flex: 1, flexDirection: 'row',
-    flexWrap: 'wrap',backgroundColor:'#616161',justifyContent: 'center',height:100,marginHorizontal:10,borderRadius: 5, }} >
+          <Card style={{ flex: 1,  padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc'}} >
               
                     <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Tally', otherParam: 'anything you want here',  });}}>
                       <Image source={require('./images/users.png')}
@@ -62,7 +67,9 @@ const  HomePage = ({ navigation }) =>  {
                     </TouchableOpacity>
                  
           </Card>
-          <Card  style={{ flex: 1, justifyContent: 'center',height:100,marginHorizontal:10, backgroundColor:'#616161',}}>
+          <Card  style={{ flex: 1,  padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc',}}>
               
                     <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
                       <Image source={require('./images/graph.png')}
@@ -99,7 +106,7 @@ const  HomePage = ({ navigation }) =>  {
         width:40,
         borderRadius:10,
         alignSelf:'center',
-        height:50
+        height:40
       },
       btnPrimary:{
         backgroundColor:'#28388f',
@@ -116,9 +123,6 @@ const  HomePage = ({ navigation }) =>  {
       },
       inputContainer: {
         flexDirection: "row",
-        marginBottom: 20,
-        padding: 20,
-    
       },
       text: {
         color: "white",
@@ -140,8 +144,8 @@ const  HomePage = ({ navigation }) =>  {
         borderRadius:5
       },
       buttonspace: {
-        marginBottom: 20,
-        padding: 30,
+        marginBottom: 10,
+        padding: 20,
         color:"#0030a1",
         backgroundColor:"#0030a1"
       },

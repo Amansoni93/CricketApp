@@ -14,7 +14,6 @@ import {Button,
     Touchable,
     Dimensions}  from 'react-native';
 import LinearGradient from  'react-native-linear-gradient'
-import Icon  from 'react-native-vector-icons/MaterialIcons'
 import * as Animatable from 'react-native-animatable';
 const SplashScreen = ({navigation}) =>{
     return(
@@ -32,8 +31,8 @@ const SplashScreen = ({navigation}) =>{
           <View style={styles.button}>
           <TouchableOpacity onPress={()=>navigation.navigate('HomePage')}>
               <LinearGradient colors={['#08d4c4','#01ab9d']} style={styles.signin}><Text style={styles.textSign}>Get Start</Text>
-              <Icon name='navigate-next' color='#fff' size={20}>
-                  </Icon></LinearGradient>
+              
+                </LinearGradient>
           </TouchableOpacity>
           </View>
           </Animatable.View>

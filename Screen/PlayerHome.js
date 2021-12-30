@@ -4,86 +4,229 @@ import {
   StyleSheet,
   View,SafeAreaView,
   ImageBackground,
-  Image,Text,TouchableOpacity,TextInput,Alert,ScrollView 
+  Image,Text,TouchableOpacity,TextInput,Alert,ScrollView,Dimensions 
 } from 'react-native';
 import GLOBALS from './helper/global'; 
 import Colors from './helper/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 const PlayerHome =({ navigation }) => {
 
     return(
+    <TouchableOpacity
+    onPress={() => { navigation.navigate('PlayerList'); }}
+    style={{
+      paddingHorizontal: 10,
+      alignSelf: "center",
+      marginTop: 20,
+      backgroundColor: "#FFF",
+      height: 220,
+      elevation: 1,
+      width: '90%',
+      borderRadius: 16,
+    }}
+  >
+       <View
+        style={{
+        flexDirection: "row",
+        marginTop: 15,
+        paddingTop: 20,
+        flex:1,
+        alignItems: "center",
+      }}
+    >
+     
+        <Image
+               source={{ uri: GLOBALS.matchDetails.Match.TeamA.Logo}}
+               style={{ width: 50,
+                height: 50,
+                borderRadius:20,flex:1}}
+            />
+      <Image
+               source={{ uri: GLOBALS.matchDetails.Match.TeamB.Logo}}
+               style={{width: 50,
+                height: 50,
+                borderRadius:20,flex:1,alignItems:'flex-end',justifyContent:'flex-end',alignContent:'flex-end'}}
+            />
       
-        <View style={styles.container}>
-          <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
-          <Image source={require('./images/main_logo.png')} resizeMode="contain" style={styles.centerimage} />
-          
-          <View  style={{flex:1,}}>
-          <View style={{flexDirection:'row'}}>
-           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'center', justifyContent: 'flex-start',width:50,alignSelf:'flex-start',height:80,}} />
-           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:50,top:40,alignSelf:'flex-start',height:40}} />
-           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
-           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:20,top:40,alignSelf:'flex-start',height:40}} />
-           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start', width:100,alignSelf:'flex-start',height:80,}} />
-           <Image source={require('./images/rope.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:20,top:40, alignSelf:'flex-start', height:40}} />
-           <Image source={require('./images/rope_horizontal.png')} resizeMode="contain" style={{ alignItems: 'flex-start',justifyContent: 'flex-start',width:40,alignSelf:'flex-start',height:80,}} />
-           </View>
-           <View style={{flex:1,flexDirection:'row',marginLeft:20,Top:0}}>
-            <ImageBackground style={styles.coverImage} source={require('./images/plank.png')}>
-              <View style={styles.textView}>
-               <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
-              </View>
+     
+    </View>
+    <View
+      style={{
+        flexDirection: "row",
+        flexGrow: 3,
+        flex:3,
+        alignSelf: "center",
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: "RobotoBold",
+          color: Colors.blackcolor,
+          fontSize: 20,
+          flex:1,
+        }}
+      >
+       {GLOBALS.matchDetails.Match.TeamA.Name} 
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 20,
+          color: Colors.blackcolor,
+          flex:1,
+          paddingLeft:30
         
-            </ImageBackground>
-            <ImageBackground style={styles.vsImage}source={require('./images/plank.png')}>
-              <View style={styles.textView}>
-              <Text style={{color:'#ffffff',fontSize:16}}>Vs</Text>
-              </View>
-           </ImageBackground>
-           <ImageBackground style={styles.coverRightImage} source={require('./images/plank.png')}>
-            <View style={styles.textView}>
-            <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
-            </View>
-          </ImageBackground>
-        </View>
-         </View>
-       
-        <View style={{flex:1,flexDirection:'row',padding:10,marginLeft:20,}}>
-           <View style={{flex:1,flexDirection:'row'}}>
-            <Text style={{color:Colors.white,flex:1,fontSize:18}} > प्रायोजक :- </Text>
-            <Text style={{color:'#ffffff',fontSize:16,flex:1 }}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
-           </View>
+        }}
+      >
         
-      <View style={{alignSelf:'flex-end',flex:1}}>
-        <ImageBackground style={styles.coverImage} source={require('./images/landmark_board.png')}>
-        <View style={styles.textView}>
-        <Text style={{color:'#ffffff',fontSize:16}}>{GLOBALS.matchDetails.Match.Venue}</Text>
-        </View>
-        
-      </ImageBackground>
-      </View>
-          </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between',margin:10 }}>
-                        <View style={styles.btnSecondary}>
-                            <TouchableOpacity onPress={() => { navigation.navigate('PlayerList'); }} >
-                               <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' ,}} >
-                                आगे बढ़ने के लिए यहाँ दबाइए</Text>
-                            
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-        
-        </ImageBackground>
-        </View>
-       
+       VS
+      </Text>
+      <Text
+        style={{
+          fontFamily: "RobotoBold",
+          color: Colors.blackcolor,
+          fontSize: 20,
+          flex:1
+         
+        }}
+      >
+          {GLOBALS.matchDetails.Match.TeamB.Name}
+      </Text>
+    </View>
+
+ 
+
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        flex:1,
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: "RobotoRegular",
+          color: "#522289",
+          fontSize: 16,
+          flex:1
+        }}
+      >
+        प्रायोजक 
+      </Text>
+
+      <Text
+        style={{
+          fontFamily: "RobotoRegular",
+          color: "#522289",
+          flex:1,
+          fontSize: 16,
+        }}
+      >
+         {GLOBALS.matchDetails.Match.Sponsor}
+      </Text>
+    </View>
+
+    
+
+    <Text
+      style={{
+        fontSize: 17,
+        marginRight: -5,
+        marginVertical: 4,
+        color: "#a2a2db",
+      }}
+    >
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    </Text>
+
+    <View
+      style={{
+        flexDirection: "row",
+        marginTop: -8,
+        flex:1,
+        alignItems: "center",
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: "RobotoRegular",
+          color: Colors.blackcolor,
+          fontSize: 16,
+          flex:1,
+        }}
+      >
+        Venue 
+      </Text>
+      <Text
+        style={{
+          fontFamily: "RobotoBold",
+          color: Colors.blackcolor,
+          flex:1,
+          fontSize: 16,
+        }}
+      >
+        {GLOBALS.matchDetails.Match.Venue}
+      </Text>
+    </View>
+  </TouchableOpacity>
     );
 }
+const deviceWidth = Math.round(Dimensions.get('window').width);
+const offset = 40;
+const radius = 20;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    cardContainer: {
+      backgroundColor: '#a29bfe',
+      height: 200,
+      borderRadius: 10,
+  
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 5,
+        height: 5,
+      },
+      shadowOpacity: 0.75,
+      shadowRadius: 5,
+      elevation: 9,
+    },
+    imageStyle: {
+      height: 130,
+      width: deviceWidth - offset,
+      borderTopLeftRadius: radius,
+      borderTopRightRadius: radius,
+      opacity: 0.9,
+      alignContent: 'center',
+      alignSelf: 'center',
+    },
+    titleStyle: {
+      fontSize: 20,
+      fontWeight: '800',
+    },
+    titleendStyle: {
+      fontSize: 20,
+      fontWeight: '800',
+      alignSelf:'flex-end',
+      justifyContent:'flex-end',
+      alignContent:'flex-end',
+    },
+    categoryStyle: {
+      fontWeight: '200',
+    },
+    infoStyle: {
+      marginHorizontal: 10,
+      marginVertical: 5,
+    },
+    iconLabelStyle: {
+      flexDirection: 'row',
+      marginTop: 10,
+    },
     coverImage: {
-      width: 100,
-      height: 80,
-      margin:10,
+      width: 50,
+      height: 50,
+      borderRadius:20,
     },
     coverRightImage: {
       width: 100,

@@ -17,8 +17,10 @@ const  PlayerDevice = ({ route,navigation }) =>  {
     const { LossTeamitemID } = route.params;
     const  {LossTeamitemName}  = route.params;
     const  {TossDesion} = route.params;
+    const  {Teama1Status}  = route.params;
+    const  {Teamb1Status} = route.params;
     
-    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName,'playerdevice',TossDesion)
+    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName+'playerdevice'+TossDesion,Teama1Status,Teamb1Status);
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
@@ -42,14 +44,24 @@ const  PlayerDevice = ({ route,navigation }) =>  {
   }
   if (MappedPlayerStatics && MappedPlayerStatics.length) {
     return (
-        <View style={styles.container}>
-        {/* <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}>  */}
-        <View style={{flex:1,marginLeft:2,marginRight:2}}>
-          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}} >{BattingStatus}</Text>
-          <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >Select Number of Devices being used for Game</Text>
-          <Text style={{fontSize:12,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >गेम के लिए उपयोग किए जा रहे उपकरणों की संख्या का चयन करें</Text>
+      <TouchableOpacity
+      style={{
+        paddingHorizontal: 10,
+        alignSelf: "center",
+        marginTop: 20,
+        backgroundColor: "#FFF",
+        height: '80%',
+        elevation: 1,
+        width: '90%',
+        borderRadius: 16,
+      }}
+    >
+       <View style={{margin:5,flexDirection:'column'}}>
+          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center',fontFamily:'RobotoRegular'}} >{BattingStatus}</Text>
+          <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center',fontFamily:'RobotoRegular'}} >Select Number of Devices being used for Game</Text>
+          <Text style={{fontSize:12,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center',fontFamily:'RobotoRegular'}} >गेम के लिए उपयोग किए जा रहे उपकरणों की संख्या का चयन करें</Text>
        </View>
-        <View style={{flex:1}}>
+        
        
           <View style={{flexDirection:'row'}}>
             
@@ -63,16 +75,15 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                         WinTeanitemId: WinTeanitemId,
                         WinTeamitemName:WinTeamitemName,
                         LossTeamitemID: LossTeamitemID,
-                        LossTeamitemName:LossTeamitemName
+                        LossTeamitemName:LossTeamitemName,
+                        TossDesion:TossDesion,
+                        TeamA1Status:Teama1Status,
+                        TeamB1Status:Teamb1Status,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
-
-          
-        </View>
-        
-        <View style={{flex:1}}>
+       
           <View style={{flexDirection:'row'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
@@ -86,17 +97,14 @@ const  PlayerDevice = ({ route,navigation }) =>  {
           LossTeamitemID: LossTeamitemID,
           LossTeamitemName:LossTeamitemName,
           TossDesion:TossDesion,
+          TeamA1Status:Teama1Status,
+          TeamB1Status:Teamb1Status,
                         
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
-
-         
-        </View>
-
-        <View style={{flex:1}}>
-          <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:1}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
@@ -109,17 +117,16 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                         WinTeanitemId: WinTeanitemId,
                         WinTeamitemName:WinTeamitemName,
                         LossTeamitemID: LossTeamitemID,
-                        LossTeamitemName:LossTeamitemName
+                        LossTeamitemName:LossTeamitemName,
+                        TossDesion:TossDesion,
+                        TeamA1Status:Teama1Status,
+                        TeamB1Status:Teamb1Status,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
 
-         
-        </View>
-
-        <View style={{flex:1}}>
-          <View style={{flexDirection:'row'}}>
+     <View style={{flexDirection:'row'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
@@ -133,21 +140,15 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                        WinTeanitemId: WinTeanitemId,
                        WinTeamitemName:WinTeamitemName,
                        LossTeamitemID: LossTeamitemID,
-                       LossTeamitemName:LossTeamitemName
+                       LossTeamitemName:LossTeamitemName,
+                       TossDesion:TossDesion,
+                       TeamA1Status:Teama1Status,
+                        TeamB1Status:Teamb1Status,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
-               
-           
-
         </View>
-
-        </View>
-
-
-             
-       {/* </ImageBackground> */}
-       </View>
+       </TouchableOpacity>
     )
     
    }

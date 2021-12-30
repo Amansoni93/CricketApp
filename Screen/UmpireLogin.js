@@ -4,14 +4,14 @@ import {
   StyleSheet,
   View,SafeAreaView,
   ImageBackground,
-  Image,Text,TouchableOpacity,TextInput,Alert 
+  Image,Text,TouchableOpacity,TextInput,Alert,ActivityIndicator,TouchableHighlight
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from './helper/colors';
 import axios from 'axios';
 import GLOBALS from './helper/global'; 
+import Icon from 'react-native-vector-icons/FontAwesome';
 const UmpireLogin =({ navigation })=> {
     const [data, setData] = useState({
         matchid: '',
@@ -23,7 +23,7 @@ const UmpireLogin =({ navigation })=> {
         isValidUser: true,
         isValidOTP: true,
     });
-    
+    const [loader, setLoader] = React.useState(false);
     const textMatchInputChange = (value) => {
         if (value.lenght == 10) {
             setData({
@@ -94,7 +94,7 @@ const UmpireLogin =({ navigation })=> {
     {
        if(validateMatch() || validateUmpireID() || validateOTP() )
        {
-
+        setLoader(true);
        const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":match_id,"Title":null,"Description":null,"MatchDate":null,"Venue":null,
         "Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,
         "TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":{"ID":umpire_id,"Name":null,"Father":null,"Photo":null,
@@ -113,7 +113,7 @@ const UmpireLogin =({ navigation })=> {
           .then(function (response) {
 
             console.log(response.data);
-
+            setLoader(true);
                     if(response.data.ResponseCode =='0'){
 
                         OtpHandle1(match_id,umpire_id,otp);
@@ -227,19 +227,14 @@ const UmpireLogin =({ navigation })=> {
                 });
     }
     return (
-    <SafeAreaView style={{ flex: 1,backgroundColor: Colors.white }}>
-    <ScrollView showsVerticalScrollIndicator={false}>
-    <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.text_header}>Welcome!</Text>
-            </View>
-            <View style={styles.footer}>
-                <Text style={styles.text_footer}>Login</Text>
+            <View style={styles.container}>
+                <Text style={styles.text_footer}>Cricket Assessment Test</Text>
+                {loader ?  <ActivityIndicator size="large" color="#bc2b78r" />:
+                  
                 <View style={{ marginTop: 20 }}>
-               
-
+                 
                     <View style={styles.inputContainer}>
-                        <Icon name="send-to-mobile" size={20} color={Colors.light} style={styles.inputiCon}></Icon>
+                    <Icon name="mobile" backgroundColor="#3b5998" size={30} style={styles.inputiCon} />
                         <TextInput placeholder="Enter  Match ID" keyboardType = 'numeric' maxLength={10} style={styles.input} onChangeText={(value) => textMatchInputChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
@@ -247,7 +242,7 @@ const UmpireLogin =({ navigation })=> {
                         }
                     </View>
                     <View style={styles.inputContainer}>
-                        <Icon name="send-to-mobile" size={20} color={Colors.light} style={styles.inputiCon}></Icon>
+                    <Icon name="home" size={30} color="#900" style={styles.inputiCon} />
                         <TextInput placeholder="Enter  Umpire ID" keyboardType = 'numeric' maxLength={10} style={styles.input} onChangeText={(value) => textUmpireInputChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
@@ -255,34 +250,32 @@ const UmpireLogin =({ navigation })=> {
                         }
                     </View>
                     <View style={styles.inputContainer}>
-                        <Icon name="send-to-mobile" size={20} color={Colors.light} style={styles.inputiCon}></Icon>
+                    <Icon name="rocket" size={30} color="#900" style={styles.inputiCon} />
                         <TextInput placeholder="OTP" keyboardType = 'numeric'  secureTextEntry={true} maxLength={10} style={styles.input} onChangeText={(value) => textOtpChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
                             : null
                         }
                     </View>
+                    <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => OtpHandle(data.matchid,data.umpireid,data.otp)}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+            <Text>Forgot your password?</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
+            <Text>Register</Text>
+        </TouchableHighlight>
+                        
                     
-                   
-                  <View style={{ marginVertical: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                       
-                    </View>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.btnSecondary}>
-                            <TouchableOpacity onPress={() => OtpHandle(data.matchid,data.umpireid,data.otp)}>
-                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' }} >
-                                    Login</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
+            
     </View>
-    </View>
+}
     </View>
     
-    </ScrollView>
-    </SafeAreaView>
+    
+   
 
     );
 }
@@ -290,28 +283,47 @@ const UmpireLogin =({ navigation })=> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#009387'
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2F5FE'
     },
     inputContainer: {
-        flexDirection: "row",
-        marginTop: 20
+      borderBottomColor: '#F5FCFF',
+      backgroundColor: '#FFFFFF',
+      borderRadius:30,
+      borderBottomWidth: 1,
+      width:250,
+      height:45,
+      marginBottom:20,
+      flexDirection: 'row',
+      alignItems:'center'
     },
     inputiCon: {
-        marginTop: 15,
-        position: 'absolute',
+        width:30,
+    height:30,
+    marginLeft:15,
+    justifyContent: 'center'
 
     },
+    buttonContainer: {
+        height:45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom:20,
+        width:250,
+        borderRadius:30,
+      },
     line: {
         height: 1,
         width: 30,
         backgroundColor: Colors.light
     },
     input: {
-        color: Colors.light,
-        paddingLeft: 30,
-        borderBottomWidth: 1,
-        flex: 1,
-        fontSize: 18,
+        height:45,
+        marginLeft:16,
+        borderBottomColor: '#FFFFFF',
+        flex:1,
 
     },
     btnPrimary: {
@@ -323,27 +335,23 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     btnSecondary: {
-        height: 50,
-        borderWidth: 1,
-        borderColor: Colors.light,
-        backgroundColor:Colors.maincolor,
-        flex: 1,
+        height:45,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 5,
-        flexDirection: 'row',
+        marginBottom:20,
+        width:250,
+        borderRadius:30,
     },
-    header: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        paddingHorizontal: 20,
-        paddingBottom: 50
-    },
+    loginButton: {
+        backgroundColor: "#9CD85C",
+      },
+      loginText: {
+        color: 'white',
+      },
     footer: {
-        flex: 3,
-        backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
+        flex: 1,
+        backgroundColor: '#DCDCDC',
         paddingHorizontal: 20,
         paddingVertical: 30
     },

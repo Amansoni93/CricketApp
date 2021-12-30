@@ -9,7 +9,7 @@ const CarouselItem = ({ item }) => {
         <View style={styles.cardView}>
             <Image style={styles.image} source={{ uri: item.Player.Photo }} />
             <View style={styles.textView}>
-                <Text style={styles.itemTitle}> {item.Player.Name}</Text>
+                <Text style={styles.itemTitle}>{item.Player.Name}</Text>
                 <Text style={styles.itemDescription}>Match Played {item.MatchPlayed}</Text>
                 <Text style={styles.itemDescription}>Runs {item.TotalScore}</Text>
                 <Text style={styles.itemDescription}>Wickets Taken {item.TotalWicketsTaken}</Text>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     itemDescription: {
         color: 'black',
-        fontSize: 12,
+        fontSize: 16,
         shadowColor: '#000',
         shadowOffset: { width: 0.8, height: 0.8 },
         shadowOpacity: 1,

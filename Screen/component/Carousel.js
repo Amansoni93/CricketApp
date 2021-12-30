@@ -26,15 +26,9 @@ function infiniteScroll(dataList,mySlide){
                 offset: scrollValue,
             });
         }
-        if (flatListRef.current) {
-            // 
-            //this.flatList.scrollToOffset({ animated: true, offset: scrollValue})
-          }
-          
-          //this.flatList.scrollToOffset({ animated: true, offset: scrollValue});
        
         
-    }, 3000)
+    }, 5000)
 }
 
 
@@ -54,7 +48,7 @@ const Carousel = ({ data }) => {
         return (
             <View>
                 <FlatList data={data}
-              ref={mySlide}
+                    ref={mySlide}
                     keyExtractor={(item, index) => 'key' + index}
                     horizontal
                     pagingEnabled

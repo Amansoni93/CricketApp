@@ -1,5 +1,5 @@
 import React, { useEffect,useRef,useState } from 'react';
-import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,ScrollView,ImageBackground,SafeAreaView,Alert } from 'react-native';
+import {Button,StyleSheet,View, FlatList,TouchableOpacity,Image,Text,TextInput,ScrollView,ImageBackground,SafeAreaView,Alert,TouchableHighlight } from 'react-native';
 import GLOBALS from './helper/global'; 
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
@@ -8,14 +8,16 @@ import Carousel from './component/Carousel';
 import { dummyData } from './data/Data';
 
 const  TeamPlayerOverView = ({ route,navigation }) =>  {
-     const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
+    const [MappedPlayerStatics, setMappedPlayerStaticsData] = useState();
     const { TeamWinitemId } = route.params;
     const  {TeamWinitemName}  = route.params;
     const { TeamLossitemID } = route.params;
     const  {TeamLossitemName}  = route.params;
     const  {BattingStatus} = route.params;
+    const  {TeamA1Status} = route.params;
+    const  {TeamB1Status} = route.params;
     const  {TossDesion} = route.params;
-    console.log(TeamLossitemID,TeamLossitemName,TeamWinitemId,TeamWinitemName,'TeamPlayerOverview',TossDesion)
+    //console.log(TeamLossitemID,TeamLossitemName,TeamWinitemId,TeamWinitemName+'TeamPlayerOverview'+TossDesion,TeamA1Status,TeamB1Status);
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
@@ -29,7 +31,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
       //console.log(response.data.PlayersStatistics);
       if(response.data.ResponseCode =='0'){
       setMappedPlayerStaticsData(response.data.PlayersStatistics);
-      console.log(response.data.PlayersStatistics);
+      //console.log(response.data.PlayersStatistics);
       }
       
       })
@@ -39,43 +41,83 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
   }
   if (MappedPlayerStatics && MappedPlayerStatics.length) {
     return (
-        <View style={styles.container}>
-        <ImageBackground source={require('./images/main_bg.png')}  resizeMode="cover" style={styles.image}> 
-        <View style={{flex:1,flexDirection:'row',marginLeft:2,marginRight:2}}>
-               <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >{BattingStatus}</Text>
-        </View>
+      <TouchableOpacity
+      style={{
+        paddingHorizontal: 10,
+        alignSelf: "center",
+        marginTop: 20,
+        backgroundColor: "#FFF",
+        height: 500,
+        elevation: 1,
+        width: '96%',
+        borderRadius: 16,
+      }}
+    >
+        <View
+      style={{
+        flexDirection: "row",
+        alignSelf:'center',
+        alignItems: "center",
+        flex:1,
+      }}
+    >
+             <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center'}} >{BattingStatus}</Text>
+    </View>
+    <View>
+            <Carousel data = {MappedPlayerStatics}/>
+    </View>    
+        <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        alignSelf:'center',
+        flex:1,
+      }}
+    >
+      <Text
+        style={{
+          fontFamily: "RobotoRegular",
+          color: "#522289",
+          fontSize: 16,
+          flex:1,
+          alignSelf:'center'
+        }}
+      >
+        प्रायोजक 
+      </Text>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.btnSecondary}>
-                            <TouchableOpacity  onPress={() => { navigation.navigate('PlayerDevice',{
+      <Text
+        style={{
+          fontFamily: "RobotoRegular",
+          color: "#522289",
+          marginRight:20,
+          flex:1,
+          textAlign:'right',
+          fontSize: 16,
+        }}
+      >
+        {GLOBALS.matchDetails.Match.Sponsor}
+      </Text>
+    </View>
+
+        
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => { navigation.navigate('PlayerDevice',{
                         WinTeanitemId: TeamWinitemId,
                         WinTeamitemName:TeamWinitemName,
                         LossTeamitemID: TeamLossitemID,
                         LossTeamitemName:TeamLossitemName,
                         BattingStatus:BattingStatus,
                         TossDesion:TossDesion,
-                    }); }} >
-                                <Text style={{ fontWeight: "bold", marginHorizontal: 5, alignItems: 'stretch',color:'#ffffff' }} >
-                                    Skip Intro</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-        <View style={{flex:1}}>
-          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.white}}>
-            Sponsored By
-          </Text>
-          <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.Sponsor}</Text>
-          <View>
-            <Carousel data = {MappedPlayerStatics}/>
-        </View>
-        </View>
-        
+                        Teama1Status:TeamA1Status,
+                        Teamb1Status:TeamB1Status,
+                    }); }}>
+          <Text style={styles.loginText}>Skip Intro</Text>
+        </TouchableHighlight>
        
 
         
-       </ImageBackground>
-       </View>
+       
+       </TouchableOpacity>
     )
     
    }
@@ -93,6 +135,23 @@ const styles = StyleSheet.create({
       height: 50,
       borderRadius:50,
     
+    },
+    loginButton: {
+      backgroundColor: "#9CD85C",
+    },
+    loginText: {
+      color: 'white',
+    },
+    buttonContainer: {
+      height:45,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf:'center',
+      marginBottom:20,
+      width:250,
+      alignContent:'center',
+      borderRadius:30,
     },
     editImage: {
       width: 30,
