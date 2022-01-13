@@ -3,86 +3,169 @@ import {
   Button,
   StyleSheet,
   View,
-  ImageBackground,
-  Image,Text,TouchableOpacity
+  ImageBackground,ScrollView,
+  Image,Text,TouchableOpacity,StatusBar
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+ 
+const colors = {
+  themeColor:"#4263ec",
+  white:"#fff",
+  background:'#f4f6fc',
+  greynish:'#a4a4a4',
+  tint:'#2b49c3'
+
+}
+const tasks =[{
+  id:1,
+  task:"चलाये",
+  icon:'military-tech',
+  theme:'#008b8b',
+  stamp:'Todat 8 pm',
+  
+
+},
+{
+  id:2,
+  task:"अंपायर",
+  icon:'emoji-people',
+  theme:'#37003c',
+  stamp:'Todat 8 pm',
+  
+},
+{
+  id:3,
+  task:"दर्शक",
+  icon:'people',
+  theme:'#fed132',
+  stamp:'Todat 8 pm',
+
+},
+{
+  id:4,
+  task:"पिछले  परिणाम",
+  icon:'trending-up',
+  theme:'#008b8b',
+  stamp:'Todat 8 pm',
+  
+}];
+const Task = ({task,icon,theme,stamp,openpage}) => {
+   return (
+    <TouchableOpacity onPress={() => { openpage}}>
+                        
+     <View style={{backgroundColor:colors.white,flexDirection:'row',marginHorizontal:16,marginVertical:4,borderRadius:20,paddingVertical:20,paddingHorizontal:14,alignItems:'center',justifyContent:'space-between'}}>
+        <View style={{flexDirection:'row',alignItems:'center'}}>
+        <Icon name={icon}  size={30} style={{color:theme,marginRight:5}} />
+        {/* <Image source={icon}
+           style={colors.theme} ></Image> */}
+        <View >
+          <Text style={{fontSize:16}}>{task}</Text>
+          <Text style={{color:colors.greynish}}>{stamp}</Text>
+        </View>
+        </View>
+     </View>
+     </TouchableOpacity>
+   );
+}
+
 const  HomePage = ({ navigation }) =>  {
     return (
     
-        <View style={styles.container}>
-          
-         <ImageBackground source={require('./images/splash.png')}  resizeMode="cover" style={styles.image}> 
-         <View style={{right:5,top:5,marginTop: -5,position: 'absolute'}}>
-            <TouchableOpacity onPress={{}}>
-                <View >
-                      <Image source={require('./images/lang.png')} style={{height:50,width:50}} />
-                </View>
-            </TouchableOpacity>
-          </View>
-          <Image source={require('./images/batsman_icon.png')}   resizeMode="cover" style={styles.centerimage}/>
-          <View style={{width: '100%', 
-      height: 50, 
-      justifyContent: 'center', 
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 150}} >
-          <View style={styles.inputContainer}>
-              < Card style={{ flex: 1,  padding: 10,
-    marginVertical: 10,
-    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc' }} >
-                  
-                        <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Tally', otherParam: 'anything you want here',  });}}>
-                          <Image source={require('./images/Sports.png')}
-            style = {styles.cardcenterimage} ></Image>
-            
-                          <Text style={{ color: Colors.white, fontWeight: "bold", fontSize: 16,marginTop:15,paddingLeft: 10,textAlign:'center',textTransform:'uppercase',justifyContent:'center'}} >चलाये</Text>
+      <View style={{flex:1,backgroundColor:colors.themeColor}}> 
+           <StatusBar barStyle="light-content" backgroundColor={colors.themeColor}/>
+           <View style={{backgroundColor:colors.themeColor}}>
+             <View style={{padding:16,flexDirection:'row',justifyContent:'space-between'}}>
+             <Icon name="dehaze" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
+           
+             <View style={{flexDirection:'row'}}>
+             <Icon name="notifications-none" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
+             <Icon name="account-circle" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
+             
+             </View>
+             </View>
+             <View style={{padding:16,}}>
+              <Text style={{color:Colors.white,fontSize:30}}>{"Hello,\n CAAT"}</Text> 
+              <View style={{paddingHorizontal:16,paddingVertical:6,flexDirection:'row',justifyContent:'space-between',backgroundColor:colors.tint,borderRadius:20,marginVertical:20,alignItems:'center' }}>
+              <Icon name="search" backgroundColor="#3b5998" size={30} style={{color:colors.white}}/>
+              <View style={{flexDirection:'row'}}>
+             
+              <Icon name="tune" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
+              </View>
+              </View>
+             </View>
+
+</View>
+<View style={{padding:20,flexDirection:'row',justifyContent:'flex-end',backgroundColor:colors.background,alignItems:'center'}}>
+  <Text style={{fontSize:24}} >Tasks</Text>
+  <Icon name="add" backgroundColor={colors.background} size={30} style={styles.inputiCon,{justifyContent:'flex-end',borderRadius:20,marginHorizontal:8}} />
+</View>
+<ScrollView style={{backgroundColor:colors.background}} >
+<TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
+                        
+                        <View style={{backgroundColor:colors.white,flexDirection:'row',marginHorizontal:16,marginVertical:4,borderRadius:20,paddingVertical:20,paddingHorizontal:14,alignItems:'center',justifyContent:'space-between'}}>
+                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                           <Icon name='military-tech'  size={30} style={{color:'#008b8b',marginRight:5}} />
+                           {/* <Image source={icon}
+                              style={colors.theme} ></Image> */}
+                           <View >
+                             <Text style={{fontSize:16}}>चलाये</Text>
+                           
+                           </View>
+                           </View>
+                        </View>
                         </TouchableOpacity>
-                    
-              </Card>
-          <Card  style={{flex: 1,  padding: 10,
-    marginVertical: 10,
-    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc' }}>
-              
-                    <TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
-                      <Image source={require('./images/hat.png')}
-         style = {styles.cardcenterimage}   ></Image>
-                      <Text style={{ color: Colors.white, fontWeight: "bold", fontSize: 16, marginTop:15,paddingLeft: 15,textAlign:'center' }}  >अंपायर</Text>
-                    </TouchableOpacity>
-                
-          </Card>
-          </View>
-          <View style={styles.inputContainer}>
-          <Card style={{ flex: 1,  padding: 10,
-    marginVertical: 10,
-    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc'}} >
-              
-                    <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Tally', otherParam: 'anything you want here',  });}}>
-                      <Image source={require('./images/users.png')}
-         style = {styles.cardcenterimage} ></Image>
-         
-                      <Text style={{ color: Colors.white, fontWeight: "bold", fontSize: 16,marginTop:15,paddingLeft: 10,textAlign:'center',textTransform:'uppercase'}} >दर्शक </Text>
-                    </TouchableOpacity>
-                 
-          </Card>
-          <Card  style={{ flex: 1,  padding: 10,
-    marginVertical: 10,
-    borderRadius: 10,justifyContent: 'center',height:100,marginHorizontal:10,  backgroundColor: '#2089dc',}}>
-              
-                    <TouchableOpacity onPress={() => { navigation.navigate('employerDrawble', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
-                      <Image source={require('./images/graph.png')}
-         style = {styles.cardcenterimage}   ></Image>
-                      <Text style={{ color: Colors.white, fontWeight: "bold", fontSize: 16, marginTop:15,paddingLeft: 15,textAlign:'center' }}  >पिछले  परिणाम </Text>
-                    </TouchableOpacity>
-                
-          </Card>
-          </View>
-          </View>
+                        <TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Tally', otherParam: 'anything you want here',  });}}>
+                        
+                        <View style={{backgroundColor:colors.white,flexDirection:'row',marginHorizontal:16,marginVertical:4,borderRadius:20,paddingVertical:20,paddingHorizontal:14,alignItems:'center',justifyContent:'space-between'}}>
+                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                           <Icon name='emoji-people'  size={30} style={{color:'#37003c',marginRight:5}} />
+                           {/* <Image source={icon}
+                              style={colors.theme} ></Image> */}
+                           <View >
+                             <Text style={{fontSize:16}}>अंपायर</Text>
+                            
+                           </View>
+                           </View>
+                        </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { openpage}}>
+                        
+                        <View style={{backgroundColor:colors.white,flexDirection:'row',marginHorizontal:16,marginVertical:4,borderRadius:20,paddingVertical:20,paddingHorizontal:14,alignItems:'center',justifyContent:'space-between'}}>
+                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                           <Icon name='people'  size={30} style={{color:'#fed132',marginRight:5}} />
+                           {/* <Image source={icon}
+                              style={colors.theme} ></Image> */}
+                           <View >
+                             <Text style={{fontSize:16}}>दर्शक</Text>
+                            
+                           </View>
+                           </View>
+                        </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { openpage}}>
+                        
+                        <View style={{backgroundColor:colors.white,flexDirection:'row',marginHorizontal:16,marginVertical:4,borderRadius:20,paddingVertical:20,paddingHorizontal:14,alignItems:'center',justifyContent:'space-between'}}>
+                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                           <Icon name='trending-up'  size={30} style={{color:'#008b8b',marginRight:5}} />
+                           {/* <Image source={icon}
+                              style={colors.theme} ></Image> */}
+                           <View >
+                             <Text style={{fontSize:16}}>पिछले  परिणाम</Text>
+                             
+                           </View>
+                           </View>
+                        </View>
+                        </TouchableOpacity>
+</ScrollView>
+
+       
+  
          
            
-          </ImageBackground> 
+        
         </View>
         );
     };

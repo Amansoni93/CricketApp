@@ -19,6 +19,7 @@ const  PlayerDevice = ({ route,navigation }) =>  {
     const  {TossDesion} = route.params;
     const  {Teama1Status}  = route.params;
     const  {Teamb1Status} = route.params;
+    const  {SeletedTeamWon} = route.params;
     
     console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName+'playerdevice'+TossDesion,Teama1Status,Teamb1Status);
     useEffect(() => {
@@ -34,7 +35,7 @@ const  PlayerDevice = ({ route,navigation }) =>  {
       //console.log(response.data.PlayersStatistics);
       if(response.data.ResponseCode =='0'){
       setMappedPlayerStaticsData(response.data.PlayersStatistics);
-      console.log(response.data.PlayersStatistics);
+      //console.log(response.data.PlayersStatistics);
       }
       
       })
@@ -63,15 +64,17 @@ const  PlayerDevice = ({ route,navigation }) =>  {
        </View>
         
        
-          <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row',alignContent:'space-around',justifyContent:'space-between'}}>
             
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-        <View style={{ flex:1, flexDirection:'column'}}>
-        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >1 Device</Text>
-        
-        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >1 डिवाइस</Text>
+        <View style={{flexDirection:'row'}}>
+          <View style={{flexDirection:'column'}}>
+          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 Device</Text>
+          <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 डिवाइस</Text>
+          </View>
         </View>
-        <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
+        
+        <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
                         WinTeanitemId: WinTeanitemId,
                         WinTeamitemName:WinTeamitemName,
                         LossTeamitemID: LossTeamitemID,
@@ -79,19 +82,24 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                         TossDesion:TossDesion,
                         TeamA1Status:Teama1Status,
                         TeamB1Status:Teamb1Status,
+                        DevicesUsedForGame:1,
+                        SeletedTeamWon:SeletedTeamWon,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
        
-          <View style={{flexDirection:'row'}}>
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-        <View style={{ flex:1, flexDirection:'column'}}>
-        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >2 Device</Text>
-        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor,padding:2}} >2 डिवाइस</Text>
+        <View style={{flexDirection:'row'}}>
+        <View style={{  flexDirection:'column'}}>
+        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 Device</Text>
+        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 डिवाइस</Text>
         </View>
-        <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
+        </View>
+        <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
           WinTeanitemId: WinTeanitemId,
           WinTeamitemName:WinTeamitemName,
           LossTeamitemID: LossTeamitemID,
@@ -99,21 +107,24 @@ const  PlayerDevice = ({ route,navigation }) =>  {
           TossDesion:TossDesion,
           TeamA1Status:Teama1Status,
           TeamB1Status:Teamb1Status,
-                        
+          DevicesUsedForGame:2,   
+          SeletedTeamWon:SeletedTeamWon,          
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
-        <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:1}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
-        <View style={{ flex:1, flexDirection:'column'}}>
-        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >3 Device</Text>
+        <View style={{flexDirection:'row'}}>
+        <View style={{  flexDirection:'column'}}>
+        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}} >3 Device</Text>
         
-        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >3 डिवाइस</Text>
+        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}} >3 डिवाइस</Text>
         </View>
-        <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
+        </View>
+        <TouchableOpacity style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
                         WinTeanitemId: WinTeanitemId,
                         WinTeamitemName:WinTeamitemName,
                         LossTeamitemID: LossTeamitemID,
@@ -121,22 +132,26 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                         TossDesion:TossDesion,
                         TeamA1Status:Teama1Status,
                         TeamB1Status:Teamb1Status,
+                        DevicesUsedForGame:3, 
+                        SeletedTeamWon:SeletedTeamWon,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
 
-     <View style={{flexDirection:'row'}}>
+     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
-        <View style={{ flex:1, flexDirection:'column'}}>
-        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >4 Device</Text>
+       <View style={{flexDirection:'row'}}>
+        <View style={{ flexDirection:'column'}}>
+        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}} >4 Device</Text>
         
-        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,flex:1,color:Colors.blackcolor}} >4 डिवाइस</Text>
+        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor}} >4 डिवाइस</Text>
         </View>
-        <TouchableOpacity onPress={() => { navigation.navigate('GameWindow',{
+        </View>
+        <TouchableOpacity style={{alignContent:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
                        WinTeanitemId: WinTeanitemId,
                        WinTeamitemName:WinTeamitemName,
                        LossTeamitemID: LossTeamitemID,
@@ -144,6 +159,8 @@ const  PlayerDevice = ({ route,navigation }) =>  {
                        TossDesion:TossDesion,
                        TeamA1Status:Teama1Status,
                         TeamB1Status:Teamb1Status,
+                        DevicesUsedForGame:4, 
+                        SeletedTeamWon:SeletedTeamWon,
                     }); }}>
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>

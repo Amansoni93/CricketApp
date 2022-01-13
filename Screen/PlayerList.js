@@ -336,6 +336,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
           TeamBStatus = true;
         }
     }
+    console.log("Toss Result",selectedTeamWon);
     
     const params = JSON.stringify({"TossResults":null,"TossResult":{
       "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
@@ -354,7 +355,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
       "TossWonBy":{"ID":selectedTossWonByID,"Name":selectedTossWonByName,"NickName":null,"Coach":null,"AboutTeam":null,"Logo":null,"Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
       "TossDate":current_date,"DECISIONAFTERTOSS":TossDesion,"TossRemark":selectedTossWonByName+" has won the toss and elected to Bowl first."},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
 
-      console.log(params);
+      //console.log(params);
         axios.post(GLOBALS.BASE_URL +'SaveTossResult', params,{
             "headers": {
             "content-type": "application/json",
@@ -384,6 +385,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
                         TossDesion:TossDesion,
                         TeamA1Status:TeamAStatus,
                         TeamB1Status:TeamBStatus,
+                        SeletedTeamWon:selectedTeamWon,
                         
                     });
                     } else {
@@ -411,16 +413,18 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     style={{
       paddingHorizontal: 12,
       alignSelf: "center",
+      alignContent:'center',
+      justifyContent:'center',
       marginTop: 10,
-      height:40,
+      height:30,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
       width: '90%',
       borderRadius: 16,
     }}>
-        <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',color:Colors.blackcolor, fontFamily: "RobotoBold",}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
-        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,  paddingLeft: 70,textAlign:'right', fontFamily: "RobotoRegular",alignItems:'flex-end',color:Colors.blackcolor}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',color:'#414A4C', fontFamily: "RobotoBold",}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,  paddingLeft: 70,textAlign:'right', fontFamily: "RobotoBold",alignItems:'flex-end',color:'#414A4C'}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
         </TouchableOpacity>
       
       {(selectedTossvalue) == 1 ? (
@@ -491,7 +495,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
-      width: '90%',
+      width: '50%',
       borderRadius: 16,justifyContent: "center",alignItems: "center"
     }}>
         <Text adjustsFontSizeToFit={true}  style={{textAlignVertical: "center",fontFamily:'RobotoRegular',color:Colors.blackcolor,justifyContent:'center',alignSelf:'center',alignItems:'center',textAlign:'center',alignContent:'center',fontSize:16}}>Match ID :{GLOBALS.matchDetails.Match.ID}</Text>
@@ -500,13 +504,6 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     <View style={{flexDirection:'row',flex:3,margin:5}}>
         <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
         <SafeAreaView style={{flex:1}}>
-        
-        <FlatList data={TeamAData}   contentContainerStyle={{padding:2}}
-         renderItem={renderItem}
-         keyExtractor={(item, index) => item.ID}
-        />
-        
-    
         <TouchableOpacity
     style={{
       paddingHorizontal: 10,
@@ -530,12 +527,11 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
        )}
        </TouchableOpacity>
        <TouchableOpacity
-    style={{
+      style={{
       paddingHorizontal: 10,
-      paddingTop:10,
       alignSelf: "center",
       height:50,
-      backgroundColor:'#34ebd5',
+      backgroundColor:'#9CD85C',
       flexDirection:'row',
       elevation: 1,
       width: '100%',
@@ -547,16 +543,18 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
               <Picker.Item label="TAIL" value="2" />
             </Picker>
         </TouchableOpacity>
+        <FlatList data={TeamAData}   contentContainerStyle={{padding:2}}
+         renderItem={renderItem}
+         keyExtractor={(item, index) => item.ID}
+        />
+        
+    
+       
         </SafeAreaView>
     </View>
     <View style={{flex:1,flexDirection:'row',padding:2,}}>
       <SafeAreaView style={{flex:1}}>
-    <FlatList data={TeamBData}
-        renderItem={renderItem1}
-        keyExtractor={(item, index) => item.ID}
-         />
-     
-     <TouchableOpacity
+         <TouchableOpacity
     style={{
       paddingHorizontal: 10,
       alignSelf: "center",
@@ -583,7 +581,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
       paddingHorizontal: 10,
       alignSelf: "center",
       height:50,
-      backgroundColor:'#34ebd5',
+      backgroundColor:'#9CD85C',
       flexDirection:'row',
       elevation: 1,
       width: '100%',
@@ -595,6 +593,12 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
               <Picker.Item label="TAIL" value="2" />
             </Picker>
         </TouchableOpacity>
+    <FlatList data={TeamBData}
+        renderItem={renderItem1}
+        keyExtractor={(item, index) => item.ID}
+         />
+     
+    
         </SafeAreaView>
     </View>
     </View>

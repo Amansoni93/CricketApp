@@ -19,7 +19,7 @@ const PlayerHome =({ navigation }) => {
       alignSelf: "center",
       marginTop: 20,
       backgroundColor: "#FFF",
-      height: 220,
+      height: 240,
       elevation: 1,
       width: '90%',
       borderRadius: 16,
@@ -29,9 +29,10 @@ const PlayerHome =({ navigation }) => {
         style={{
         flexDirection: "row",
         marginTop: 15,
-        paddingTop: 20,
-        flex:1,
+      
         alignItems: "center",
+        alignContent:'space-between',
+        justifyContent:'space-between'
       }}
     >
      
@@ -39,13 +40,13 @@ const PlayerHome =({ navigation }) => {
                source={{ uri: GLOBALS.matchDetails.Match.TeamA.Logo}}
                style={{ width: 50,
                 height: 50,
-                borderRadius:20,flex:1}}
+                borderRadius:20,alignSelf:'flex-start'}}
             />
       <Image
                source={{ uri: GLOBALS.matchDetails.Match.TeamB.Logo}}
                style={{width: 50,
                 height: 50,
-                borderRadius:20,flex:1,alignItems:'flex-end',justifyContent:'flex-end',alignContent:'flex-end'}}
+                borderRadius:20,alignSelf:'flex-end',alignItems:'flex-end',justifyContent:'flex-end',alignContent:'flex-end'}}
             />
       
      
@@ -53,9 +54,10 @@ const PlayerHome =({ navigation }) => {
     <View
       style={{
         flexDirection: "row",
-        flexGrow: 3,
-        flex:3,
         alignSelf: "center",
+        alignContent:'space-between',
+        justifyContent:'space-between',
+        alignItems: 'center',
       }}
     >
       <Text
@@ -63,7 +65,11 @@ const PlayerHome =({ navigation }) => {
           fontFamily: "RobotoBold",
           color: Colors.blackcolor,
           fontSize: 20,
+          flexWrap: 'wrap',
+          alignContent:'center',
           flex:1,
+          textAlign:'left',
+         justifyContent:'space-between'
         }}
       >
        {GLOBALS.matchDetails.Match.TeamA.Name} 
@@ -73,9 +79,13 @@ const PlayerHome =({ navigation }) => {
         style={{
           fontSize: 20,
           color: Colors.blackcolor,
-          flex:1,
-          paddingLeft:30
-        
+          flexWrap: 'wrap',
+          justifyContent:'space-between',
+          alignContent:'space-between',
+          textAlign:'center',
+          alignItems:'center',
+          
+
         }}
       >
         
@@ -86,8 +96,11 @@ const PlayerHome =({ navigation }) => {
           fontFamily: "RobotoBold",
           color: Colors.blackcolor,
           fontSize: 20,
-          flex:1
-         
+          flexWrap: 'wrap',
+          flex:1,
+          justifyContent:'space-between',
+          alignContent:'space-between',
+          textAlign:'right'
         }}
       >
           {GLOBALS.matchDetails.Match.TeamB.Name}
@@ -101,6 +114,8 @@ const PlayerHome =({ navigation }) => {
         flexDirection: "row",
         alignItems: "center",
         flex:1,
+        justifyContent:'space-between',
+        alignContent:'space-between'
       }}
     >
       <Text
@@ -108,7 +123,6 @@ const PlayerHome =({ navigation }) => {
           fontFamily: "RobotoRegular",
           color: "#522289",
           fontSize: 16,
-          flex:1
         }}
       >
         प्रायोजक 
@@ -118,7 +132,6 @@ const PlayerHome =({ navigation }) => {
         style={{
           fontFamily: "RobotoRegular",
           color: "#522289",
-          flex:1,
           fontSize: 16,
         }}
       >
@@ -132,7 +145,7 @@ const PlayerHome =({ navigation }) => {
       style={{
         fontSize: 17,
         marginRight: -5,
-        marginVertical: 4,
+        marginVertical: 3,
         color: "#a2a2db",
       }}
     >
@@ -142,9 +155,9 @@ const PlayerHome =({ navigation }) => {
     <View
       style={{
         flexDirection: "row",
-        marginTop: -8,
-        flex:1,
         alignItems: "center",
+        justifyContent:'space-between',
+        alignContent:'space-between'
       }}
     >
       <Text
@@ -152,7 +165,6 @@ const PlayerHome =({ navigation }) => {
           fontFamily: "RobotoRegular",
           color: Colors.blackcolor,
           fontSize: 16,
-          flex:1,
         }}
       >
         Venue 
@@ -161,7 +173,7 @@ const PlayerHome =({ navigation }) => {
         style={{
           fontFamily: "RobotoBold",
           color: Colors.blackcolor,
-          flex:1,
+        
           fontSize: 16,
         }}
       >

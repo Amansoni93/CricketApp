@@ -1,13 +1,12 @@
 import React,{useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import splashscrren  from  './SplashScrren';
 import HomePage from './HomePage';
 import UmpireLogin from './UmpireLogin';
 import PlayerHome from './PlayerHome';
 import PlayerList from './PlayerList';
 import TeamPlayerOverView from './TeamPlayerOverView';
 import PlayerDevice from './PlayerDevice';
-import GameWindow from './GameWindow'
+import GameWindow from './GameWindow';
 
 const Stack = createNativeStackNavigator();
 const RootStackScreen =({ navigation })=> {

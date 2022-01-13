@@ -11,7 +11,8 @@ import * as Animatable from 'react-native-animatable';
 import Colors from './helper/colors';
 import axios from 'axios';
 import GLOBALS from './helper/global'; 
-import Icon from 'react-native-vector-icons/FontAwesome';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const UmpireLogin =({ navigation })=> {
     const [data, setData] = useState({
         matchid: '',
@@ -234,7 +235,7 @@ const UmpireLogin =({ navigation })=> {
                 <View style={{ marginTop: 20 }}>
                  
                     <View style={styles.inputContainer}>
-                    <Icon name="mobile" backgroundColor="#3b5998" size={30} style={styles.inputiCon} />
+                    <Icon name="confirmation-number" backgroundColor="#3b5998" size={30} style={styles.inputiCon} />
                         <TextInput placeholder="Enter  Match ID" keyboardType = 'numeric' maxLength={10} style={styles.input} onChangeText={(value) => textMatchInputChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
@@ -242,7 +243,7 @@ const UmpireLogin =({ navigation })=> {
                         }
                     </View>
                     <View style={styles.inputContainer}>
-                    <Icon name="home" size={30} color="#900" style={styles.inputiCon} />
+                    <Icon name="confirmation-number" size={30} color="#900" style={styles.inputiCon} />
                         <TextInput placeholder="Enter  Umpire ID" keyboardType = 'numeric' maxLength={10} style={styles.input} onChangeText={(value) => textUmpireInputChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />
@@ -250,7 +251,7 @@ const UmpireLogin =({ navigation })=> {
                         }
                     </View>
                     <View style={styles.inputContainer}>
-                    <Icon name="rocket" size={30} color="#900" style={styles.inputiCon} />
+                    <Icon name="confirmation-number" size={30} color="#900" style={styles.inputiCon} />
                         <TextInput placeholder="OTP" keyboardType = 'numeric'  secureTextEntry={true} maxLength={10} style={styles.input} onChangeText={(value) => textOtpChange(value)} ></TextInput>
                         {data.check_textInputChange ?
                             <Animatable.View animation="bounceIn" />

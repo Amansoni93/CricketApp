@@ -17,21 +17,16 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
     const  {TeamA1Status} = route.params;
     const  {TeamB1Status} = route.params;
     const  {TossDesion} = route.params;
-    //console.log(TeamLossitemID,TeamLossitemName,TeamWinitemId,TeamWinitemName+'TeamPlayerOverview'+TossDesion,TeamA1Status,TeamB1Status);
+    const  {SeletedTeamWon} = route.params;
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
-    
-      
     }, []); 
     const GetMappedPlayerStaticsData =(matchid) =>
   {
-    
     axios.get(GLOBALS.BASE_URL +'GetMappedPlayersStatistics'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid)
     .then(function (response) {
-      //console.log(response.data.PlayersStatistics);
       if(response.data.ResponseCode =='0'){
       setMappedPlayerStaticsData(response.data.PlayersStatistics);
-      //console.log(response.data.PlayersStatistics);
       }
       
       })
@@ -110,6 +105,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
                         TossDesion:TossDesion,
                         Teama1Status:TeamA1Status,
                         Teamb1Status:TeamB1Status,
+                        SeletedTeamWon:SeletedTeamWon,
                     }); }}>
           <Text style={styles.loginText}>Skip Intro</Text>
         </TouchableHighlight>
