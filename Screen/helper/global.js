@@ -1,7 +1,7 @@
 export default  {
     STORE_KEY: 'a56z0fzrNpl^2',
-   // BASE_URL: 'http://10.132.36.133/Service/CoreServiceAPI.svc/',
-    BASE_URL: 'https://shiksha.cg.nic.in/caatws/CoreServiceAPI.svc/',
+    BASE_URL: 'http://10.132.36.133/Service/CoreServiceAPI.svc/',
+    //BASE_URL: 'https://shiksha.cg.nic.in/caatws/CoreServiceAPI.svc/',
     API_USERID:"NIC",
     API_KEY:"123456",
     matchDetails:'',
@@ -11,6 +11,7 @@ export default  {
     TeamB1Details:'',
     CurrentBowlBeingThrown:'',
     TeamAIsBatting:'',
+    CurrentBowlBeingThrown:'',
     QuestionsDeliveredForLevelGroup:null,
     COLOR: {
       ORANGE: '#C50',

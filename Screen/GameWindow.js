@@ -11,6 +11,7 @@ var batteamname,bowlteamname;
 var batteamIcon,bowlteamIcon;
 import notification from './helper/notifications';
 var isRandomAnswered,topBarP1Name,topBarP2Name,topBarPB1,topBarPB2,lblCurrentOver,TotalDevicesBeingUsedForGame;
+var MatchID;
 const  GameWindow = ({ route,navigation }) =>  {
   const refRBSheetTeamBat1 = useRef();
   const refRBSheetTeamBat2 = useRef();
@@ -30,6 +31,8 @@ const  GameWindow = ({ route,navigation }) =>  {
   const [Boll2IDData, setBollData2ID] = useState(null);
   const [Boll2NameData, setBollData2Name] = useState();
   const [Boll2PhotoData, setBollData2Photo] = useState();
+  const [NoofBoll, setNoofBollThrow] = useState(0);
+  const [QuestionDeliverItems, setQuestionDeliverItems] = useState([]);
   const { WinTeanitemId } = route.params;
   const  {WinTeamitemName}  = route.params;
   const { LossTeamitemID } = route.params;
@@ -53,7 +56,7 @@ const  GameWindow = ({ route,navigation }) =>  {
         batteamIcon = GLOBALS.matchDetails.Match.TeamA.Logo;
         bowlteamIcon= GLOBALS.matchDetails.Match.TeamB.Logo;
         GLOBALS.TeamAIsBatting= true;
-      
+        MatchID =  GLOBALS.matchDetails.Match.ID;
         }
         else  if (TossDesion==1) {
           GetTeamAData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamB.ID);
@@ -63,6 +66,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamB.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamA.Logo;
           GLOBALS.TeamAIsBatting= false;
+          MatchID =  GLOBALS.matchDetails.Match.ID;
         }
         
       } else  if (SeletedTeamWon==2) {
@@ -76,6 +80,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamB.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamA.Logo;
           GLOBALS.TeamAIsBatting= false;
+          MatchID =  GLOBALS.matchDetails.Match.ID;
         }else if (TossDesion==1){
           GetTeamAData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamA.ID);
           GetTeamBData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamB.ID);
@@ -84,6 +89,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamA.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamB.Logo;
           GLOBALS.TeamAIsBatting= true;
+          MatchID =  GLOBALS.matchDetails.Match.ID;
          
         }
       }
@@ -110,8 +116,6 @@ const  GameWindow = ({ route,navigation }) =>  {
             },
             })
           .then(function (response) {
-
-            console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                        
@@ -159,8 +163,6 @@ const  GameWindow = ({ route,navigation }) =>  {
             })
           .then(function (response) {
 
-            console.log(response.data);
-
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                        
                       setBatData2ID(playerid);
@@ -205,8 +207,6 @@ const  GameWindow = ({ route,navigation }) =>  {
             },
             })
           .then(function (response) {
-
-            console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                        
@@ -260,8 +260,6 @@ const  GameWindow = ({ route,navigation }) =>  {
             },
             })
           .then(function (response) {
-
-            console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                        
@@ -559,7 +557,6 @@ const  GameWindow = ({ route,navigation }) =>  {
 
                     if(JSON.stringify(response.data.ResponseCode) == 0 ||  JSON.stringify(response.data.ResponseCode) =='0' ){
                        
-                      console.log("Demo",response.data);
                       if (response.data.DeviceIDList != null &&  response.data.DeviceIDList.length>0 )
                       {
 
@@ -570,10 +567,19 @@ const  GameWindow = ({ route,navigation }) =>  {
                             setTimeout(() => {
                             
                           }, 100);
-                          //System.Threading.Thread.Sleep(10);
+                        
                       } 
                        
                       }
+                      GLOBALS.CurrentBowlBeingThrown = response.data.QuestionDeliveryItem.BowlNo;
+                      setNoofBollThrow(++response.data.QuestionDeliveryItem.BowlNo);
+                      //timerGetAnswerStatus();
+                      GetQuestionForViewer();
+
+                      //  if (! GLOBALS.QuestionsDeliveredForLevelGroup.Contains(randomGroup))
+                      //  {
+                      //    GLOBALS.QuestionsDeliveredForLevelGroup.Add(randomGroup);
+                      //  }
                         
                     } else   {
                       
@@ -604,12 +610,6 @@ const  GameWindow = ({ route,navigation }) =>  {
                           }
                           Alert.alert(JSON.stringify(response.data.ResponseMessageEnglish));
                       }
-                    
-
-                     
-                   
-                    
-                   
                 })
                 .catch(function (error) {
                      
@@ -622,7 +622,72 @@ const  GameWindow = ({ route,navigation }) =>  {
         console.log('Error',e)
         }
     }
-    const getRandomNumberBetween =(min,max) => {
+    const GetQuestionForViewer=()=>{
+      
+    console.log("Dummy Data Response");
+      axios.get(GLOBALS.BASE_URL +'WhatIsTheQuestionForViewer'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+MatchID)
+      .then(function (response) {
+        
+                if(JSON.stringify(response.data.ResponseCode) ==0 || JSON.stringify(response.data.ResponseCode) =="0"){
+
+                  if (JSON.stringify(response.data.QuestionDeliveryItem) != null && JSON.stringify(response.data.QuestionDeliveryItem).length>0) {
+                   
+                    console.log("Check Data for app "+response.data.QuestionDeliveryItem);
+                    setQuestionDeliverItems(response.data.QuestionDeliveryItem);
+                  }
+                    
+                } else if(response.data.ResponseCode =='1'){
+                    Alert.alert(
+                        response.data.ResponseMessageEnglish,
+                        response.data.ResponseMessageHindi,
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ]
+                    );
+                }
+                
+               
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    const timerGetAnswerStatus=()=>{
+
+      axios.get(GLOBALS.BASE_URL +'GetAnswerStatus'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+MatchID)
+          .then(function (response) {
+           // console.log("Check"+response.data.ResponseCode);
+                    if(response.data.ResponseCode =='0'){
+
+                       console.log(response.data);
+                        
+                    } else if(response.data.ResponseCode =='1'){
+                        Alert.alert(
+                            response.data.ResponseMessageEnglish,
+                            response.data.ResponseMessageHindi,
+                            [
+                              {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel"
+                              },
+                              { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                        );
+                    }
+                    
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+    }
+  const getRandomNumberBetween =(min,max) => {
       return Math.floor(Math.random()*(max-min+1)+min);
   }
   const sendPushNotification = async (deviceid,msg) => {
@@ -630,10 +695,6 @@ const  GameWindow = ({ route,navigation }) =>  {
     //console.log("Demo",deviceid,msg);
     const FIREBASE_API_KEY = "AAAAPs3FQRQ:APA91bEwgnBf4qEwapaHu6-Xqt8AUAKzS-GkYJf0b4KiC2ec-mCvIye8DbMMtT0PoZKxp6k1oPrURZayM04lbOBEFYrHoLObqU8QGYHtthHjwjHLfGGSvxP16O1SMmo4oJsbbCrWvG0H"
     const json = "{\"to\": \"" + deviceid + "\",\"data\": {\"message\": \"" + msg + "\",}}";
-
-
-    
-  
     let headers = new Headers({
       "Content-Type": "application/json",
       Authorization: "key=" + FIREBASE_API_KEY,
@@ -657,12 +718,72 @@ const  GameWindow = ({ route,navigation }) =>  {
       body: json,
     })
     response = await response.json()
-    console.log("ok",response)
+    //console.log("ok",response)
+
+    SavePushNotificationLog(response,deviceid,msg);
+  }
+  const getCurrentDate=()=>{
+
+      var currentTimeInMilliseconds=Date.now();
+      return currentTimeInMilliseconds;
+ }
+  const SavePushNotificationLog = (res,device,message) =>{
+    var current_date  =  "\/Date("+getCurrentDate()+")\/";
+    const params = JSON.stringify({"PushNotificationLogItems":null,"PushNotificationLogItem":{"ID":0,
+    "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},
+    "DeviceID":device,"NotificationResponseMessage":"+"+res+"","DateTimeStamp":current_date,"QueryString":message,"PlayerType":0},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+    axios.post(GLOBALS.BASE_URL +'SavePushNotificationLog', params,{
+      "headers": {
+      "content-type": "application/json",
+      },
+      })
+    .then(function (response) {
+             if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
+                 
+                 
+                  } else {
+                  Alert.alert(
+                      "Internal Server Error",
+                      [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                      ]
+                    );    
+              }
+              
+             
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
   }
 
   
     return (
         <View style={styles.container}>
+          <Text style={{fontSize:22,fontWeight:'700',textAlign:'center'}}>Data {QuestionDeliverItems.BowlNo}</Text>
+         {(QuestionDeliverItems.length) > 0 ? (
+           <View>
+            <Text style={{fontSize:22,fontWeight:'700',textAlign:'center'}}>{QuestionDeliverItems.BowlNo}</Text>
+           
+            <FlatList data={QuestionDeliverItems}
+              renderItem={({item}) =>(
+              <View>
+                <Card style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10,marginHorizontal:5 }}>
+                <View style={{flex:1}}>
+               
+          <Text style={{fontSize:22,fontWeight:'700',textAlign:'center'}}>{item.BowlNo}{QuestionDeliverItems}</Text>
+            
+                </View>
+             </Card>
+              </View>
+             
+            )}>
+
+            </FlatList>
+            </View>
+         ):(
+           <Text>NO Data </Text>
+         )}
         
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             
@@ -912,9 +1033,10 @@ const  GameWindow = ({ route,navigation }) =>  {
           <Text style={styles.loginText}>   Extend Over</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={() => PlayGame()} style={[styles.buttonBottomContainer, styles.loginButton]}  >
-          <Text style={styles.loginText}>  BOWL(1)</Text>
+          <Text style={styles.loginText}>  BOWL{NoofBoll}</Text>
         </TouchableHighlight>       
-             </View>    
+             </View>  
+        
             
        </View>
     )
