@@ -14,7 +14,7 @@ return(
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
        <Stack.Screen name="UmpireLogin" component={UmpireLogin}  options={{headerShown: true,title:'Umpire Login'}}/>
-       <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: true}}/>
+       <Stack.Screen name="PlayerHome" component={PlayerHome} options={{headerShown: false}}/>
        <Stack.Screen name="PlayerList" component={PlayerList} options={{headerShown: true}}/>
        <Stack.Screen name="TeamPlayerOverView" component={TeamPlayerOverView} options={{headerShown: true}}/>
        <Stack.Screen name="PlayerDevice" component={PlayerDevice} options={{headerShown: true}}/>

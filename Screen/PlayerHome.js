@@ -8,10 +8,35 @@ import {
 } from 'react-native';
 import GLOBALS from './helper/global'; 
 import Colors from './helper/colors';
-import Icon from 'react-native-vector-icons/FontAwesome';
+const colors = {
+  themeColor:"#4263ec",
+  white:"#fff",
+  background:'#f4f6fc',
+  greynish:'#a4a4a4',
+  tint:'#2b49c3'
+
+}
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const PlayerHome =({ navigation }) => {
 
     return(
+      <ImageBackground source={require('./images/back2.png')} style={{height:'100%',width:'100%'}}> 
+      <View style={{flexDirection:'row',marginTop:40,alignItems:'center',paddingHorizontal:10}}>
+      
+             <Icon name="dehaze" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
+           
+             <View style={{flexDirection:'row'}}>
+             <Icon name="account-circle" backgroundColor="#3b5998" size={30} style={{color:colors.white,marginLeft:290}} />
+             
+             
+             </View>
+          
+      </View>
+      <View style={{width:'100%',marginTop:50,marginBottom:20,justifyContent:'center',alignItems:'center'}}>
+<View style={{width:80,height:80,borderRadius:50,backgroundColor:'#5facdb',justifyContent:'center',alignItems:'center'}}>
+<Image source={require('./images/batsman_icon.png')} style={{height:26,width:26}}/> 
+</View>
+           </View>
     <TouchableOpacity
     onPress={() => { navigation.navigate('PlayerList'); }}
     style={{
@@ -181,6 +206,7 @@ const PlayerHome =({ navigation }) => {
       </Text>
     </View>
   </TouchableOpacity>
+  </ImageBackground>
     );
 }
 const deviceWidth = Math.round(Dimensions.get('window').width);
