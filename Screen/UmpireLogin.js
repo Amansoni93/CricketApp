@@ -113,7 +113,7 @@ const UmpireLogin =({ navigation })=> {
             })
           .then(function (response) {
 
-            console.log(response.data);
+            //console.log(response.data);
             setLoader(true);
                     if(response.data.ResponseCode =='0'){
 
@@ -174,7 +174,7 @@ const UmpireLogin =({ navigation })=> {
             })
           .then(function (response) {
 
-            console.log(response.data);
+            //console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                        

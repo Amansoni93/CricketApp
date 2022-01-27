@@ -21,7 +21,7 @@ const  PlayerDevice = ({ route,navigation }) =>  {
     const  {Teamb1Status} = route.params;
     const  {SeletedTeamWon} = route.params;
     
-    console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName+'playerdevice'+TossDesion,Teama1Status,Teamb1Status);
+    //console.log(LossTeamitemID,LossTeamitemName,WinTeanitemId,WinTeamitemName+'playerdevice'+TossDesion,Teama1Status,Teamb1Status);
     useEffect(() => {
       GetMappedPlayerStaticsData(GLOBALS.matchDetails.Match.ID);
     
@@ -43,7 +43,7 @@ const  PlayerDevice = ({ route,navigation }) =>  {
               console.log(error);
           });
   }
-  if (MappedPlayerStatics && MappedPlayerStatics.length) {
+  
     return (
       <TouchableOpacity
       style={{
@@ -167,10 +167,6 @@ const  PlayerDevice = ({ route,navigation }) =>  {
         </View>
        </TouchableOpacity>
     )
-    
-   }
-   console.log('Please provide Images')
-    return null
 }
 
 

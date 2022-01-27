@@ -117,7 +117,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
     )
     
    }
-   console.log('Please provide Images')
+  
     return null
 }
 

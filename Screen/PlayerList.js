@@ -90,7 +90,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
               setTimeout(() => {
                 var randomSelected = 0;
                 var randomVal = getRandomNumberBetween(100, 300);
-                console.log("Second"+randomVal);
+                //console.log("Second"+randomVal);
                 if (randomVal < 200)
                           randomSelected = 0;
                       else randomSelected = 1;
@@ -129,7 +129,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
                           setTossLossByID(GLOBALS.matchDetails.Match.TeamB.ID);
                           setTossLossByName(GLOBALS.matchDetails.Match.TeamB.Name);
                           setWhichTeamWon(1);
-                         console.log("Won"+GLOBALS.matchDetails.Match.TeamA.Name);
+                        
                           
                       } else {
                           ID = GLOBALS.matchDetails.Match.TeamB.ID;
@@ -157,7 +157,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
         ]
       );
     }
-    console.log("Team A"+tossvalue);
+    //console.log("Team A"+tossvalue);
     setSelectedTossTeamAValue(tossvalue);
 
   }
@@ -172,7 +172,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
      
     //  console.log(response.data.ResponseMessageEnglish);
       if(response.data.ResponseCode =='0'){
-        console.log("Check"+response.data.Player);
+        //console.log("Check"+response.data.Player);
         GLOBALS.TeamADetails = response.data;
         TeamAPlayerStatus(1);
         setSelectedPlayerTeamAId(response.data.Player.Name); 
@@ -336,7 +336,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
           TeamBStatus = true;
         }
     }
-    console.log("Toss Result",selectedTeamWon);
+    //console.log("Toss Result",selectedTeamWon);
     
     const params = JSON.stringify({"TossResults":null,"TossResult":{
       "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
@@ -363,7 +363,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
             })
           .then(function (response) {
 
-            console.log(response.data);
+            //console.log(response.data);
 
                     if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
                       var myinfo;
@@ -375,7 +375,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
                       {
                         myinfo = selectedTossWonByName +" is going to Boll";
                       }
-                      console.log(selectedTossLossByID,selectedTossLossByName,selectedTossWonByID,selectedTossWonByName,'PlyerList');
+                     // console.log(selectedTossLossByID,selectedTossLossByName,selectedTossWonByID,selectedTossWonByName,'PlyerList');
                       navigation.navigate('TeamPlayerOverView', {
                         TeamWinitemId: selectedTossWonByID,
                         TeamWinitemName:selectedTossWonByName,

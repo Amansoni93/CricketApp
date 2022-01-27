@@ -11,6 +11,7 @@ export default  {
     TeamB1Details:'',
     CurrentBowlBeingThrown:'',
     TeamAIsBatting:'',
+    TeamBIsBatting:'',
     CurrentBowlBeingThrown:'',
     QuestionsDeliveredForLevelGroup:null,
     COLOR: {

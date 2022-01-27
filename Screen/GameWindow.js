@@ -40,7 +40,9 @@ const  GameWindow = ({ route,navigation }) =>  {
   const [NoofBoll, setNoofBollThrow] = useState(0);
   const [QuestionDeliverItems, setQuestionDeliverItems] = useState([]);
   const [ShowHideBar,SetShowHideTopBar] =  useState(0);
-  const [ShowVideoPath,setvideovideopath] =  useState();
+  const [ShowVideoPath,setvideovideopath] =  useState(null);
+  const [duration, setDuration] = useState(0);
+  const [currentTeamscore, setScore] = useState(0);
 
  
   const { WinTeanitemId } = route.params;
@@ -66,6 +68,7 @@ const  GameWindow = ({ route,navigation }) =>  {
         batteamIcon = GLOBALS.matchDetails.Match.TeamA.Logo;
         bowlteamIcon= GLOBALS.matchDetails.Match.TeamB.Logo;
         GLOBALS.TeamAIsBatting= true;
+        GLOBALS.TeamBIsBatting= false;
         MatchID =  GLOBALS.matchDetails.Match.ID;
         }
         else  if (TossDesion==1) {
@@ -76,6 +79,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamB.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamA.Logo;
           GLOBALS.TeamAIsBatting= false;
+          GLOBALS.TeamBIsBatting= true;
           MatchID =  GLOBALS.matchDetails.Match.ID;
         }
         
@@ -90,6 +94,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamB.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamA.Logo;
           GLOBALS.TeamAIsBatting= false;
+          GLOBALS.TeamBIsBatting= true;
           MatchID =  GLOBALS.matchDetails.Match.ID;
         }else if (TossDesion==1){
           GetTeamAData(GLOBALS.matchDetails.Match.ID,GLOBALS.matchDetails.Match.TeamA.ID);
@@ -99,6 +104,7 @@ const  GameWindow = ({ route,navigation }) =>  {
           batteamIcon = GLOBALS.matchDetails.Match.TeamA.Logo;
           bowlteamIcon= GLOBALS.matchDetails.Match.TeamB.Logo;
           GLOBALS.TeamAIsBatting= true;
+          GLOBALS.TeamBIsBatting= false;
           MatchID =  GLOBALS.matchDetails.Match.ID;
          
         }
@@ -517,7 +523,7 @@ const  GameWindow = ({ route,navigation }) =>  {
             //             lblWicketsTakenTopBar.Text = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Bowler).FirstOrDefault().TotalIndividualWickets.ToString();
             //         }
             
-            //var obj = new CricketServiceReference.CoreServiceAPIClient();
+           
 
             if (GLOBALS.QuestionsDeliveredForLevelGroup == null)
             {
@@ -550,12 +556,8 @@ const  GameWindow = ({ route,navigation }) =>  {
                 tempCtr += 1;
             }
             TotalDevicesBeingUsedForGame = (DevicesUsedForGame == 0) ? 1 : DevicesUsedForGame;
-            const params = JSON.stringify({"Matches":null,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":{"ID":0,"SetName":null,"Description":null,"CreatedOn":null,"IsVisible":false,"QuestionSetCategory":0,"Questions":null,"MinLevelGroupID":1,"MaxLevelGroupID":0},"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"TotalDevicesBeingUsedForGame":TotalDevicesBeingUsedForGame,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
-        //  const params = JSON.stringify({"Matches":null,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,
-        //       "TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":{"ID":0,"SetName":null,"Description":null,"CreatedOn":null,"IsVisible":false,"QuestionSetCategory":0,
-        //       "Questions":null,"MinLevelGroupID":randomGroup,"MaxLevelGroupID":0},"Umpire":null,
-        //       "UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"TotalDevicesBeingUsedForGame":TotalDevicesBeingUsedForGame,
-        //       "APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+            const params = JSON.stringify({"Matches":null,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":{"ID":0,"SetName":null,"Description":null,"CreatedOn":null,"IsVisible":false,"QuestionSetCategory":0,"Questions":null,"MinLevelGroupID":randomGroup,"MaxLevelGroupID":0},"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"TotalDevicesBeingUsedForGame":TotalDevicesBeingUsedForGame,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+      
         console.log(params);
         axios.post(GLOBALS.BASE_URL +'DeliverBowlByLevelV2', params,{
             "headers": {
@@ -574,16 +576,62 @@ const  GameWindow = ({ route,navigation }) =>  {
                         for (let device of response.data.DeviceIDList) {
                           //console.log(device.DeviceID);
                             //SendPushNotification(device.DeviceID, "QA");
-                            sendPushNotification(device.DeviceID, "QA");
-                            setTimeout(() => {
                             
-                          }, 100);
+                            setTimeout(() => {
+                              sendPushNotification(device.DeviceID, "QA");
+                          }, 40);
                         
                       } 
                        
                       }
+                      try {
+                        axios.get(GLOBALS.BASE_URL +'GetViewersByMatch'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+match_id)
+                        .then(function (response) {
+                         // console.log("Check"+response.data.ResponseCode);
+                                  if(JSON.stringify(response.data.ResponseCode) =='0' || JSON.stringify(response.data.ResponseCode) ==0){
+                                    if (response.data.DeviceIDList != null &&  response.data.DeviceIDList.length>0 )
+                                    {
+              
+                                      for (let device of response.data.Viewers) {
+                                        //console.log(device.DeviceID);
+                                          //SendPushNotification(device.DeviceID, "QA");
+                                          try {
+                                            setTimeout(() => {
+                                              sendPushNotification(device.DeviceDetail.ClientToken, "QAV");
+                                          }, 40);
+                                            } catch (e) {
+                                            console.log('Error')
+                                            }
+                                    } 
+                                     
+                                    }
+                                      
+                                      
+                                  } else if(response.data.ResponseCode =='1'){
+                                      Alert.alert(
+                                          response.data.ResponseMessageEnglish,
+                                          response.data.ResponseMessageHindi,
+                                          [
+                                            {
+                                              text: "Cancel",
+                                              onPress: () => console.log("Cancel Pressed"),
+                                              style: "cancel"
+                                            },
+                                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                                          ]
+                                      );
+                                  }
+                                  
+                                 
+                              })
+                              .catch(function (error) {
+                                  console.log(error);
+                              });
+                        } catch (e) {
+                        console.log('Error')
+                        }
                       GLOBALS.CurrentBowlBeingThrown = response.data.QuestionDeliveryItem.BowlNo;
-                      setNoofBollThrow(++response.data.QuestionDeliveryItem.BowlNo);
+                      setNoofBollThrow(+response.data.QuestionDeliveryItem.BowlNo);
                       setTimeout(() => {
                         timerGetAnswerStatus();   
                       }, 25000);
@@ -593,10 +641,10 @@ const  GameWindow = ({ route,navigation }) =>  {
                       
                      
 
-                      //  if (! GLOBALS.QuestionsDeliveredForLevelGroup.Contains(randomGroup))
-                      //  {
-                      //    GLOBALS.QuestionsDeliveredForLevelGroup.Add(randomGroup);
-                      //  }
+                       if (! GLOBALS.QuestionsDeliveredForLevelGroup.Contains(randomGroup))
+                       {
+                         GLOBALS.QuestionsDeliveredForLevelGroup.Add(randomGroup);
+                       }
                         
                     } else   {
                       
@@ -642,8 +690,8 @@ const  GameWindow = ({ route,navigation }) =>  {
         console.log('Error',e)
         }
     }
-    const GetQuestionForViewer = async ()=>{
-      
+    const GetQuestionForViewer = async () => {
+      SetShowHideTopBar(1);
       
 
       axios.get(GLOBALS.BASE_URL +'WhatIsTheQuestionForViewer'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+MatchID)
@@ -653,7 +701,7 @@ const  GameWindow = ({ route,navigation }) =>  {
 
                   if (JSON.stringify(response.data.QuestionDeliveryItem) != null && JSON.stringify(response.data.QuestionDeliveryItem).length>0) {
                     
-                    SetShowHideTopBar(1);
+                   
                     //console.log("Check Data for app "+response.data.QuestionDeliveryItem);
                     setQuestionDeliverItems(response.data.QuestionDeliveryItem);
                   }
@@ -680,11 +728,11 @@ const  GameWindow = ({ route,navigation }) =>  {
             });
     }
     const timerGetAnswerStatus= async ()=>{
-
+      try {
       axios.get(GLOBALS.BASE_URL +'GetAnswerStatus'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+MatchID)
           .then(function (response) {
            // console.log("Check"+response.data.ResponseCode);
-                    if(response.data.ResponseCode =='0'){
+                    if(response.data.ResponseCode =='0'|| response.data.ResponseCode ==0){
                       console.log("NOt Automatic");
                       try {
 
@@ -695,78 +743,81 @@ const  GameWindow = ({ route,navigation }) =>  {
                         console.log('Error')
                         }
                         
-                    } 
-                    try {
-                      if (AnswerRandomSubmit >= 0 && isRandomAnswered == false)
-                          {
-                            const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":20151,"Title":"CSSDA New Match","Description":"","MatchDate":"12-01-2022","Venue":"Indravati Bhawan","Sponsor":"CSSDA","NumberOfOvers":1,"NumberOfPlayers":4,"TeamA":{"ID":57,"Name":"A Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":[{"ID":106,"Name":"test1","Father":"test1","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1986","Gender":1,
-                            "StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":57,"Name":"A Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},
-                            "IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":108,"Name":"test3","Father":"test3","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1987","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},
-                            "PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":57,"Name":"A Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":110,"Name":"test5","Father":"test5","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1992","Gender":2,
-                            "StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":57,"Name":"A Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,
-                            "Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":112,"Name":"test7","Father":"test7","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"12-01-1992","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},
-                            "Team":{"ID":57,"Name":"A Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null}],"IsBatting":true,"CreatedBy":null},"TeamACreationType":0,"TeamB":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":[{"ID":107,"Name":"test2","Father":"test2","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1987","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},
-                            "PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},
-                            "PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":109,"Name":"test4","Father":"test4","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1992","Gender":1,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":111,"Name":"test6","Father":"test6","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"16-06-1994","Gender":1,
-                            "StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":113,"Name":"test8","Father":"test8","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"12-01-1996","Gender":2,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},
-                            "Team":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,"Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},{"ID":115,"Name":"rtest10","Father":"test10","Photo":"/Contents/Players/Photos/no-image.png","Mobile":"","DOB":"12-01-1996","Gender":2,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":2,"Language":0},"PlayerCategory":1,"CreatedOn":"10-01-2022","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0},"Team":{"ID":58,"Name":"B Team","NickName":null,"Coach":null,"AboutTeam":null,"Logo":"/Contents/Teams/Photos/no-image.png","Class":null,"Topic":null,"CreatedOn":null,"IsVisible":false,"PreferredLanguage":0,"Players":null,"IsBatting":false,"CreatedBy":null},"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":true,
-                            "Device":{"ID":0,"UserID":"","UserName":null,"AndroidID":null,"ClientToken":null,"ModelName":null,"OSName":null,"OSVersion":null,"CreatedOn":null,"LastUpdated":null,"IsAlreadyRegistered":false},"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null}],"IsBatting":false,"CreatedBy":null},"TeamBCreationType":0,"SelectedQuestionSet":{"ID":2,"SetName":"Computer Science","Description":"Computer Science","CreatedOn":"07-03-2019","IsVisible":true,"QuestionSetCategory":2,"Questions":null,"MinLevelGroupID":1,"MaxLevelGroupID":1},"Umpire":{"ID":102,"Name":"Kishor","Father":null,"Photo":null,"Mobile":null,"DOB":null,"Gender":0,"StudyingClass":null,"PlayerCategory":0,"CreatedOn":"","CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"UmpireUniqueCode":"7240","CreatedOn":"12-01-2022","LastUpdated":"","IsVisible":true,"MatchWonFinalRemark":"","CreatedBy":{"ID":2,"Name":null,"Mobile":null,"UnEncryptedPassword":null,"IsActive":false,"CreatedOn":null,"LastUpdated":null,"LastLogin":null,"Role":0}},
-                            "GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":0,"CurrentSession":0,"Score":null,"ScoreItems":null,"GameWonBy":null},
-                            "Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
-                            
-                            axios.post(GLOBALS.BASE_URL +'AutomatePlayerAnswerSubmission', params,{
-                                "headers": {
-                                "content-type": "application/json",
-                                },
-                                })
-                              .then(function (response) {
-                    
-                               // console.log(response.data);
-                               console.log("Automatic",response.data);
-                    
-                                        if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
-                                           
-                                        
-                                        } else {
-                                            Alert.alert(
-                                                "Internal Server Error",
-                                                [
-                                                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                                                ]
-                                              );    
-                                        }
-                                        
-                                       
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
-                                    
-                                    AnswerRandomSubmit = 0;
-                                    isRandomAnswered = true;
-                                    timerGetAnswerStatus();         
-                             
-                             
-                              
-                        }
-                       
-                      } catch (e) {
-                      console.log('Error')
-                      }
+                    } else {
+                   
+                    }
                    
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-             
-              
+                try {
+                  if (AnswerRandomSubmit >= 0 && isRandomAnswered == false)
+                      {
+                        const params = JSON.stringify({"Game":{"ID":0, "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
+                        "TeamA":{"ID":GLOBALS.matchDetails.Match.TeamA.ID,"Name":GLOBALS.matchDetails.Match.TeamA.Name,"NickName":GLOBALS.matchDetails.Match.TeamA.NickName,"Coach":GLOBALS.matchDetails.Match.TeamA.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamA.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamA.Logo,"Class":GLOBALS.matchDetails.Match.TeamA.Class,"Topic":GLOBALS.matchDetails.Match.TeamA.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamA.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamA.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamA.PreferredLanguage,
+                        "Players":GLOBALS.matchDetails.Match.TeamA.Players,
+                        "IsBatting":GLOBALS.TeamAIsBatting,"CreatedBy":null},
+                        "TeamACreationType":GLOBALS.matchDetails.Match.TeamACreationType,
+                        "TeamB":{"ID":GLOBALS.matchDetails.Match.TeamB.ID,"Name":GLOBALS.matchDetails.Match.TeamB.Name,"NickName":GLOBALS.matchDetails.Match.TeamB.NickName,"Coach":GLOBALS.matchDetails.Match.TeamB.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamB.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamB.Logo,"Class":GLOBALS.matchDetails.Match.TeamB.Class,"Topic":GLOBALS.matchDetails.Match.TeamB.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamB.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamB.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamB.PreferredLanguage,
+                        "Players":GLOBALS.matchDetails.Match.TeamB.Players,
+                        "IsBatting":GLOBALS.TeamBIsBatting,"CreatedBy":null},
+                        "TeamBCreationType":GLOBALS.matchDetails.Match.TeamBCreationType,
+                        "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
+                        "Umpire":GLOBALS.matchDetails.Match.Umpire,"UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,
+                        "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
+                        "GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":TossDesion,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,"CurrentSession":0,"Score":null,"ScoreItems":null,"GameWonBy":null},
+                        "Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+                        
+                        axios.post(GLOBALS.BASE_URL +'AutomatePlayerAnswerSubmission', params,{
+                            "headers": {
+                            "content-type": "application/json",
+                            },
+                            })
+                          .then(function (response) {
+                
+                           // console.log(response.data);
+                           console.log("Automatic",response.data);
+                
+                                    if(response.data.ResponseCode == 0 || response.data.ResponseCode=='0'){
+                                       
+                                    
+                                    } else {
+                                        Alert.alert(
+                                            "Internal Server Error",
+                                            [
+                                              { text: "OK", onPress: () => console.log("OK Pressed") }
+                                            ]
+                                          );    
+                                    }
+                                    
+                                   
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                                
+                                AnswerRandomSubmit = 0;
+                                isRandomAnswered = true;
+                                timerGetAnswerStatus();         
+                         
+                         
+                          
+                    }
+                   
+                  } catch (e) {
+                  console.log('Error')
+                  }
+              } catch (e) {
+                console.log('Error')
+              }
     }
     const UpdateScore = async () =>
     {
       
       console.log("Update Score");
-        const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":20151,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,
-        "UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":{"ID":108,"Name":"test3","Father":"test3","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedNonStrikerBatsman":{"ID":106,"Name":"test1","Father":"test1","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedBowler":{"ID":109,"Name":"test4","Father":"test4","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedFielder":{"ID":111,"Name":"test6","Father":"test6","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"CurrentBowlBeingThrown":1,"CurrentSession":1,"Score":null,"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null}
+        const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,
+        "UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":{"ID":108,"Name":"test3","Father":"test3","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedNonStrikerBatsman":{"ID":106,"Name":"test1","Father":"test1","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedBowler":{"ID":109,"Name":"test4","Father":"test4","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"SelectedFielder":{"ID":111,"Name":"test6","Father":"test6","Photo":"/Contents/Players/Photos/no-image.png","Mobile":null,"DOB":null,"Gender":0,"StudyingClass":{"ID":0,"ClassName":"Class 2","ClassIdentifier":0,"Language":0},"PlayerCategory":0,"CreatedOn":null,"CreatedBy":null,"Team":null,"IsRegisteredForUmpire":false,"ExperienceAsUmpire":0,"IsVisible":false,"Device":null,"PersonalScore":null,"IsMappedWithMatch":false,"UnEncryptedPassword":null},"CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,"CurrentSession":1,"Score":null,"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null}
 );
         
         axios.post(GLOBALS.BASE_URL +'UpdateScore', params,{
@@ -780,56 +831,49 @@ const  GameWindow = ({ route,navigation }) =>  {
 
                     if(JSON.stringify(response.data.ResponseCode) == 0 || JSON.stringify(response.data.ResponseCode)=='0'){
                       SetShowHideTopBar(2);
+                      setScore(response.data.Game.Score);
                       console.log("Update Score Score",JSON.stringify(response.data.Game.Score.AnimationType));
                       
                        if (JSON.stringify(response.data.Game.Score.AnimationType)==11) { // catchout
                         setvideovideopath(require('./Videos/GameVideos/Catch/Catch.mp4'));
+                        setDuration(14);
                        
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==10) { // Bowled 
-                        videopath = require('./Videos/GameVideos/Bowled/Bowled.mp4');
                         setvideovideopath(require('./Videos/GameVideos/Bowled/Bowled.mp4'));
-                       
+                        setDuration(15);
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==9) { // RunOut  
-                        videopath = require('./Videos/GameVideos/Runout/Runout.mp4');
+                        setDuration(15);
                         setvideovideopath(require('./Videos/GameVideos/Runout/Runout.mp4'));
                         
                        } else if (JSON.stringify(response.data.Game.Score.AnimationType)==8) { // CatchMissed   
-                        videopath = require('./Videos/GameVideos/CatchMissed/CatchMissed.mp4');
-                        setvideovideopath(require('./Videos/GameVideos/Catch/Catch.mp4'));
+                        setDuration(10);
+                        setvideovideopath(require('./Videos/GameVideos/CatchMissed/CatchMissed.mp4'));
                         
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==7) { // BallMissed    
-                        videopath = require('./Videos/GameVideos/NoRuns/BallMissed.mp4');
-                        setvideovideopath(require('./Videos/GameVideos/Runout/Runout.mp4'));
+                        setDuration(5);
+                        setvideovideopath(require('./Videos/GameVideos/NoRuns/BallMissed.mp4'));
                         
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==6) { // Six    
-                        videopath = require('./Videos/GameVideos/Six/Six.mp4');
+                        setDuration(13);
                         setvideovideopath(require('./Videos/GameVideos/Six/Six.mp4'));
                         
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==4) { // Four    
-                        videopath = require('./Videos/GameVideos/Four/Four.mp4');
+                        setDuration(12);
                         setvideovideopath(require('./Videos/GameVideos/Four/Four.mp4'));
                        
-                       }else if (JSON.stringify(response.data.Game.Score.AnimationType)==3) { // Triple     
-                        videopath = require('./Videos/GameVideos/Four/Four.mp4');
-                        setvideovideopath(require('./Videos/GameVideos/Four/Four.mp4'));
-                      
-                       
-                       }else if (JSON.stringify(response.data.Game.Score.AnimationType)==2) { // Double     
-                        videopath = require('./Videos/GameVideos/Run/Single.mp4');
-                        setvideovideopath(require('./Videos/GameVideos/Run/Single.mp4'));
-                       
+                    
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==1) { // Single     
-                        videopath = require('./Videos/GameVideos/Run/Single.mp4');
+                        setDuration(6);
                         setvideovideopath(require('./Videos/GameVideos/Run/Single.mp4'));
                         
                         
                        }else if (JSON.stringify(response.data.Game.Score.AnimationType)==0) { // Dot     
-                        videopath = require('./Videos/GameVideos/NoRuns/DotBall.mp4');
+                        setDuration(5);
                         setvideovideopath(require('./Videos/GameVideos/NoRuns/DotBall.mp4'));
                        
                        }
                        else{
-                        videopath = require('./Videos/GameVideos/NoRuns/DotBall.mp4');
+                        setDuration(5);
                         setvideovideopath(require('./Videos/GameVideos/NoRuns/DotBall.mp4'));
                        }
                 
@@ -857,7 +901,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                 });
     }
     const SwapPlayerIfApplicable = async () =>{
-      const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":20151,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":0,"CurrentSession":0,"Score":{"Session":0,"CommentatorsRemark":"No runs in this ball.","PersonalScore":0,"IsOut":false,"IsRunOut":false,"TeamScore":0,"TotalFours":0,"TotalSixes":0,"Wicket":0,"TotalWicketDown":0,"Bowl":1,"OversThrown":0,"Player":null,"PlayerType":0,"AnimationType":0,"Batsman1":null,"Batsman2":null,"Bowler":null,"Fielder":null,"IsTeamAllOut":false},"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+      const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,"CurrentSession":0,"Score":{"Session":0,"CommentatorsRemark":"No runs in this ball.","PersonalScore":0,"IsOut":false,"IsRunOut":false,"TeamScore":currentTeamscore,"TotalFours":0,"TotalSixes":0,"Wicket":0,"TotalWicketDown":0,"Bowl":1,"OversThrown":0,"Player":null,"PlayerType":0,"AnimationType":0,"Batsman1":null,"Batsman2":null,"Bowler":null,"Fielder":null,"IsTeamAllOut":false},"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
       
       axios.post(GLOBALS.BASE_URL +'SwapPlayerIfApplicable', params,{
           "headers": {
@@ -945,60 +989,48 @@ const  GameWindow = ({ route,navigation }) =>  {
       return Math.floor(Math.random()*(max-min+1)+min);
   }
   const sendPushNotification = async (deviceid,msg) => {
-    const FIREBASE_API_KEY = "AAAAPs3FQRQ:APA91bEwgnBf4qEwapaHu6-Xqt8AUAKzS-GkYJf0b4KiC2ec-mCvIye8DbMMtT0PoZKxp6k1oPrURZayM04lbOBEFYrHoLObqU8QGYHtthHjwjHLfGGSvxP16O1SMmo4oJsbbCrWvG0H"
+
+    try {
+      const FIREBASE_API_KEY = "AAAAPs3FQRQ:APA91bEwgnBf4qEwapaHu6-Xqt8AUAKzS-GkYJf0b4KiC2ec-mCvIye8DbMMtT0PoZKxp6k1oPrURZayM04lbOBEFYrHoLObqU8QGYHtthHjwjHLfGGSvxP16O1SMmo4oJsbbCrWvG0H"
     const json = "{\"to\": \"" + deviceid + "\",\"data\": {\"message\": \"" + msg + "\",}}";
     let headers = new Headers({
       "Content-Type": "application/json",
       Authorization: "key=" + FIREBASE_API_KEY,
-    });
-    let response = await  fetch("https://fcm.googleapis.com/fcm/send", {
+    })
+      // const headersdata = {
+      //   "Content-Type": "application/json",
+      //   Authorization: "key=" + FIREBASE_API_KEY,
+      // }
+      // axios.post("https://fcm.googleapis.com/fcm/send", json, {
+      //   headers: headersdata
+      // })
+      // .then((response) => {
+       
+      // })
+      // .catch((error) => {
+      
+      // })
+      let response = await  fetch("https://fcm.googleapis.com/fcm/send", {
       method: "POST",
       headers,
       body: json,
     });
     let jsonresponse = await response.json();
     return jsonresponse;
+    
+    } catch (error) {
+       console.error(error);
+    }
     SavePushNotificationLog(jsonresponse,deviceid,msg);
-  
-};
-  // const sendPushNotification = async (deviceid,msg) => {
+  };
 
-  //   //console.log("Demo",deviceid,msg);
-  //   const FIREBASE_API_KEY = "AAAAPs3FQRQ:APA91bEwgnBf4qEwapaHu6-Xqt8AUAKzS-GkYJf0b4KiC2ec-mCvIye8DbMMtT0PoZKxp6k1oPrURZayM04lbOBEFYrHoLObqU8QGYHtthHjwjHLfGGSvxP16O1SMmo4oJsbbCrWvG0H"
-  //   const json = "{\"to\": \"" + deviceid + "\",\"data\": {\"message\": \"" + msg + "\",}}";
-  //   let headers = new Headers({
-  //     "Content-Type": "application/json",
-  //     Authorization: "key=" + FIREBASE_API_KEY,
-  //   })
-  
-  // //   axios.post(
-  // //     'https://fcm.googleapis.com/fcm/send', 
-  // //     {
-  // //       method: "POST",
-  // //       headers,
-  // //       body: json,
-  // //     }).then(function (response) {
-  // //   onsole.log("ok",response)
-  // // })
-  // // .catch(function (error) {
-       
-  // // });
-  //   let response = await  fetch("https://fcm.googleapis.com/fcm/send", {
-  //     method: "POST",
-  //     headers,
-  //     body: json,
-  //   })
-  //   response = await response.json()
-  //   //console.log("ok",response)
 
-   
-  // }
   const getCurrentDate=()=>{
 
       var currentTimeInMilliseconds=Date.now();
       return currentTimeInMilliseconds;
  }
-  const SavePushNotificationLog = (res,device,message) =>{
+  const SavePushNotificationLog = async (res,device,message) =>{
     var current_date  =  "\/Date("+getCurrentDate()+")\/";
     const params = JSON.stringify({"PushNotificationLogItems":null,"PushNotificationLogItem":{"ID":0,
     "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},
@@ -1057,10 +1089,13 @@ const  GameWindow = ({ route,navigation }) =>  {
          ):(ShowHideBar) == 2 ? (
           <View style={{backgroundColor: '#fff',
           justifyContent: 'space-around',flex:1}}>
-           <Text>{ShowVideoPath}</Text>
+          {(ShowVideoPath) != null ? (
           <Video 
           source={ShowVideoPath}
-          style={styles.backgroundVideo} />
+          style={styles.backgroundVideo} 
+          resizeMode={'contain'}
+          volume={10}/>
+          ):(null)}
           </View>
 
          ):(
@@ -1521,6 +1556,7 @@ height:WIDTH/numColumns,
       left: 0,
       bottom: 0,
       right: 0,
+      
     },
   
   });
