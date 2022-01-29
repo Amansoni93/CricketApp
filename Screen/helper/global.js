@@ -12,6 +12,12 @@ export default  {
     CurrentBowlBeingThrown:'',
     TeamAIsBatting:'',
     TeamBIsBatting:'',
+    TempPlayerScores:'',
+    CurrentBowler:'',
+    CurrentFielder:'',
+    CurrentNonStriker:'',
+    CurrentStriker:'',
+    CurrentSession:'',
     CurrentBowlBeingThrown:'',
     QuestionsDeliveredForLevelGroup:null,
     COLOR: {
