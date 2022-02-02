@@ -26,6 +26,7 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
     axios.get(GLOBALS.BASE_URL +'GetMappedPlayersStatistics'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+matchid)
     .then(function (response) {
       if(response.data.ResponseCode =='0'){
+      //  console.log("check list",response.data.PlayersStatistics);
       setMappedPlayerStaticsData(response.data.PlayersStatistics);
       }
       

@@ -10,7 +10,7 @@ const CarouselItemQuestion = ({ item }) => {
             <Image style={styles.image} source={{ uri: "http://10.132.36.133/Service"+item.QuestionImage }} />
             <View style={styles.textView}>
                 <Image style={styles.itemTitle} source={{ uri: "http://10.132.36.133/Service"+item.Player.Photo }}/>
-                <Text> {item}</Text>
+                {/* <Text> {item.Answer}</Text> */}
             </View>
         </View>
     )
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     cardView: {
         flex: 1,
         width: width - 20,
-        height: height / 3,
+        height: height / 2,
         backgroundColor: 'white',
         margin: 10,
         borderRadius: 10,
@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         margin: 10,
-        left: 5,
+        right: 5,
+        height:60,
+        width:60,
+        borderRadius:5
     },
     image: {
         width: width - 20,

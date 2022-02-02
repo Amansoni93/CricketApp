@@ -9,6 +9,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import RNRestart from 'react-native-restart'; 
 import Video from 'react-native-video';
 import CarouselQuestion from './component/CarouselQuestion';
+import { dummyData } from './data/Data';
 var batteamname,bowlteamname;
 var batteamIcon,bowlteamIcon;
 var videopath =null;
@@ -52,8 +53,14 @@ const  GameWindow = ({ route,navigation }) =>  {
   const [currentTeamscore, setScore] = useState(0);
   const [CurrentSession,setCurrentSession] = useState(0);
   const [ScoreInfo,SetScoreInfomation] = useState('');
-
- 
+  const [PlayerScoreStriker,setPlayerScoreStricker] = useState(0);
+  const [PlayerScoreNonStricker,setPlayerScoreNonStricker]= useState(0);
+   const [CurrentOver,SetCurrentOver] = useState(0);
+   const [TotalFoursSixesTopBar,setTotalFoursSixesTopBar]= useState(0);
+  const[RunsScoredTopBar,setRunsScoredTopBar]=useState(0);
+  const[TargetTopBar,setTarget]= useState(0);
+  const [TotalBallsDeliveredTopBar,setTotalBallsDeliveredTopBar] = useState('');
+  const [WicketsTakenTopBar,setWicketsTakenTopBar]= useState('');
   const { WinTeanitemId } = route.params;
   const  {WinTeamitemName}  = route.params;
   const { LossTeamitemID } = route.params;
@@ -125,12 +132,16 @@ const  GameWindow = ({ route,navigation }) =>  {
       try {
         var team = (GLOBALS.TeamAIsBatting) ? GLOBALS.matchDetails.Match.TeamA : GLOBALS.matchDetails.Match.TeamB ;
         var isTeamA = (GLOBALS.TeamAIsBatting) ? true : false;
-        const params = JSON.stringify({"Game":{"CurrentBowlBeingThrown":0,"CurrentSession":0,"Decision":0,"DoesGameCompleted":false,"DoesUmpireJoined":false,"GameCompletedOn":null,"GameDate":null,"GameWonBy":null,"ID":0,
-        "Match":{"CreatedBy":null,"CreatedOn":null,"Description":null,"ID":GLOBALS.matchDetails.Match.ID,"IsVisible":false,"LastUpdated":null,"MatchDate":null,"MatchWonFinalRemark":null,"NumberOfOvers":0,"NumberOfPlayers":0,"SelectedQuestionSet":null,"Sponsor":null,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"Title":null,"Umpire":null,"UmpireUniqueCode":null,"Venue":null},
-        "Score":null,"ScoreItems":null,"SelectedBowler":null,"SelectedFielder":null,"SelectedNonStrikerBatsman":null,
-        "SelectedStrikerBatsman":StrickerBatsman,"TossCalledBy":null,"TossDate":null,"TossRemark":null,"TossWonBy":null},
-        "Games":null,"APIKey":"123456","APIUserID":"NIC","IPAddress":null}
-        );
+        const myStrickerBatsmanObject = {
+          "APIKey" : '123456',
+          "APIUserID":'NIC',
+          "Game": {
+            "SelectedStrikerBatsman" : {"ID" : playerid} ,
+            "Match": { "ID" : GLOBALS.matchDetails.Match.ID }
+          }
+      };
+        //console.log("Josn DATA",myObject);
+        const params = JSON.stringify(myStrickerBatsmanObject);
         
         axios.post(GLOBALS.BASE_URL +'SelectPlayerForGame', params,{
             "headers": {
@@ -171,13 +182,15 @@ const  GameWindow = ({ route,navigation }) =>  {
       try {
         var team = (GLOBALS.TeamAIsBatting) ? GLOBALS.matchDetails.Match.TeamA : GLOBALS.matchDetails.Match.TeamB ;
         var isTeamA = (GLOBALS.TeamAIsBatting) ? true : false;
-        const params = JSON.stringify({"Game":{"CurrentBowlBeingThrown":0,"CurrentSession":0,"Decision":0,"DoesGameCompleted":false,"DoesUmpireJoined":false,"GameCompletedOn":null,"GameDate":null,"GameWonBy":null,"ID":0,
-        "Match":{"CreatedBy":null,"CreatedOn":null,"Description":null,"ID":GLOBALS.matchDetails.Match.ID,"IsVisible":false,"LastUpdated":null,"MatchDate":null,"MatchWonFinalRemark":null,"NumberOfOvers":0,"NumberOfPlayers":0,"SelectedQuestionSet":null,"Sponsor":null,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"Title":null,"Umpire":null,"UmpireUniqueCode":null,"Venue":null},
-        "Score":null,"ScoreItems":null,"SelectedBowler":null,"SelectedFielder":null,
-        "SelectedNonStrikerBatsman":nonstrickerdata,
-        "SelectedStrikerBatsman":null,"TossCalledBy":null,"TossDate":null,"TossRemark":null,"TossWonBy":null},
-        "Games":null,"APIKey":"123456","APIUserID":"NIC","IPAddress":null}
-        );
+        const myNonStrickerBatsmanObject = {
+          "APIKey" : '123456',
+          "APIUserID":'NIC',
+          "Game": {
+            "SelectedNonStrikerBatsman" : {"ID" : playerid} ,
+            "Match": { "ID" : GLOBALS.matchDetails.Match.ID }
+          }
+      };
+        const params = JSON.stringify(myNonStrickerBatsmanObject);
         
         axios.post(GLOBALS.BASE_URL +'SelectPlayerForGame', params,{
             "headers": {
@@ -218,11 +231,15 @@ const  GameWindow = ({ route,navigation }) =>  {
       try {
         var team = (GLOBALS.TeamAIsBatting) ? GLOBALS.matchDetails.Match.TeamA : GLOBALS.matchDetails.Match.TeamB ;
         var isTeamA = (GLOBALS.TeamAIsBatting) ? true : false;
-        const params = JSON.stringify({"Game":{"CurrentBowlBeingThrown":0,"CurrentSession":0,"Decision":0,"DoesGameCompleted":false,"DoesUmpireJoined":false,"GameCompletedOn":null,"GameDate":null,"GameWonBy":null,"ID":0,
-        "Match":{"CreatedBy":null,"CreatedOn":null,"Description":null,"ID":GLOBALS.matchDetails.Match.ID,"IsVisible":false,"LastUpdated":null,"MatchDate":null,"MatchWonFinalRemark":null,"NumberOfOvers":0,"NumberOfPlayers":0,"SelectedQuestionSet":null,"Sponsor":null,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"Title":null,"Umpire":null,"UmpireUniqueCode":null,"Venue":null},
-        "Score":null,"ScoreItems":null,
-        "SelectedBowler":bowlerdata,"SelectedFielder":null,"SelectedNonStrikerBatsman":null,"SelectedStrikerBatsman":null,"TossCalledBy":null,"TossDate":null,"TossRemark":null,"TossWonBy":null},"Games":null,"APIKey":"123456","APIUserID":"NIC","IPAddress":null}
-        );
+        const myBollerObject = {
+          "APIKey" : '123456',
+          "APIUserID":'NIC',
+          "Game": {
+            "SelectedBowler" : {"ID" : playerid} ,
+            "Match": { "ID" : GLOBALS.matchDetails.Match.ID }
+          }
+      };
+        const params = JSON.stringify(myBollerObject);
         
         axios.post(GLOBALS.BASE_URL +'SelectPlayerForGame', params,{
             "headers": {
@@ -270,11 +287,15 @@ const  GameWindow = ({ route,navigation }) =>  {
       try {
         var team = (GLOBALS.TeamAIsBatting) ? GLOBALS.matchDetails.Match.TeamA : GLOBALS.matchDetails.Match.TeamB ;
         var isTeamA = (GLOBALS.TeamAIsBatting) ? true : false;
-        const params = JSON.stringify({"Game":{"CurrentBowlBeingThrown":0,"CurrentSession":0,"Decision":0,"DoesGameCompleted":false,"DoesUmpireJoined":false,"GameCompletedOn":null,"GameDate":null,"GameWonBy":null,"ID":0,
-        "Match":{"CreatedBy":null,"CreatedOn":null,"Description":null,"ID":GLOBALS.matchDetails.Match.ID,"IsVisible":false,"LastUpdated":null,"MatchDate":null,"MatchWonFinalRemark":null,"NumberOfOvers":0,"NumberOfPlayers":0,"SelectedQuestionSet":null,"Sponsor":null,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"Title":null,"Umpire":null,"UmpireUniqueCode":null,"Venue":null},
-        "Score":null,"ScoreItems":null,"SelectedBowler":null,
-        "SelectedFielder":filderdata,"SelectedNonStrikerBatsman":null,"SelectedStrikerBatsman":null,"TossCalledBy":null,"TossDate":null,"TossRemark":null,"TossWonBy":null},"Games":null,"APIKey":"123456","APIUserID":"NIC","IPAddress":null}
-        );
+        const myFilderObject = {
+          "APIKey" : '123456',
+          "APIUserID":'NIC',
+          "Game": {
+            "SelectedFielder" : {"ID" : playerid} ,
+            "Match": { "ID" : GLOBALS.matchDetails.Match.ID }
+          }
+      };
+        const params = JSON.stringify(myFilderObject);
         
         axios.post(GLOBALS.BASE_URL +'SelectPlayerForGame', params,{
             "headers": {
@@ -516,19 +537,23 @@ const  GameWindow = ({ route,navigation }) =>  {
             topBarPB2 = Boll1PhotoData;
             
 
-            lblCurrentOver = ((GLOBALS.CurrentBowlBeingThrown) / 6) + "." + ((GLOBALS.CurrentBowlBeingThrown) % 6) + " Thrown";
-            // if (GeneralHelper.TempPlayerScores != null && GeneralHelper.TempPlayerScores.Count > 0)
-            //         {
-            //             lblTotalFoursSixesTopBar.Text = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).FirstOrDefault().TotalFours + "  /  " + GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).FirstOrDefault().TotalSixes;
-            //             lblRunsScoredTopBar.Text = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).FirstOrDefault().TotalIndividualRuns.ToString("d2");
+            var  lblCurrentOver = ((GLOBALS.CurrentBowlBeingThrown) / 6) + "." + ((GLOBALS.CurrentBowlBeingThrown) % 6) + " Thrown";
+            SetCurrentOver(lblCurrentOver);
+            if (GLOBALS.TempPlayerScores != null && GLOBALS.TempPlayerScores.Count > 0)
+                    {
+                        var  TotalFoursSixesTopBar = GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 1)[0].TotalFours + "  /  " + GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 1)[0].TotalSixes;
+                        setTotalFoursSixesTopBar(TotalFoursSixesTopBar);
+                        var lblRunsScoredTopBar = GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 1)[0].TotalIndividualRuns.ToString("d2");
+                        setRunsScoredTopBar(lblRunsScoredTopBar);
+                        var lblTarget = GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 1)[0].Target;
+                        setTarget(lblTarget);
+                        var totalBallsThrown = GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 3)[0].TotalIndividulBallsThrown;
 
-            //             lblTarget.Text = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).FirstOrDefault().Target;
-
-            //             int totalBallsThrown = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Bowler).FirstOrDefault().TotalIndividulBallsThrown;
-
-            //             lblTotalBallsDeliveredTopBar.Text = (totalBallsThrown / 6) + "." + (totalBallsThrown % 6);
-            //             lblWicketsTakenTopBar.Text = GeneralHelper.TempPlayerScores.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Bowler).FirstOrDefault().TotalIndividualWickets.ToString();
-            //         }
+                        var lblTotalBallsDeliveredTopBar = (totalBallsThrown / 6) + "." + (totalBallsThrown % 6);
+                        setTotalBallsDeliveredTopBar(lblTotalBallsDeliveredTopBar);
+                        var lblWicketsTakenTopBar = GLOBALS.TempPlayerScores.Where(t => t.PlayerType == 4)[0].TotalIndividualWickets.ToString();
+                        setWicketsTakenTopBar(lblWicketsTakenTopBar);
+                    }
             
            
 
@@ -539,7 +564,7 @@ const  GameWindow = ({ route,navigation }) =>  {
             
             var randomGroup = 1;
 
-            //short retryCount = 0;
+            var retryCount = 0;
              
             var tempCtr = 0;
             while (true)
@@ -563,7 +588,16 @@ const  GameWindow = ({ route,navigation }) =>  {
                 tempCtr += 1;
             }
             TotalDevicesBeingUsedForGame = (DevicesUsedForGame == 0) ? 1 : DevicesUsedForGame;
-            const params = JSON.stringify({"Matches":null,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":{"ID":0,"SetName":null,"Description":null,"CreatedOn":null,"IsVisible":false,"QuestionSetCategory":0,"Questions":null,"MinLevelGroupID":randomGroup,"MaxLevelGroupID":0},"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"TotalDevicesBeingUsedForGame":TotalDevicesBeingUsedForGame,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+            const myDeliverBowlObject = {
+              "APIKey" : '123456',
+              "APIUserID":'NIC',
+              "Match": {
+                "ID" : GLOBALS.matchDetails.Match.ID ,
+                "SelectedQuestionSet": { "MinLevelGroupID" : randomGroup },
+                "TotalDevicesBeingUsedForGame": TotalDevicesBeingUsedForGame = (DevicesUsedForGame == 0) ? 1 : DevicesUsedForGame
+              }
+          };
+            const params = JSON.stringify(myDeliverBowlObject);
       
         console.log(params);
         axios.post(GLOBALS.BASE_URL +'DeliverBowlByLevelV2', params,{
@@ -648,10 +682,10 @@ const  GameWindow = ({ route,navigation }) =>  {
                       
                      
 
-                      //  if (! GLOBALS.QuestionsDeliveredForLevelGroup.Contains(randomGroup))
-                      //  {
-                      //    GLOBALS.QuestionsDeliveredForLevelGroup.Add(randomGroup);
-                      //  }
+                       if (! GLOBALS.QuestionsDeliveredForLevelGroup.find(randomGroup))
+                       {
+                         GLOBALS.QuestionsDeliveredForLevelGroup.push(randomGroup);
+                       }
                         
                     } else   {
                       
@@ -708,8 +742,7 @@ const  GameWindow = ({ route,navigation }) =>  {
 
                   if (JSON.stringify(response.data.QuestionDeliveryItem) != null && JSON.stringify(response.data.QuestionDeliveryItem).length>0) {
                     
-                   
-                    //console.log("Check Data for app "+response.data.QuestionDeliveryItem);
+                    
                     setQuestionDeliverItems(response.data.QuestionDeliveryItem);
                   }
                     
@@ -744,14 +777,20 @@ const  GameWindow = ({ route,navigation }) =>  {
                       try {
 
                         SetShowHideTopBar(0);
-                        const params = JSON.stringify({"Game":{"ID":0,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,
-                        "UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},"GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,
-                        "SelectedStrikerBatsman":StrickerBatsmanData,
-                        "SelectedNonStrikerBatsman":NonStrickerData,
-                        "SelectedBowler":BollerData,
-                        "SelectedFielder":filderData,
-                        "CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,"CurrentSession":1,"Score":null,"ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null}
-                );
+                        const myUpdateScoreObject = {
+                          "APIKey" : '123456',
+                          "APIUserID":'NIC',
+                          "Game": {
+                            "CurrentBowlBeingThrown" : GLOBALS.CurrentBowlBeingThrown,
+                            "SelectedStrikerBatsman":StrickerBatsmanData,
+                            "SelectedNonStrikerBatsman":NonStrickerData,
+                            "SelectedBowler":BollerData,
+                            "SelectedFielder" : filderData,
+                            "CurrentSession":1,
+                            "Match": { "ID" : GLOBALS.matchDetails.Match.ID }
+                          }
+                      };
+                        const params = JSON.stringify(myUpdateScoreObject);
                         
                         axios.post(GLOBALS.BASE_URL +'UpdateScore', params,{
                             "headers": {
@@ -760,15 +799,15 @@ const  GameWindow = ({ route,navigation }) =>  {
                             })
                           .then(function (responsescore) {
                 
-                            console.log("Update Score Result",JSON.stringify(responsescore.data.ResponseCode));
+                           // console.log("Update Score Result",JSON.stringify(responsescore.data.ResponseCode));
                 
                                     if(JSON.stringify(responsescore.data.ResponseCode) == 0 || JSON.stringify(responsescore.data.ResponseCode)=='0'){
-                                      SetShowHideTopBar(2);
+                                      
                                       setScore(responsescore.data.Game.Score);
-                                      console.log("Update Score Score",JSON.stringify(responsescore.data.Game.Score.AnimationType));
+                                    //  console.log("Update Score Score",JSON.stringify(responsescore.data.Game.Score.AnimationType));
                                       
                                        if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==11) { // catchout
-                                        
+                                        SetShowHideTopBar(2);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Catch/Catch.mp4')}
                                           style={styles.backgroundVideo} 
@@ -777,9 +816,10 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         setDuration(14);
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                        
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==10) { // Bowled 
+                                        SetShowHideTopBar(2);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Bowled/Bowled.mp4')}
                                           style={styles.backgroundVideo} 
@@ -789,8 +829,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         setDuration(15);
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
-                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==9) { // RunOut  
+                                        }, 12000);
+                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==9) { // RunOut 
+                                        SetShowHideTopBar(2); 
                                         setDuration(15);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Runout/Runout.mp4')}
@@ -800,8 +841,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                                        // setvideovideopath(require('./Videos/GameVideos/Runout/Runout.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
-                                       } else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==8) { // CatchMissed   
+                                        }, 12000);
+                                       } else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==8) { // CatchMissed
+                                        SetShowHideTopBar(2);   
                                         setDuration(10);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/CatchMissed/CatchMissed.mp4')}
@@ -811,8 +853,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/CatchMissed/CatchMissed.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==7) { // BallMissed    
+                                        SetShowHideTopBar(2);
                                         setDuration(5);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/NoRuns/BallMissed.mp4')}
@@ -822,8 +865,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/NoRuns/BallMissed.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==6) { // Six    
+                                        SetShowHideTopBar(2);
                                         setDuration(13);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Six/Six.mp4')}
@@ -833,8 +877,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/Six/Six.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==4) { // Four    
+                                        SetShowHideTopBar(2);
                                         setDuration(12);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Four/Four.mp4')}
@@ -844,9 +889,10 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/Four/Four.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                     
-                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==1) { // Single     
+                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==1) { // Single    
+                                        SetShowHideTopBar(2); 
                                         setDuration(6);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/Run/Single.mp4')}
@@ -856,9 +902,10 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/Run/Single.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                         
-                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==0) { // Dot     
+                                       }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==0) { // Dot 
+                                        SetShowHideTopBar(2);    
                                         setDuration(5);
                                         setvideovideopath(<Video 
                                           source={require('./Videos/GameVideos/NoRuns/DotBall.mp4')}
@@ -868,40 +915,31 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/NoRuns/DotBall.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 10000);
+                                        }, 12000);
                                        }
-                                       else{
-                                        setDuration(5);
-                                        setvideovideopath(<Video 
-                                          source={require('./Videos/GameVideos/NoRuns/DotBall.mp4')}
-                                          style={styles.backgroundVideo} 
-                                          resizeMode={'contain'}
-                                          volume={10}/>);
-                                        //setvideovideopath(require('./Videos/GameVideos/NoRuns/DotBall.mp4'));
-                                        setTimeout(() => {
-                                          SetShowHideTopBar(0);               
-                                        }, 10000);
-                                       }
-                                
                                        
-                
-                                       
-                                        try {
-                                          const paramsswap = JSON.stringify({"Game":{"ID":0,"Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},
-      "GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":0,"DoesGameCompleted":false,"GameCompletedOn":null,
-      "SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,
-      "CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,
-      "CurrentSession":0,"Score":{"Session":0,"CommentatorsRemark":"No runs in this ball.","PersonalScore":0,"IsOut":false,"IsRunOut":false,"TeamScore":currentTeamscore,"TotalFours":0,"TotalSixes":0,"Wicket":0,"TotalWicketDown":0,"Bowl":1,"OversThrown":0,"Player":null,"PlayerType":0,"AnimationType":0,"Batsman1":null,"Batsman2":null,"Bowler":null,"Fielder":null,"IsTeamAllOut":false},
-      "ScoreItems":null,"GameWonBy":null},"Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+                         try {
+                          const mySwapPlayerObject = {
+                            "APIKey" : '123456',
+                            "APIUserID":'NIC',
+                            "Game": {
+                              "Match": { "ID" : GLOBALS.matchDetails.Match.ID },
+                              "Score" : responsescore.data.Game.Score,
+                            }
+                        };
       
+      
+      const paramsswap = JSON.stringify(mySwapPlayerObject);
+      
+      console.log("Swap Parameter",mySwapPlayerObject);
       axios.post(GLOBALS.BASE_URL +'SwapPlayerIfApplicable', paramsswap,{
           "headers": {
           "content-type": "application/json",
           },
           })
         .then(function (responseswap) {
-
-          //console.log(response.data);
+          console.log("Swap  Response1  "+ responseswap.data);
+           console.log("Swap  Response  "+ JSON.stringify(responseswap.data));
           
 
                   if(JSON.stringify(responseswap.data.ResponseCode) == 0 || JSON.stringify(responseswap.data.ResponseCode)=='0'){
@@ -923,8 +961,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                           setBatData2Photo(tempTeam1photo);
                          
                       }
-                      //var ppp = scoreResponse.Game.ScoreItems.Where(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).First();
-                      //lblScoreInfo.Text = ppp.TotalTeamRuns.ToString("d2") + " / " + ppp.TotalTeamWickets + "    (" + ppp.TotalOvers + ")";
+                       var ppp = scoreResponse.Game.ScoreItems.Where(t => t.PlayerType == 1)[0];
+                     
+                      SetScoreInfomation(ppp.TotalTeamRuns.ToString("d2") + " / " + ppp.TotalTeamWickets + "    (" + ppp.TotalOvers + ")")
                         } catch (e) {
                         console.log('Error')
                         }
@@ -987,27 +1026,33 @@ const  GameWindow = ({ route,navigation }) =>  {
                       if (showTempScore) {
                         
                         //  this  is  a  testing    code  of  
-                        if (responsescore.data.Game.ScoreItems.First().CurrentScore % 2 != 0)
+                        if (responsescore.data.Game.ScoreItems[0].CurrentScore % 2 != 0)
                           {
                                             // Swap Players (Important)
                                             GLOBALS.TempPlayerScores = [];
-                                            var p1 = responsescore.data.Game.ScoreItems.FirstOrDefault(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1);
-                                            var p2 = responsescore.data.Game.ScoreItems.FirstOrDefault(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman2);
-                                            var p3 = responsescore.data.Game.ScoreItems.FirstOrDefault(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Bowler);
+                                            var p1 = responsescore.data.Game.ScoreItems.filter(t => t.PlayerType === 1);
+                                            var p2 = responsescore.data.Game.ScoreItems.filter(t => t.PlayerType === 2);
+                                            var p3 = responsescore.data.Game.ScoreItems.filter(t => t.PlayerType ===  3);
 
-                                            //GLOBALS.TempPlayerScores.Add(new PlayerScoreItem { IsOut = p1.IsOut, PlayerType = ApplicationEnumeratorsPlayerType.Batsman2, CurrentScore = p1.CurrentScore, Bowl = p1.Bowl, Player = p1.Player, IsRunOut = p1.IsRunOut, TotalFours = p1.TotalFours, TotalSixes = p1.TotalSixes, Session = p1.Session, Target = p1.Target, TotalIndividualRuns = p1.TotalIndividualRuns, TotalIndividualWickets = p1.TotalIndividualWickets, TotalIndividulBallsThrown = p1.TotalIndividulBallsThrown, TotalOvers = p1.TotalOvers, TotalTeamRuns = p1.TotalTeamRuns, TotalTeamWickets = p1.TotalTeamWickets });
+                                            GLOBALS.TempPlayerScores.push([{ "IsOut" : p1.IsOut, "PlayerType" : 2, "CurrentScore" : p1.CurrentScore, "Bowl" : p1.Bowl, "Player" : p1.Player, "IsRunOut" : p1.IsRunOut, "TotalFours" : p1.TotalFours, "TotalSixes" : p1.TotalSixes, "Session" : p1.Session, "Target" : p1.Target, "TotalIndividualRuns" : p1.TotalIndividualRuns, "TotalIndividualWickets" : p1.TotalIndividualWickets, "TotalIndividulBallsThrown" : p1.TotalIndividulBallsThrown, "TotalOvers" : p1.TotalOvers, "TotalTeamRuns" : p1.TotalTeamRuns, "TotalTeamWickets" : p1.TotalTeamWickets }]);
 
-                                           // GLOBALS.TempPlayerScores.Add(new PlayerScoreItem { IsOut = p2.IsOut, PlayerType = ApplicationEnumeratorsPlayerType.Batsman1, CurrentScore = p2.CurrentScore, Bowl = p2.Bowl, Player = p2.Player, IsRunOut = p2.IsRunOut, TotalFours = p2.TotalFours, TotalSixes = p2.TotalSixes, Session = p2.Session, Target = p2.Target, TotalIndividualRuns = p2.TotalIndividualRuns, TotalIndividualWickets = p2.TotalIndividualWickets, TotalIndividulBallsThrown = p2.TotalIndividulBallsThrown, TotalOvers = p2.TotalOvers, TotalTeamRuns = p2.TotalTeamRuns, TotalTeamWickets = p2.TotalTeamWickets });
+                                             GLOBALS.TempPlayerScores.push([{ "IsOut" : p2.IsOut, "PlayerType" : 1, "CurrentScore" : p2.CurrentScore, "Bowl" : p2.Bowl, "Player" : p2.Player, "IsRunOut" : p2.IsRunOut, "TotalFours" :  p2.TotalFours, "TotalSixes" : p2.TotalSixes, "Session" : p2.Session, "Target" : p2.Target, "TotalIndividualRuns" : p2.TotalIndividualRuns, "TotalIndividualWickets" : p2.TotalIndividualWickets, "TotalIndividulBallsThrown" : p2.TotalIndividulBallsThrown, "TotalOvers" : p2.TotalOvers, "TotalTeamRuns" : p2.TotalTeamRuns, "TotalTeamWickets" : p2.TotalTeamWickets }]);
 
-                                            GLOBALS.TempPlayerScores.Add(p3);
+                                            GLOBALS.TempPlayerScores.push(p3);
+                                           
+
                             }
                             else
                             {
                                GLOBALS.TempPlayerScores = responsescore.data.Game.ScoreItems; 
                             }
-                                  lblPlayerScoreStriker.Text = GLOBALS.TempPlayerScores.FirstOrDefault(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman1).TotalIndividualRuns.ToString("d2");
-                                  lblPlayerScoreNonStriker.Text = GLOBALS.TempPlayerScores.FirstOrDefault(t => t.PlayerType == ApplicationEnumeratorsPlayerType.Batsman2).TotalIndividualRuns.ToString("d2");
 
+                           var playerstrickerscore = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 1).TotalIndividualRuns.ToString("d2");
+                           var  lblPlayerScoreNonStriker = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 2).TotalIndividualRuns.ToString("d2");
+                           setPlayerScoreStricker(playerstrickerscore);
+                           setPlayerScoreNonStricker(lblPlayerScoreNonStriker);
+                           // set  score  for a  player  
+                           
                       }
                       if (!responsescore.data.Game.Score.IsTeamAllOut)
                       {
@@ -1045,9 +1090,8 @@ const  GameWindow = ({ route,navigation }) =>  {
                         setBollData2Name("Player Name");
                        
                         SetScoreInfomation("00 / 0  (0.0)")
-                        GeneralHelper.TemporaryPlayersListForTeamA = null;
-                        GeneralHelper.TemporaryPlayersListForTeamB = null;
-
+                        setTeamAData(null);
+                        setTeamBData(null);
                         try {
                           axios.get(GLOBALS.BASE_URL +'ChangeSession'+'/'+GLOBALS.API_USERID+'/'+GLOBALS.API_KEY+'/'+MatchID)
                           .then(function (changesessionresponse) {
@@ -1095,7 +1139,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                       
                   } else {
                       Alert.alert(
-                          "Internal Server Error",
+                          "Internal error occurred.",
                           [
                             { text: "OK", onPress: () => console.log("OK Pressed") }
                           ]
@@ -1105,7 +1149,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                  
               })
               .catch(function (error) {
-                  console.log(error);
+                  console.log("Printf",error);
               });
                                           } catch (e) {
                                           console.log('Error')
@@ -1122,23 +1166,17 @@ const  GameWindow = ({ route,navigation }) =>  {
                         
                     } 
                       try {
-                        console.log("AnswerRandomSubmit",AnswerRandomSubmit,"isRandomAnswered",isRandomAnswered)
+                       
                         if (AnswerRandomSubmit >= 0 && isRandomAnswered == false)
                             {
-                              const paramsauto = JSON.stringify({"Game":{"ID":0, "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":GLOBALS.matchDetails.Match.Title,"Description":GLOBALS.matchDetails.Match.Description,"MatchDate":GLOBALS.matchDetails.Match.MatchDate,"Venue":GLOBALS.matchDetails.Match.Venue,"Sponsor":GLOBALS.matchDetails.Match.Sponsor,"NumberOfOvers":GLOBALS.matchDetails.Match.NumberOfOvers,"NumberOfPlayers":GLOBALS.matchDetails.Match.NumberOfPlayers,
-                              "TeamA":{"ID":GLOBALS.matchDetails.Match.TeamA.ID,"Name":GLOBALS.matchDetails.Match.TeamA.Name,"NickName":GLOBALS.matchDetails.Match.TeamA.NickName,"Coach":GLOBALS.matchDetails.Match.TeamA.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamA.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamA.Logo,"Class":GLOBALS.matchDetails.Match.TeamA.Class,"Topic":GLOBALS.matchDetails.Match.TeamA.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamA.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamA.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamA.PreferredLanguage,
-                              "Players":GLOBALS.matchDetails.Match.TeamA.Players,
-                              "IsBatting":GLOBALS.TeamAIsBatting,"CreatedBy":null},
-                              "TeamACreationType":GLOBALS.matchDetails.Match.TeamACreationType,
-                              "TeamB":{"ID":GLOBALS.matchDetails.Match.TeamB.ID,"Name":GLOBALS.matchDetails.Match.TeamB.Name,"NickName":GLOBALS.matchDetails.Match.TeamB.NickName,"Coach":GLOBALS.matchDetails.Match.TeamB.Coach,"AboutTeam":GLOBALS.matchDetails.Match.TeamB.AboutTeam,"Logo":GLOBALS.matchDetails.Match.TeamB.Logo,"Class":GLOBALS.matchDetails.Match.TeamB.Class,"Topic":GLOBALS.matchDetails.Match.TeamB.Topic,"CreatedOn":GLOBALS.matchDetails.Match.TeamB.CreatedOn,"IsVisible":GLOBALS.matchDetails.Match.TeamB.IsVisible,"PreferredLanguage":GLOBALS.matchDetails.Match.TeamB.PreferredLanguage,
-                              "Players":GLOBALS.matchDetails.Match.TeamB.Players,
-                              "IsBatting":GLOBALS.TeamBIsBatting,"CreatedBy":null},
-                              "TeamBCreationType":GLOBALS.matchDetails.Match.TeamBCreationType,
-                              "SelectedQuestionSet":GLOBALS.matchDetails.Match.SelectedQuestionSet,
-                              "Umpire":GLOBALS.matchDetails.Match.Umpire,"UmpireUniqueCode":GLOBALS.matchDetails.Match.UmpireUniqueCode,"CreatedOn":GLOBALS.matchDetails.Match.CreatedOn,"LastUpdated":GLOBALS.matchDetails.Match.LastUpdated,"IsVisible":GLOBALS.matchDetails.Match.IsVisible,"MatchWonFinalRemark":GLOBALS.matchDetails.Match.MatchWonFinalRemark,
-                              "CreatedBy":GLOBALS.matchDetails.Match.CreatedBy},
-                              "GameDate":null,"DoesUmpireJoined":false,"TossCalledBy":null,"TossWonBy":null,"TossRemark":null,"TossDate":null,"Decision":TossDesion,"DoesGameCompleted":false,"GameCompletedOn":null,"SelectedStrikerBatsman":null,"SelectedNonStrikerBatsman":null,"SelectedBowler":null,"SelectedFielder":null,"CurrentBowlBeingThrown":GLOBALS.CurrentBowlBeingThrown,"CurrentSession":0,"Score":null,"ScoreItems":null,"GameWonBy":null},
-                              "Games":null,"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+                              const myAutomatePlayerAnswerObject = {
+                                "APIKey" : '123456',
+                                "APIUserID":'NIC',
+                                "Game": {
+                                   "Match":  GLOBALS.matchDetails.Match 
+                                }
+                            };
+                              const paramsauto = JSON.stringify(myAutomatePlayerAnswerObject);
                               
                               axios.post(GLOBALS.BASE_URL +'AutomatePlayerAnswerSubmission', paramsauto,{
                                   "headers": {
@@ -1203,19 +1241,7 @@ const  GameWindow = ({ route,navigation }) =>  {
       "Content-Type": "application/json",
       Authorization: "key=" + FIREBASE_API_KEY,
     })
-      // const headersdata = {
-      //   "Content-Type": "application/json",
-      //   Authorization: "key=" + FIREBASE_API_KEY,
-      // }
-      // axios.post("https://fcm.googleapis.com/fcm/send", json, {
-      //   headers: headersdata
-      // })
-      // .then((response) => {
-       
-      // })
-      // .catch((error) => {
       
-      // })
       let response = await  fetch("https://fcm.googleapis.com/fcm/send", {
       method: "POST",
       headers,
@@ -1227,6 +1253,7 @@ const  GameWindow = ({ route,navigation }) =>  {
     } catch (error) {
        console.error(error);
     }
+    
     SavePushNotificationLog(jsonresponse,deviceid,msg);
   };
 
@@ -1238,9 +1265,18 @@ const  GameWindow = ({ route,navigation }) =>  {
  }
   const SavePushNotificationLog = async (res,device,message) =>{
     var current_date  =  "\/Date("+getCurrentDate()+")\/";
-    const params = JSON.stringify({"PushNotificationLogItems":null,"PushNotificationLogItem":{"ID":0,
-    "Match":{"ID":GLOBALS.matchDetails.Match.ID,"Title":null,"Description":null,"MatchDate":null,"Venue":null,"Sponsor":null,"NumberOfOvers":0,"NumberOfPlayers":0,"TeamA":null,"TeamACreationType":0,"TeamB":null,"TeamBCreationType":0,"SelectedQuestionSet":null,"Umpire":null,"UmpireUniqueCode":null,"CreatedOn":null,"LastUpdated":null,"IsVisible":false,"MatchWonFinalRemark":null,"CreatedBy":null},
-    "DeviceID":device,"NotificationResponseMessage":"+"+res+"","DateTimeStamp":current_date,"QueryString":message,"PlayerType":0},"APIUserID":"NIC","APIKey":"123456","IPAddress":null});
+    const myPushNotificationLogObject = {
+      "APIKey" : '123456',
+      "APIUserID":'NIC',
+      "PushNotificationLogItem": {
+        "DeviceID" : device,
+        "NotificationResponseMessage":res,
+        "QueryString":message,
+        "Match": { "ID" : GLOBALS.matchDetails.Match.ID },
+        "DateTimeStamp": current_date
+      }
+  };
+    const params = JSON.stringify(myPushNotificationLogObject);
     axios.post(GLOBALS.BASE_URL +'SavePushNotificationLog', params,{
       "headers": {
       "content-type": "application/json",
@@ -1284,10 +1320,13 @@ const  GameWindow = ({ route,navigation }) =>  {
           
           <View style={{backgroundColor: '#fff',
           justifyContent: 'space-around'}}>
-            <Text>{QuestionDeliverItems}</Text>
-           {QuestionDeliverItems && QuestionDeliverItems.length? (
-          <CarouselQuestion data = {QuestionDeliverItems}/>
-          ):(  null )}
+            {/* <Text>{QuestionDeliverItems.BowlNo}</Text> */}
+             {QuestionDeliverItems.QuestionsForViewer && QuestionDeliverItems.QuestionsForViewer.length? (
+            <CarouselQuestion data = {QuestionDeliverItems.QuestionsForViewer}/>
+             ):(  null )}
+           {/* {QuestionDeliverItems && QuestionDeliverItems.length? (
+          <CarouselQuestion data = {QuestionDeliverItems.QuestionsForViewer}/>
+          ):(  null )} */}
             {/* <FlatList data={QuestionDeliverItems.QuestionsForViewer}
               keyExtractor={(item,index)=> index.toString()}
               renderItem={_renderItem}
@@ -1336,7 +1375,7 @@ const  GameWindow = ({ route,navigation }) =>  {
         </TouchableHighlight>
           </View>
           
-          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} >00</Text>
+          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} >{GLOBALS.lblPlayerScoreStriker}</Text>
           </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -1353,20 +1392,13 @@ const  GameWindow = ({ route,navigation }) =>  {
           <View style={{ flexDirection:'row',justifyContent:'space-between'}}>
         <Image  source={{uri:Bat2PhotoData}}    style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
         <View style={{flexDirection:'column'}}>
-        
-        
-        
-        
           <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} > {Bat2NameData}</Text>
           <Text style={{fontSize:12,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} >Batsman(Non Striker)</Text>
-          
           <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => refRBSheetTeamBat2.current.open()}>
           <Text style={styles.loginText}> Select Bats</Text>
         </TouchableHighlight>
           </View>
-
-          
-          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} >00</Text>
+          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blue,padding:2}} >{GLOBALS.lblPlayerScoreNonStriker}</Text>
           </View>
           </TouchableOpacity>
           <RBSheet

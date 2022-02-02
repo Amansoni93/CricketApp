@@ -43,7 +43,7 @@ const CarouselQuestion = ({ data }) => {
             <View>
                 <FlatList data={data}
                     ref={mySlide}
-                    keyExtractor={(item, index) => 'key' + index}
+                    keyExtractor={(item, index) => 'key' + index.toString()}
                     horizontal
                     pagingEnabled
                     scrollEnabled
