@@ -940,7 +940,7 @@ const  GameWindow = ({ route,navigation }) =>  {
         .then(function (responseswap) {
           console.log("Swap  Response1  "+ responseswap.data);
            console.log("Swap  Response  "+ JSON.stringify(responseswap.data));
-          
+           console.log("hello");
 
                   if(JSON.stringify(responseswap.data.ResponseCode) == 0 || JSON.stringify(responseswap.data.ResponseCode)=='0'){
                     try {
