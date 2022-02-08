@@ -1,5 +1,5 @@
 import React, { useEffect,useRef,useState } from 'react';
-import {Button,StyleSheet,View, FlatList,Dimensions,TouchableOpacity,Image,Text,TextInput,ScrollView,TouchableHighlight,ImageBackground,SafeAreaView,Alert } from 'react-native';
+import {Button,StyleSheet,View, FlatList,Dimensions,Modal,Animated,TouchableOpacity,Image,Text,TextInput,ScrollView,TouchableHighlight,ImageBackground,SafeAreaView,Alert } from 'react-native';
 import GLOBALS from './helper/global'; 
 import { Card } from 'react-native-paper';
 import Colors from './helper/colors';
@@ -20,7 +20,40 @@ const numColumns =2;
 const  WIDTH = Dimensions.get('window').width;
 var AnswerRandomSubmit = 0;
 var isRandomAnswered = false ;
-
+const ModalPoup = ({visible, children}) => {
+  const [showModal, setShowModal] = React.useState(visible);
+  const scaleValue = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    toggleModal();
+  }, [visible]);
+  const toggleModal = () => {
+    if (visible) {
+      setShowModal(true);
+      Animated.spring(scaleValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      setTimeout(() => setShowModal(false), 200);
+      Animated.timing(scaleValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+  return (
+    <Modal transparent visible={showModal}>
+      <View style={styles.modalBackGround}>
+        <Animated.View
+          style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+          {children}
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+};
 const  GameWindow = ({ route,navigation }) =>  {
 
   const refRBSheetTeamBat1 = useRef();
@@ -61,6 +94,7 @@ const  GameWindow = ({ route,navigation }) =>  {
   const[TargetTopBar,setTarget]= useState(0);
   const [TotalBallsDeliveredTopBar,setTotalBallsDeliveredTopBar] = useState('');
   const [WicketsTakenTopBar,setWicketsTakenTopBar]= useState('');
+  const [visible, setVisible] = React.useState(false);
   const { WinTeanitemId } = route.params;
   const  {WinTeamitemName}  = route.params;
   const { LossTeamitemID } = route.params;
@@ -398,7 +432,7 @@ const  GameWindow = ({ route,navigation }) =>  {
       style={{
         paddingHorizontal: 5,
         alignSelf: "center",
-        marginTop:10,
+        marginTop:5,
         backgroundColor: "#FFF",
         elevation: 1,
         height:60,
@@ -805,7 +839,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                                       
                                       setScore(responsescore.data.Game.Score);
                                     //  console.log("Update Score Score",JSON.stringify(responsescore.data.Game.Score.AnimationType));
-                                      
+                                   
                                        if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==11) { // catchout
                                         SetShowHideTopBar(2);
                                         setvideovideopath(<Video 
@@ -853,7 +887,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/CatchMissed/CatchMissed.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 12000);
+                                        }, 13000);
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==7) { // BallMissed    
                                         SetShowHideTopBar(2);
                                         setDuration(5);
@@ -877,7 +911,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/Six/Six.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 12000);
+                                        }, 13000);
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==4) { // Four    
                                         SetShowHideTopBar(2);
                                         setDuration(12);
@@ -889,7 +923,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                                         //setvideovideopath(require('./Videos/GameVideos/Four/Four.mp4'));
                                         setTimeout(() => {
                                           SetShowHideTopBar(0);               
-                                        }, 12000);
+                                        }, 13000);
                                     
                                        }else if (JSON.stringify(responsescore.data.Game.Score.AnimationType)==1) { // Single    
                                         SetShowHideTopBar(2); 
@@ -917,6 +951,7 @@ const  GameWindow = ({ route,navigation }) =>  {
                                           SetShowHideTopBar(0);               
                                         }, 12000);
                                        }
+                                      //  SetShowHideTopBar(3);
                                        
                          try {
                           const mySwapPlayerObject = {
@@ -932,6 +967,7 @@ const  GameWindow = ({ route,navigation }) =>  {
       const paramsswap = JSON.stringify(mySwapPlayerObject);
       
       console.log("Swap Parameter",mySwapPlayerObject);
+      console.log("Swap Parameter json ",paramsswap);
       axios.post(GLOBALS.BASE_URL +'SwapPlayerIfApplicable', paramsswap,{
           "headers": {
           "content-type": "application/json",
@@ -986,6 +1022,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                          
                     }
                   }
+
+                  showTempScore = false;
+                  setVisible(true);
                 } else if(responsematchwon.data.ResponseCode =='1'){
                     Alert.alert(
                       responsematchwon.data.ResponseMessageEnglish,
@@ -1046,9 +1085,11 @@ const  GameWindow = ({ route,navigation }) =>  {
                             {
                                GLOBALS.TempPlayerScores = responsescore.data.Game.ScoreItems; 
                             }
-
-                           var playerstrickerscore = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 1).TotalIndividualRuns.ToString("d2");
-                           var  lblPlayerScoreNonStriker = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 2).TotalIndividualRuns.ToString("d2");
+                           
+                           var playerstrickerscore = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 1).TotalIndividualRuns;
+                           var  lblPlayerScoreNonStriker = GLOBALS.TempPlayerScores.filter(t => t.PlayerType == 2).TotalIndividualRuns;
+                           console.log("playerstrickerscore",playerstrickerscore);
+                           console.log("lblPlayerScoreNonStriker",lblPlayerScoreNonStriker);
                            setPlayerScoreStricker(playerstrickerscore);
                            setPlayerScoreNonStricker(lblPlayerScoreNonStriker);
                            // set  score  for a  player  
@@ -1056,10 +1097,9 @@ const  GameWindow = ({ route,navigation }) =>  {
                       }
                       if (!responsescore.data.Game.Score.IsTeamAllOut)
                       {
-                                        isLeftPanelVisible = false;
-                                        leftPanelCtr = -370;
-                                        timerHideShowLeftSidebar.Enabled = true;
-                                        timerHideShowLeftSidebar.Start();
+                                       
+                                         
+                                        
                     }else {
                       // this  is  a TEST for  
                       if (CurrentSession == 2) 
@@ -1314,6 +1354,33 @@ const  GameWindow = ({ route,navigation }) =>  {
   
     return (
       <SafeAreaView style={{flex: 1}}>
+         {(visible) == true ? (
+         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ModalPoup visible={visible}>
+                  <View style={{alignItems: 'center'}}>
+                    <View style={styles.header}>
+                      <TouchableOpacity onPress={() => setVisible(false)}>
+                        <Image
+                          source={require('./images/x.png')}
+                          style={{height: 30, width: 30}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Image
+                      source={require('./images/final_anim.gif')}
+                      style={{height: 150, width: 150, marginVertical: 10}}
+                    />
+                  </View>
+
+                  <Text style={{marginVertical: 30, fontSize: 20, textAlign: 'center'}}>
+                    Congratulations registration was successful
+                  </Text>
+                </ModalPoup>
+              
+              </View>
+         ):(null)}
         <View style={{flex:1}}>
           
          {(ShowHideBar) == 1 ? (
@@ -1339,11 +1406,14 @@ const  GameWindow = ({ route,navigation }) =>  {
           justifyContent: 'space-around',flex:1}}>
           {ShowVideoPath}
           </View>
-
+       
+         
          ):(
           
-          <View style={styles.container}>
-        
+          <View style={{flex:1,flexDirection:'row'}} >
+         <View style={styles.container}>
+         <View style={{flex:1}}> 
+       <View style={styles.item}>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             
           <Image  source= {{ uri:batteamIcon}}  style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',padding:2}} />
@@ -1444,19 +1514,14 @@ const  GameWindow = ({ route,navigation }) =>  {
         </SafeAreaView>
       </RBSheet>
        
+        </View>
+        </View>
+        </View>
         
-        
-      <TouchableOpacity
-    style={{
-      paddingHorizontal: 10,
-      alignSelf: "center",
-      backgroundColor: "#FFF",
-      elevation: 1,
-      width: '90%',
-      borderRadius: 16,
-    }}
-  ></TouchableOpacity>  
-  
+     
+   <View style={styles.containerright}>
+   <View style={{flex:1}}> 
+       <View style={styles.item}>
        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
          
        <Image  source={{ uri:bowlteamIcon}}  style={{width:60,height:60,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
@@ -1562,28 +1627,36 @@ const  GameWindow = ({ route,navigation }) =>  {
       </RBSheet>
        </View>
 </TouchableOpacity>
-        
-
+        </View>
+        </View>
+</View>
          <View style={{position: 'absolute',
-  flex:0.1,
+  flex:1,
   left: 0,
   right: 0,
+  flexWrap: 'wrap',
+    alignItems: 'flex-start',
   bottom: -10,
   flexDirection:'row',
   justifyContent:'space-between',
   height:60,
   alignItems:'center',}}>
-    <TouchableHighlight  onPress={() => ExitGame()} style={[styles.buttonBottomContainer, styles.loginButton]}  >
+     
+    <TouchableHighlight  onPress={() => ExitGame()} style={[styles.buttonBottomContainer, styles.loginbootomButton]}  >
           <Text style={styles.loginText}>   End Game</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={[styles.buttonBottomContainer, styles.loginButton]}  >
+        
+        <TouchableHighlight style={[styles.buttonBottomContainer, styles.loginbootomButton]}  >
           <Text style={styles.loginText}>   Extend Over</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => PlayGame()} style={[styles.buttonBottomContainer, styles.loginButton]}  >
+     
+        <TouchableHighlight onPress={() => PlayGame()} style={[styles.buttonBottomContainer, styles.loginbootomButton]}  >
           <Text style={styles.loginText}>  BOWL{NoofBoll}</Text>
-        </TouchableHighlight>       
+        </TouchableHighlight> 
+            
              </View>  
         </View>
+
         )}
        </View>
        </SafeAreaView>
@@ -1594,15 +1667,28 @@ const  GameWindow = ({ route,navigation }) =>  {
 
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+  },
+  containerright: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-end'
+  },
     coverImage: {
       width: 50,
       height: 50,
       borderRadius:50,
     
     },
+    item: {
+      width: '100%' // is 50% of container width
+    },
+    
     itemStyle : {
 alignItems :'center',
 justifyContent:'center',
@@ -1685,6 +1771,11 @@ height:WIDTH/numColumns,
     },
     loginButton: {
       backgroundColor: "#9CD85C",
+     
+    },
+    loginbootomButton: {
+      backgroundColor: "#9CD85C",
+      width:'33%'
     },
     input: {
       color: Colors.blackcolor,
@@ -1792,6 +1883,26 @@ height:WIDTH/numColumns,
       bottom: 0,
       right: 0,
       
+    },
+    modalBackGround: {
+      flex: 1,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContainer: {
+      width: '80%',
+      backgroundColor: 'white',
+      paddingHorizontal: 20,
+      paddingVertical: 30,
+      borderRadius: 20,
+      elevation: 20,
+    },
+    header: {
+      width: '100%',
+      height: 40,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
     },
   
   });

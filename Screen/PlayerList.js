@@ -258,11 +258,11 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     onPress={()=> getPlayerdetailsTeamA(item.ID,item.Name)} 
     style={{
       paddingHorizontal: 5,
-      paddingTop:10,
+      paddingTop:5,
       alignSelf: "center",
-      marginTop: 10,
+      marginTop: 5,
       backgroundColor: "#FFF",
-      height: 70,
+      height: 50,
       elevation: 1,
       width: '100%',
       borderRadius: 16,
@@ -284,11 +284,11 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     onPress={()=> getPlayerdetailsTeamB(item.ID,item.Name)}
     style={{
       paddingHorizontal: 5,
-      paddingTop:10,
+      paddingTop:5,
       alignSelf: "center",  
-      marginTop: 10,
+      marginTop: 5,
       backgroundColor: "#FFF",
-      height: 70,
+      height: 50,
       elevation: 1,
       width: '100%',
       borderRadius: 16,
@@ -415,16 +415,16 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
       alignSelf: "center",
       alignContent:'center',
       justifyContent:'center',
-      marginTop: 10,
-      height:30,
+      marginTop: 2,
+      height:20,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
       width: '90%',
       borderRadius: 16,
     }}>
-        <Text style={{fontSize:16,fontWeight:'700',marginLeft:10,textAlign:'left',color:'#414A4C', fontFamily: "RobotoBold",}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
-        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,  paddingLeft: 70,textAlign:'right', fontFamily: "RobotoBold",alignItems:'flex-end',color:'#414A4C'}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:10,color:'#414A4C', fontFamily: "RobotoBold",}}>{GLOBALS.matchDetails.Match.TeamA.Name}</Text>
+        <Text style={{fontSize:16,fontWeight:'700',marginRight:10,  paddingLeft: 70, fontFamily: "RobotoBold",alignItems:'flex-end',color:'#414A4C'}}>{GLOBALS.matchDetails.Match.TeamB.Name}</Text>
         </TouchableOpacity>
       
       {(selectedTossvalue) == 1 ? (
@@ -471,8 +471,8 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     style={{
       paddingHorizontal: 32,
       alignSelf: "center",
-      marginTop: 10,
-      height:40,
+      marginTop: 2,
+      height:20,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
@@ -490,8 +490,8 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     style={{
       paddingHorizontal: 32,
       alignSelf: "center",
-      marginTop: 10,
-      height:30,
+      marginTop: 3,
+      height:20,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
@@ -502,15 +502,15 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
         </TouchableOpacity>
        
     <View style={{flexDirection:'row',flex:3,margin:5}}>
-        <View style={{flex:1,flexDirection:'row',padding:2,shadowColor:'#000', }}>
+     
         <SafeAreaView style={{flex:1}}>
         <TouchableOpacity
     style={{
       paddingHorizontal: 10,
       paddingTop:10,
       alignSelf: "center",
-      marginTop: 20,
-      height:55,
+      marginTop: 10,
+      height:50,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
@@ -530,7 +530,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
       style={{
       paddingHorizontal: 10,
       alignSelf: "center",
-      height:50,
+      height:40,
       backgroundColor:'#9CD85C',
       flexDirection:'row',
       elevation: 1,
@@ -551,15 +551,15 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     
        
         </SafeAreaView>
-    </View>
+    
     <View style={{flex:1,flexDirection:'row',padding:2,}}>
       <SafeAreaView style={{flex:1}}>
          <TouchableOpacity
     style={{
       paddingHorizontal: 10,
       alignSelf: "center",
-      marginTop: 20,
-      height:55,
+      marginTop: 10,
+      height:50,
       flexDirection:'row',
       backgroundColor: "#FFF",
       elevation: 1,
@@ -580,7 +580,7 @@ const setSelectedTossTeam  = (tossvalue,tossCalledBy) => {
     style={{
       paddingHorizontal: 10,
       alignSelf: "center",
-      height:50,
+      height:40,
       backgroundColor:'#9CD85C',
       flexDirection:'row',
       elevation: 1,

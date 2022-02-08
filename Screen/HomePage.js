@@ -79,15 +79,17 @@ const  HomePage = ({ navigation }) =>  {
            <View style={{backgroundColor:colors.themeColor}}>
              <View style={{padding:16,flexDirection:'row',justifyContent:'space-between'}}>
              <Icon name="dehaze" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
-           
+             <View style={{padding:16,}}>
+              <Text style={{color:Colors.white,fontSize:30}}>{"C.A.A.T"}</Text> 
+              </View>
              <View style={{flexDirection:'row'}}>
              <Icon name="notifications-none" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
              <Icon name="account-circle" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
              
              </View>
              </View>
-             <View style={{padding:16,}}>
-              <Text style={{color:Colors.white,fontSize:30}}>{"Hello,\n CAAT"}</Text> 
+             {/* <View style={{padding:16,}}>
+              <Text style={{color:Colors.white,fontSize:30}}>{"Hello,\n C.A.A.T"}</Text> 
               <View style={{paddingHorizontal:16,paddingVertical:6,flexDirection:'row',justifyContent:'space-between',backgroundColor:colors.tint,borderRadius:20,marginVertical:20,alignItems:'center' }}>
               <Icon name="search" backgroundColor="#3b5998" size={30} style={{color:colors.white}}/>
               <View style={{flexDirection:'row'}}>
@@ -95,13 +97,13 @@ const  HomePage = ({ navigation }) =>  {
               <Icon name="tune" backgroundColor="#3b5998" size={30} style={{color:colors.white}} />
               </View>
               </View>
-             </View>
+             </View> */}
 
 </View>
-<View style={{padding:20,flexDirection:'row',justifyContent:'flex-end',backgroundColor:colors.background,alignItems:'center'}}>
+{/* <View style={{padding:20,flexDirection:'row',justifyContent:'flex-end',backgroundColor:colors.background,alignItems:'center'}}>
   <Text style={{fontSize:24}} >Tasks</Text>
   <Icon name="add" backgroundColor={colors.background} size={30} style={styles.inputiCon,{justifyContent:'flex-end',borderRadius:20,marginHorizontal:8}} />
-</View>
+</View> */}
 <ScrollView style={{backgroundColor:colors.background}} >
 <TouchableOpacity onPress={() => { navigation.navigate('UmpireLogin', { itemId: 'Mason', otherParam: 'anything you want here',  });}}>
                         

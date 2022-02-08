@@ -62,58 +62,66 @@ const  PlayerDevice = ({ route,navigation }) =>  {
           <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center',fontFamily:'RobotoRegular'}} >Select Number of Devices being used for Game</Text>
           <Text style={{fontSize:12,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,alignSelf:'center',fontFamily:'RobotoRegular'}} >गेम के लिए उपयोग किए जा रहे उपकरणों की संख्या का चयन करें</Text>
        </View>
-        
-       
-        <View style={{flexDirection:'row',alignContent:'space-around',justifyContent:'space-between'}}>
+       <View style={styles.container}>
+         <View style={{flex:1}}> 
+       <View style={styles.item}>
+       <View style={{flexDirection:'row',alignContent:'space-around',justifyContent:'space-between'}}>
             
-        <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-        <View style={{flexDirection:'row'}}>
-          <View style={{flexDirection:'column'}}>
-          <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 Device</Text>
-          <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 डिवाइस</Text>
-          </View>
-        </View>
-        
-        <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
-                        WinTeanitemId: WinTeanitemId,
-                        WinTeamitemName:WinTeamitemName,
-                        LossTeamitemID: LossTeamitemID,
-                        LossTeamitemName:LossTeamitemName,
-                        TossDesion:TossDesion,
-                        TeamA1Status:Teama1Status,
-                        TeamB1Status:Teamb1Status,
-                        DevicesUsedForGame:1,
-                        SeletedTeamWon:SeletedTeamWon,
-                    }); }}>
-           <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
-        </TouchableOpacity>
-        </View>
-       
-          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
+            <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'column'}}>
+              <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 Device</Text>
+              <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >1 डिवाइस</Text>
+              </View>
+            </View>
             
-        <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-        <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
-        <View style={{flexDirection:'row'}}>
-        <View style={{  flexDirection:'column'}}>
-        <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 Device</Text>
-        <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 डिवाइस</Text>
-        </View>
-        </View>
-        <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
-          WinTeanitemId: WinTeanitemId,
-          WinTeamitemName:WinTeamitemName,
-          LossTeamitemID: LossTeamitemID,
-          LossTeamitemName:LossTeamitemName,
-          TossDesion:TossDesion,
-          TeamA1Status:Teama1Status,
-          TeamB1Status:Teamb1Status,
-          DevicesUsedForGame:2,   
-          SeletedTeamWon:SeletedTeamWon,          
-                    }); }}>
-           <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
-        </TouchableOpacity>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
+                            WinTeanitemId: WinTeanitemId,
+                            WinTeamitemName:WinTeamitemName,
+                            LossTeamitemID: LossTeamitemID,
+                            LossTeamitemName:LossTeamitemName,
+                            TossDesion:TossDesion,
+                            TeamA1Status:Teama1Status,
+                            TeamB1Status:Teamb1Status,
+                            DevicesUsedForGame:1,
+                            SeletedTeamWon:SeletedTeamWon,
+                        }); }}>
+               <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
+            </TouchableOpacity>
+            </View>
+           
+  </View>
+  <View style={styles.item}>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            
+            <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
+            <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:10,padding:2}} />
+            <View style={{flexDirection:'row'}}>
+            <View style={{  flexDirection:'column'}}>
+            <Text style={{fontSize:18,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 Device</Text>
+            <Text style={{fontSize:14,fontWeight:'700',marginLeft:10,color:Colors.blackcolor,padding:2}} >2 डिवाइस</Text>
+            </View>
+            </View>
+            <TouchableOpacity  style={{alignContent:'flex-end',alignItems:'flex-end'}} onPress={() => { navigation.navigate('GameWindow',{
+              WinTeanitemId: WinTeanitemId,
+              WinTeamitemName:WinTeamitemName,
+              LossTeamitemID: LossTeamitemID,
+              LossTeamitemName:LossTeamitemName,
+              TossDesion:TossDesion,
+              TeamA1Status:Teama1Status,
+              TeamB1Status:Teamb1Status,
+              DevicesUsedForGame:2,   
+              SeletedTeamWon:SeletedTeamWon,          
+                        }); }}>
+               <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
+            </TouchableOpacity>
+            </View>
+            </View> 
+            </View>
+            <View style={styles.containerright}>
+            <View style={{flex:1}}> 
+            <View style={styles.item}>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:1}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
@@ -138,8 +146,9 @@ const  PlayerDevice = ({ route,navigation }) =>  {
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
-
-     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+              </View>
+              <View style={styles.item}>
+              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
         <Image  source={require("./images/DeviceImage.png")}    style={{width:40,height:80,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:5,padding:2}} />
@@ -165,6 +174,14 @@ const  PlayerDevice = ({ route,navigation }) =>  {
            <Image  source={require("./images/right_arrow.png")}  style={{width:49,height:42,justifyContent:'flex-start',left:0,alignContent:'flex-start',margin:0,padding:2}} />
         </TouchableOpacity>
         </View>
+                </View>
+            </View>
+            </View>
+       </View>
+    
+       
+
+    
        </TouchableOpacity>
     )
 }
@@ -173,6 +190,18 @@ const  PlayerDevice = ({ route,navigation }) =>  {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start'
+    },
+    containerright: {
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-end'
+    },
+    item: {
+      width: '50%' // is 50% of container width
     },
     coverImage: {
       width: 50,

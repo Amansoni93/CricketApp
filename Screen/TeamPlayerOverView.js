@@ -41,9 +41,9 @@ const  TeamPlayerOverView = ({ route,navigation }) =>  {
       style={{
         paddingHorizontal: 10,
         alignSelf: "center",
-        marginTop: 20,
+        marginTop: 10,
         backgroundColor: "#FFF",
-        height: 500,
+        height: 300,
         elevation: 1,
         width: '96%',
         borderRadius: 16,
@@ -135,6 +135,9 @@ const styles = StyleSheet.create({
     },
     loginButton: {
       backgroundColor: "#9CD85C",
+    },
+    item: {
+      width: '50%' // is 50% of container width
     },
     loginText: {
       color: 'white',
